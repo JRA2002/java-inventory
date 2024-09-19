@@ -10,9 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9817e94-3970-49c2-adaf-e2027458d2ad" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/customer_banner.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/bills.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/bills.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/Invoice.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/Invoice.jrxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/customers.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/customers.jrxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/invoice_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/invoice_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/purchase_report.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/purchase_report.jrxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/sales_report.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/sales_report.jrxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +70,7 @@
       <recent name="C:\Users\rashi\Documents\gui\inventory-management-system" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\javie\OneDrive\Escritorio\INTEGRADOR_INVENTORY\java-inventory\src\main\resources\jasper-reports" />
       <recent name="C:\Users\rashi\Documents\gui\inventory-management-system\src\main\resources\jasper-reports" />
     </key>
   </component>
@@ -85,5 +93,16 @@
       <updated>1685817335980</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -132,14 +132,14 @@
 				<textElement verticalAlignment="Middle">
 					<font pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[Fashion Club]]></text>
+				<text><![CDATA[Bella's Restaurant]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" x="230" y="64" width="196" height="32" uuid="ea798e7f-73ea-43db-be42-301b5e1037c9"/>
 				<textElement>
 					<font fontName="Times New Roman" size="20" pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[Purchase Report]]></text>
+				<text><![CDATA[Reporte de Compras]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -219,7 +219,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Invoice Number]]></text>
+								<text><![CDATA[Numero de Factura]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:columnFooter style="Table_CH" height="30"/>
@@ -230,7 +230,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{invoice}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{Factura}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -244,7 +244,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Shop Details]]></text>
+								<text><![CDATA[Detalle de Compra]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:columnFooter style="Table_CH" height="30"/>

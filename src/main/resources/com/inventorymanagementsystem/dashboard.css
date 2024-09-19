@@ -1,9 +1,9 @@
 .navbar{
--fx-background-color:linear-gradient(to bottom right , #2f466b, #662d60);
+-fx-background-color:linear-gradient(to bottom right , #092f79, #00d4ff);
 }
 
 .close,.add,.save,.clear,.delete,.refresh,.print{
--fx-background-color:linear-gradient(to bottom right , #2f466b, #662d60);
+-fx-background-color:linear-gradient(to bottom right , #092f79, #00d4ff);
 -fx-background-radius:3px;
 -fx-cursor:hand;
 -fx-text-fill:#fff;
@@ -20,7 +20,7 @@
 }
 
 .dasboard_box{
--fx-background-color:linear-gradient(to bottom left , #2f466b, #662d60);
+-fx-background-color:linear-gradient(to bottom left , #092f79, #00d4ff);
 -fx-background-radius:30px;
 }
 
@@ -28,7 +28,7 @@
 /* Billing Pane */
 .table-view{
 -fx-background-color:transparent;
--fx-border-color:linear-gradient(to bottom right , #2f466b, #662d60);
+-fx-border-color:linear-gradient(to bottom right , #092f79, #00d4ff);
 -fx-border-radius:8px;
 -fx-padding:0px
 }
@@ -37,7 +37,7 @@
 -fx-alignment:CENTER;
 }
 .table-view .column-header-background{
--fx-background-color:linear-gradient(to bottom right , #2f466b, #662d60);
+-fx-background-color:linear-gradient(to bottom right , #092f79, #00d4ff);
 -fx-background-insets:0 0 0 0;
 -fx-background-radius: 8px 8px 0px 0px;
 }
@@ -54,7 +54,7 @@
 
 .textfield{
 -fx-background-color:linear-gradient(to bottom,#efefef,#eee);
--fx-border-color:linear-gradient(to bottom right, #2f466b, #662d60);
+-fx-border-color:linear-gradient(to bottom right, #092f79, #00d4ff);
 -fx-border-width:.8px;
 -fx-font-family:"Tahoma";
 -fx-border-radius:4px;
@@ -67,7 +67,7 @@
 
 .search-billing{
 -fx-background-color:transparent;
--fx-border-color:linear-gradient(to bottom right, #2f466b, #662d60);
+-fx-border-color:linear-gradient(to bottom right, #092f79, #00d4ff);
 -fx-border-radius:4px;
 -fx-font-size:13px;
 -fx-font-family:"Arial";

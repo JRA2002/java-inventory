@@ -187,7 +187,7 @@
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Bill to:]]></text>
+				<text><![CDATA[Facturar a:]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="80" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
@@ -201,7 +201,7 @@
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[Date:]]></text>
+				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="450" y="10" width="84" height="20" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979"/>
@@ -227,7 +227,7 @@
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
-				<text><![CDATA[Invoice: #]]></text>
+				<text><![CDATA[Factura: #]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="95" y="0" width="210" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
@@ -237,19 +237,19 @@
 				<textElement>
 					<font size="19" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ABC]]></text>
+				<text><![CDATA[Bella's Restaurant]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="95" y="55" width="205" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
-				<text><![CDATA[+91234567894]]></text>
+				<text><![CDATA[+51934567894]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="95" y="25" width="205" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
-				<text><![CDATA[ABC Bazaar]]></text>
+				<text><![CDATA[Isabela Rojas]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
-				<text><![CDATA[India (IN)]]></text>
+				<text><![CDATA[Lima - Peru]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="70" y="120" width="100" height="30" uuid="3c090731-8ec3-4289-9840-b63289159d10"/>
@@ -288,7 +288,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Item Number]]></text>
+								<text><![CDATA[Numero Item]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
@@ -308,7 +308,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Price]]></text>
+								<text><![CDATA[Precio]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
@@ -327,7 +327,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="14" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Final Amount:]]></text>
+								<text><![CDATA[Monto Total:]]></text>
 							</staticText>
 						</jr:tableFooter>
 						<jr:columnHeader style="Table 1_CH" height="30">
@@ -336,7 +336,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Quantity]]></text>
+								<text><![CDATA[Cantidad]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
@@ -364,7 +364,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Total Amount]]></text>
+								<text><![CDATA[Monto Total]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table 1_TD" height="30">
@@ -382,14 +382,14 @@
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Name:]]></text>
+				<text><![CDATA[Nombre:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="150" width="70" height="30" uuid="73cebb49-5f77-4f99-8fae-5ea6abe4ec7e"/>
 				<textElement>
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Phone :]]></text>
+				<text><![CDATA[Telefono:]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -406,7 +406,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Serif" size="9" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[THANK YOU FOR YOUR BUSINESS]]></text>
+				<text><![CDATA[GRACIAS POR SU COMPRA]]></text>
 			</staticText>
 		</band>
 	</lastPageFooter>

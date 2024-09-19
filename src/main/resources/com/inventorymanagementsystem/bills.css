@@ -1,5 +1,5 @@
 .close,.print{
--fx-background-color:linear-gradient(to bottom right , #2f466b, #662d60);
+-fx-background-color:linear-gradient(to bottom right , #092f79, #00d4ff);
 -fx-background-radius:5px;
 -fx-cursor:hand;
 -fx-text-fill:#fff;
@@ -7,7 +7,7 @@
 
 .textfield{
 -fx-background-color:linear-gradient(to bottom,#efefef,#eee);
--fx-border-color:linear-gradient(to bottom right, #2f466b, #662d60);
+-fx-border-color:linear-gradient(to bottom right, #092f79, #00d4ff);
 -fx-border-width:.8px;
 -fx-font-family:"Tahoma";
 -fx-border-radius:4px;
