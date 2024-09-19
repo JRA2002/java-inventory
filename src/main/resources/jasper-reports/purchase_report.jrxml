@@ -128,14 +128,14 @@
 	<title>
 		<band height="96" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="120" y="0" width="313" height="62" uuid="237ff744-a928-40c9-9236-74c6fb6e5072"/>
+				<reportElement style="Title" x="90" y="0" width="340" height="62" uuid="237ff744-a928-40c9-9236-74c6fb6e5072"/>
 				<textElement verticalAlignment="Middle">
 					<font pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[Bella's Restaurant]]></text>
+				<text><![CDATA[Bella'sRestaurant]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" x="230" y="64" width="196" height="32" uuid="ea798e7f-73ea-43db-be42-301b5e1037c9"/>
+				<reportElement style="SubTitle" x="210" y="64" width="196" height="32" uuid="ea798e7f-73ea-43db-be42-301b5e1037c9"/>
 				<textElement>
 					<font fontName="Times New Roman" size="20" pdfFontName="Times-Roman"/>
 				</textElement>
@@ -230,7 +230,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{Factura}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{invoice}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -294,7 +294,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Total Amount]]></text>
+								<text><![CDATA[Monto Total]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:columnFooter style="Table_CH" height="30"/>
@@ -319,7 +319,7 @@
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="12" isBold="true"/>
 								</textElement>
-								<text><![CDATA[Date Of Purchase ]]></text>
+								<text><![CDATA[Fecha de Compra ]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:columnFooter style="Table_CH" height="30"/>
@@ -341,7 +341,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Total Purchase Amount:]]></text>
+				<text><![CDATA[Monto Total de Compra:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="460" y="0" width="95" height="30" uuid="eb69c119-19d8-4587-b1db-0b132a22eb3a"/>

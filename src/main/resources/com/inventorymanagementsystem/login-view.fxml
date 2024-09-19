@@ -30,7 +30,7 @@
                               <Font size="18.0" />
                            </font>
                         </PasswordField>
-                        <Label alignment="CENTER" layoutX="345.0" layoutY="262.0" prefHeight="44.0" prefWidth="166.0" text="Login" textFill="#ec1fff">
+                        <Label alignment="CENTER" layoutX="345.0" layoutY="262.0" prefHeight="44.0" prefWidth="180.0" text="Ingresar" textFill="#123fa7">
                            <font>
                               <Font name="Berlin Sans FB" size="48.0" />
                            </font>
@@ -50,7 +50,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="694.0" prefWidth="275.0" styleClass="login-bg" stylesheets="@login.css">
                      <children>
-                        <Label fx:id="f_logo" layoutX="34.0" layoutY="232.0" prefHeight="190.0" prefWidth="103.0" text="F">
+                        <Label fx:id="f_logo" layoutX="34.0" layoutY="232.0" prefHeight="190.0" prefWidth="103.0" text="B">
                            <font>
                               <Font name="Engravers MT" size="86.0" />
                            </font>
@@ -71,7 +71,7 @@
                               </LinearGradient>
                            </textFill>
                         </Label>
-                        <Label fx:id="c_logo" layoutX="138.0" layoutY="238.0" prefHeight="178.0" prefWidth="94.0" text="C">
+                        <Label fx:id="c_logo" layoutX="138.0" layoutY="238.0" prefHeight="178.0" prefWidth="94.0" text="R">
                            <font>
                               <Font name="Engravers MT" size="86.0" />
                            </font>

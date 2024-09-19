@@ -84,9 +84,9 @@ public class LoginController implements Initializable {
             if(resultSet.next()){
                 User.name=username.getText();
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Success Message");
+                alert.setTitle("Mensaje de Bienvenida");
                 alert.setHeaderText(null);
-                alert.setContentText("Login Successful !");
+                alert.setContentText("Datos Correctos !");
                 alert.showAndWait();
                 login_btn.getScene().getWindow().hide();
                 Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
@@ -106,9 +106,9 @@ public class LoginController implements Initializable {
                 stage.show();
             }else{
                 Alert alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+                alert.setTitle("Mensaje de Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Wrong Username/Password");
+                alert.setContentText("Username o Password Incorrecto");
                 alert.showAndWait();
             }
         }catch (Exception err){

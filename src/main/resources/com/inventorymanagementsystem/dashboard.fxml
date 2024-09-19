@@ -27,7 +27,7 @@
                      <graphic>
                         <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="1.2em" text="" />
                      </graphic></Button>
-                  <Label alignment="CENTER" layoutX="49.0" layoutY="65.0" prefHeight="30.0" prefWidth="180.0" text="WELCOME !" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="49.0" layoutY="65.0" prefHeight="30.0" prefWidth="180.0" text="BIENVENIDO !" textFill="WHITE">
                      <font>
                         <Font name="Arial Black" size="20.0" />
                      </font>
@@ -37,7 +37,7 @@
                         <Font name="Arial Black" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="sales_btn" layoutX="39.0" layoutY="396.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="SALES" textFill="WHITE">
+                  <Button fx:id="sales_btn" layoutX="39.0" layoutY="396.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="VENTAS" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -53,7 +53,7 @@
                         <FontAwesomeIconView fill="WHITE" glyphName="CLIPBOARD" size="1.2em" text="" />
                      </graphic>
                   </Button>
-                  <Button fx:id="purchase_btn" layoutX="39.0" layoutY="440.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="PURCHASE" textFill="WHITE">
+                  <Button fx:id="purchase_btn" layoutX="39.0" layoutY="440.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="COMPRAS" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -61,7 +61,7 @@
                         <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_BAG" size="1.2em" />
                      </graphic>
                   </Button>
-                  <Button fx:id="customer_btn" layoutX="39.0" layoutY="353.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="CUSTOMER" textFill="WHITE">
+                  <Button fx:id="customer_btn" layoutX="39.0" layoutY="353.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="CLIENTES" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -69,7 +69,7 @@
                         <FontAwesomeIconView fill="WHITE" glyphName="USER" size="1.2em" />
                      </graphic>
                   </Button>
-                  <Button fx:id="signout_btn" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="115.0" styleClass="navbutton" stylesheets="@dashboard.css" text="SIGN OUT" textFill="WHITE">
+                  <Button fx:id="signout_btn" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="115.0" styleClass="navbutton" stylesheets="@dashboard.css" text="SALIR" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -87,7 +87,7 @@
                   </Button>
                   <AnchorPane layoutX="-2.0" prefHeight="47.0" prefWidth="741.0">
                      <children>
-                        <Label layoutX="26.0" layoutY="4.0" prefHeight="42.0" prefWidth="530.0" text="FASHION CLUB MANAGEMENT SYSTEM">
+                        <Label layoutX="26.0" layoutY="4.0" prefHeight="42.0" prefWidth="530.0" text="INVENTORY MANAGEMENT SYSTEM">
                            <font>
                               <Font name="Cooper Black" size="24.0" />
                            </font>
@@ -98,7 +98,7 @@
                      <children>
                         <Pane layoutX="44.0" layoutY="47.0" prefHeight="200.0" prefWidth="227.0" styleClass="dasboard_box" stylesheets="@dashboard.css">
                            <children>
-                              <Label layoutX="43.0" layoutY="31.0" text="TOTAL STOCKS" textFill="WHITE">
+                              <Label layoutX="43.0" layoutY="31.0" text="STOCK TOTAL" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="18.0" />
                                  </font>
@@ -112,7 +112,7 @@
                         </Pane>
                         <Pane layoutX="310.0" layoutY="47.0" prefHeight="200.0" prefWidth="227.0" styleClass="dasboard_box" stylesheets="@dashboard.css">
                            <children>
-                              <Label layoutX="26.0" layoutY="32.0" text="TOTAL ITEMS SOLD" textFill="WHITE">
+                              <Label layoutX="26.0" layoutY="32.0" text="TOTAL VENTAS" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="18.0" />
                                  </font>
@@ -126,7 +126,7 @@
                         </Pane>
                         <Pane layoutX="569.0" layoutY="47.0" prefHeight="200.0" prefWidth="227.0" styleClass="dasboard_box" stylesheets="@dashboard.css">
                            <children>
-                              <Label layoutX="11.0" layoutY="31.0" text="TOTAL ITEMS BOUGHT" textFill="WHITE">
+                              <Label layoutX="11.0" layoutY="31.0" text="TOTAL COMPRAS" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="18.0" />
                                  </font>
@@ -140,7 +140,7 @@
                         </Pane>
                         <Pane layoutX="134.0" layoutY="347.0" prefHeight="200.0" prefWidth="294.0" styleClass="dasboard_box" stylesheets="@dashboard.css">
                            <children>
-                              <Label alignment="CENTER" layoutX="35.0" layoutY="21.0" prefHeight="22.0" prefWidth="220.0" text="SALES THIS MONTH" textFill="WHITE">
+                              <Label alignment="CENTER" layoutX="35.0" layoutY="21.0" prefHeight="22.0" prefWidth="220.0" text="VENTAS MENSUAL" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="18.0" />
                                  </font>
@@ -189,7 +189,7 @@
                               <TableColumn fx:id="col_bill_item_num" prefWidth="254.4000244140625" text="Item Number" />
                               <TableColumn fx:id="col_bill_quantity" prefWidth="189.5999755859375" text="Quantity" />
                               <TableColumn fx:id="col_bill_price" prefWidth="150.4000244140625" text="Price" />
-                              <TableColumn fx:id="col_bill_total_amt" minWidth="0.0" prefWidth="197.60001220703123" text="Total Amount" />
+                              <TableColumn fx:id="col_bill_total_amt" minWidth="0.0" prefWidth="197.60001220703123" text="Monto Total" />
                           </columns>
                         </TableView>
                         <TextField fx:id="billing_table_search" layoutX="12.0" layoutY="13.0" prefHeight="36.0" prefWidth="236.0" promptText="Search" styleClass="search-billing" stylesheets="@dashboard.css" />
@@ -197,13 +197,13 @@
                         <Separator layoutX="13.0" layoutY="342.0" prefHeight="10.0" prefWidth="794.0" />
                         <TextField fx:id="bill_name" layoutX="151.0" layoutY="389.0" promptText="Enter Customer Name" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="bill_phone" layoutX="151.0" layoutY="437.0" promptText="Enter Phone Number" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <TextField fx:id="bill_price" layoutX="556.0" layoutY="437.0" onKeyReleased="#onInputTextChanged" promptText="Enter Product Price" styleClass="textfield" stylesheets="@dashboard.css" />
+                        <TextField fx:id="bill_price" layoutX="556.0" layoutY="437.0" onKeyReleased="#onInputTextChanged" promptText="Ingrese Precio" styleClass="textfield" stylesheets="@dashboard.css" />
                         <Label layoutX="28.0" layoutY="389.0" prefHeight="32.0" prefWidth="83.0" text="Name:">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="28.0" layoutY="437.0" prefHeight="32.0" prefWidth="101.0" text="Phone Number:">
+                        <Label layoutX="28.0" layoutY="437.0" prefHeight="32.0" prefWidth="101.0" text="Telefono:">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
@@ -213,17 +213,17 @@
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="449.0" layoutY="383.0" prefHeight="32.0" prefWidth="83.0" text="Quantity:">
+                        <Label layoutX="449.0" layoutY="383.0" prefHeight="32.0" prefWidth="83.0" text="Cantidad:">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="449.0" layoutY="437.0" prefHeight="32.0" prefWidth="83.0" text="Price:">
+                        <Label layoutX="449.0" layoutY="437.0" prefHeight="32.0" prefWidth="83.0" text="Precio:">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="bill_total_amount" layoutX="556.0" layoutY="489.0" promptText="Enter Total Amount" styleClass="textfield" stylesheets="@dashboard.css">
+                        <TextField fx:id="bill_total_amount" layoutX="556.0" layoutY="489.0" promptText="Monto Total" styleClass="textfield" stylesheets="@dashboard.css">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets></TextField>
@@ -232,7 +232,7 @@
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="bill_save" alignment="CENTER" layoutX="602.0" layoutY="583.0" mnemonicParsing="false" onMouseClicked="#billSave" prefHeight="38.0" prefWidth="91.0" styleClass="save" stylesheets="@dashboard.css" text="Save">
+                        <Button fx:id="bill_save" alignment="CENTER" layoutX="602.0" layoutY="583.0" mnemonicParsing="false" onMouseClicked="#billSave" prefHeight="38.0" prefWidth="91.0" styleClass="save" stylesheets="@dashboard.css" text="Guardar">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="SAVE" size="18.0" text="" />
                            </graphic>
