@@ -55,7 +55,7 @@
 
                         <ImageView fx:id="loginImage" fitWidth="300" fitHeight="200">
 
-                              <Image url="@images/utp.png" />
+                              <Image url="@images/bellas.png" />
 
                         </ImageView>
                      </children>

@@ -39,11 +39,15 @@ import java.util.stream.Collectors;
 import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
 public class DashboardController implements Initializable {
+
     private double x;
     private double y;
 
     @FXML
     private Button billing_btn;
+
+    @FXML
+    public Button inventory_btn;
 
     @FXML
     private AnchorPane billing_pane;
