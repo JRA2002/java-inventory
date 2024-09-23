@@ -3,14 +3,14 @@ package com.inventorymanagementsystem.entity;
 public class Product {
     private int id;
     private String itemNumber;
-    private String ItemGroup;
+    private String CatId;
     private int quantity;
     private double price;
 
-    public Product(int id, String itemNumber, String itemGroup, int quantity, double price) {
+    public Product(int id, String itemNumber, String CatId, int quantity, double price) {
         this.id = id;
         this.itemNumber = itemNumber;
-        ItemGroup = itemGroup;
+        this.CatId = CatId;
         this.quantity = quantity;
         this.price = price;
     }
@@ -31,12 +31,12 @@ public class Product {
         this.itemNumber = itemNumber;
     }
 
-    public String getItemGroup() {
-        return ItemGroup;
+    public String getCatId() {
+        return CatId;
     }
 
-    public void setItemGroup(String itemGroup) {
-        ItemGroup = itemGroup;
+    public void setCatId(String catId) {
+        CatId = catId;
     }
 
     public int getQuantity() {

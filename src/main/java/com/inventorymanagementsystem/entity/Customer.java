@@ -3,7 +3,6 @@ package com.inventorymanagementsystem.entity;
 public class Customer {
     private int id;
     private String name;
-
     private String phoneNumber;
 
     public Customer(int id, String name, String phoneNumber) {

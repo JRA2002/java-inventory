@@ -47,7 +47,7 @@ public class DashboardController implements Initializable {
     private Button billing_btn;
 
     @FXML
-    public Button inventory_btn;
+    private Button inventory_btn;
 
     @FXML
     private AnchorPane billing_pane;
@@ -60,6 +60,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private AnchorPane customer_pane;
+
+    @FXML
+    private AnchorPane product_pane;
 
     @FXML
     private AnchorPane dasboard_pane;
@@ -166,6 +169,18 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> cust_col_phone;
+
+    @FXML
+    private TableView<Product> product_table;
+
+    @FXML
+    private TableColumn<?, ?> prod_col_id;
+
+    @FXML
+    private TableColumn<?, ?> prod_col_name;
+
+    @FXML
+    private TableColumn<?, ?> prod_col_qty;
 
     @FXML
     private TextField cust_field_name;
