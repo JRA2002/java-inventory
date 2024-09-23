@@ -40,6 +40,7 @@ import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
 public class DashboardController implements Initializable {
 
+
     private double x;
     private double y;
 
@@ -47,7 +48,7 @@ public class DashboardController implements Initializable {
     private Button billing_btn;
 
     @FXML
-    private Button inventory_btn;
+    private Button product_btn;
 
     @FXML
     private AnchorPane billing_pane;
@@ -183,6 +184,15 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> prod_col_qty;
 
     @FXML
+    private TableColumn<?, ?> prod_col_pre;
+
+    @FXML
+    private TableColumn<?, ?> prod_col_uni;
+
+    @FXML
+    private TableColumn<?, ?> prod_col_date;
+
+    @FXML
     private TextField cust_field_name;
 
     @FXML
@@ -278,7 +288,7 @@ public class DashboardController implements Initializable {
     @FXML
     private Button signout_btn;
 
-    List<Product> productsList;
+    ObservableList<Product> productsList;
 
     public void onExit(){
         System.exit(0);
@@ -287,12 +297,14 @@ public class DashboardController implements Initializable {
     public void activateAnchorPane(){
         dashboard_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(true);
+            product_pane.setVisible(false);
             billing_pane.setVisible(false);
             customer_pane.setVisible(false);
             sales_pane.setVisible(false);
             purchase_pane.setVisible(false);
             dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             sales_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
@@ -300,6 +312,7 @@ public class DashboardController implements Initializable {
         billing_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(true);
+            product_pane.setVisible(false);
             customer_pane.setVisible(false);
             sales_pane.setVisible(false);
             purchase_pane.setVisible(false);
@@ -307,11 +320,27 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             sales_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+        });
+        product_btn.setOnMouseClicked(mouseEvent -> {
+            dasboard_pane.setVisible(false);
+            billing_pane.setVisible(false);
+            product_pane.setVisible(true);
+            customer_pane.setVisible(false);
+            sales_pane.setVisible(false);
+            purchase_pane.setVisible(false);
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
+            dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            sales_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
         customer_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
+            product_pane.setVisible(false);
             customer_pane.setVisible(true);
             sales_pane.setVisible(false);
             purchase_pane.setVisible(false);
@@ -319,11 +348,13 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             sales_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
         sales_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
+            product_pane.setVisible(false);
             customer_pane.setVisible(false);
             sales_pane.setVisible(true);
             purchase_pane.setVisible(false);
@@ -331,11 +362,13 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             sales_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
         purchase_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
+            product_pane.setVisible(false);
             customer_pane.setVisible(false);
             sales_pane.setVisible(false);
             purchase_pane.setVisible(true);
@@ -343,6 +376,7 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             sales_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             });
 
@@ -357,13 +391,15 @@ public class DashboardController implements Initializable {
     public void activateDashboard(){
         dasboard_pane.setVisible(true);
         billing_pane.setVisible(false);
+        product_pane.setVisible(false);
         customer_pane.setVisible(false);
         sales_pane.setVisible(false);
         purchase_pane.setVisible(false);
     }
 
-    public List<Product> getItemsList(){
-        productsList=new ArrayList<>();
+    public ObservableList<Product> getItemsList(){
+
+        productsList=FXCollections.observableArrayList();
         connection= Database.getInstance().connectDB();
         String sql="SELECT * FROM PRODUCTS";
         try{
@@ -371,8 +407,17 @@ public class DashboardController implements Initializable {
             resultSet=statement.executeQuery(sql);
             Product product;
             while (resultSet.next()){
-                product=new Product(Integer.parseInt(resultSet.getString("id")),resultSet.getString("item_number"),resultSet.getString("item_group"),Integer.parseInt(resultSet.getString("quantity")),Double.parseDouble(resultSet.getString("price")));
+                product = new Product(
+                        Integer.parseInt(resultSet.getString("id")),       // id
+                        resultSet.getString("name"),                       // name
+                        resultSet.getString("unit"),                       // unit
+                        Integer.parseInt(resultSet.getString("quantity")), // quantity
+                        Double.parseDouble(resultSet.getString("price")),  // price
+                        resultSet.getDate("exp_date").toLocalDate()
+                );
                 productsList.add(product);
+
+
             }
         }catch (Exception err){
             Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -383,6 +428,18 @@ public class DashboardController implements Initializable {
             alert.showAndWait();
         }
         return productsList;
+    }
+
+    public void showProductsData(){
+        ObservableList<Product> productsList=getItemsList();
+        prod_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        prod_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        prod_col_pre.setCellValueFactory(new PropertyValueFactory<>("price"));
+        prod_col_qty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        prod_col_uni.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        prod_col_date.setCellValueFactory(new PropertyValueFactory<>("exp_date"));
+        product_table.setItems(productsList);
+
     }
 
     public void setInvoiceNum(){
@@ -408,12 +465,6 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
-    public void setAutoCompleteItemNumber(){
-        getItemsList();
-        List<String> itemNumberList=productsList.stream().map(Product::getItemNumber).collect(Collectors.toList());
-        ObservableList<String> observableItemList=FXCollections.observableArrayList(itemNumberList);
-        TextFields.bindAutoCompletion(bill_item,observableItemList);
-    }
 
     public void comboBoxQuantity(){
         List<String> list=new ArrayList<>();
@@ -432,7 +483,7 @@ public class DashboardController implements Initializable {
     }
     public void getPriceOfTheItem(){
         try {
-            Product product = productsList.stream().filter(prod -> prod.getItemNumber().equals(bill_item.getText())).findAny().get();
+            Product product = productsList.stream().filter(prod -> prod.getName().equals(bill_item.getText())).findAny().get();
             System.out.println("Price " + product.getPrice());
             bill_price.setText(String.valueOf((int) product.getPrice()));
         }catch (Exception err){
@@ -1063,7 +1114,13 @@ public class DashboardController implements Initializable {
             resultSet=statement.executeQuery(sql);
             Purchase purchase;
             while (resultSet.next()){
-                purchase=new Purchase(Integer.parseInt(resultSet.getString("id")),resultSet.getString("invoice"),resultSet.getString("shop and address"),Integer.parseInt(resultSet.getString("total_items")),Double.parseDouble(resultSet.getString("total_amount")),resultSet.getString("date_of_purchase"));
+                purchase=new Purchase(
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("invoice"),
+                        resultSet.getString("shop and address"),
+                        Integer.parseInt(resultSet.getString("total_items")),
+                        Double.parseDouble(resultSet.getString("total_amount")),
+                        resultSet.getString("date_of_purchase"));
                 purchaseList.addAll(purchase);
             }
         }catch (Exception err){
@@ -1242,13 +1299,18 @@ public class DashboardController implements Initializable {
         showDashboardData();
 
 //      BILLING PANE
-        setAutoCompleteItemNumber();
+
         comboBoxQuantity();
         setInvoiceNum();
         showBillingData();
 
 //      CUSTOMER PANE
         showCustomerData();
+
+ //     PRODUCTS PANE
+        showProductsData();
+
+
 
 //      SALES PANE
         showSalesData();

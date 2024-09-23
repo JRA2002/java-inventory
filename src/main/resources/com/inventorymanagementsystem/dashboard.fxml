@@ -20,7 +20,7 @@
          <children>
             <AnchorPane prefHeight="694.0" prefWidth="275.0" styleClass="navbar" stylesheets="@dashboard.css">
                <children>
-                  <Button fx:id="inventory_btn" layoutX="39.0" layoutY="266.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="INVENTARIO" textFill="WHITE">
+                  <Button fx:id="product_btn" layoutX="39.0" layoutY="266.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="INVENTARIO" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -359,9 +359,12 @@
                      <children>
                         <TableView fx:id="product_table" layoutX="13.0" layoutY="159.0" onMouseClicked="#selectCustomerTableData" prefHeight="474.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="prod_col_id" prefWidth="196.79998779296875" text="Id" />
-                              <TableColumn fx:id="prod_col_name" prefWidth="307.20001220703125" text="Name" />
-                              <TableColumn fx:id="prod_col_qty" prefWidth="288.00006103515625" text="Quantity" />
+                              <TableColumn fx:id="prod_col_id" prefWidth="120" text="Id" />
+                              <TableColumn fx:id="prod_col_name" prefWidth="152.79" text="Nombre" />
+                              <TableColumn fx:id="prod_col_qty" prefWidth="136.79" text="Cantidad" />
+                              <TableColumn fx:id="prod_col_uni" prefWidth="136.79" text="Unidad" />
+                              <TableColumn fx:id="prod_col_pre" prefWidth="136.79" text="Precio" />
+                              <TableColumn fx:id="prod_col_date" prefWidth="136.79" text="Vencimiento" />
                            </columns>
                         </TableView>
 

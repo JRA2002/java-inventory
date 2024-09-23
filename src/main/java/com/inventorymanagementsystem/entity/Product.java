@@ -1,18 +1,22 @@
 package com.inventorymanagementsystem.entity;
 
+import java.time.LocalDate;
+
 public class Product {
     private int id;
-    private String itemNumber;
-    private String CatId;
+    private String name;
+    private String unit;
     private int quantity;
     private double price;
+    private LocalDate exp_date;
 
-    public Product(int id, String itemNumber, String CatId, int quantity, double price) {
+    public Product(int id, String name, String CatId, int quantity, double price, LocalDate exp_date) {
         this.id = id;
-        this.itemNumber = itemNumber;
-        this.CatId = CatId;
+        this.name = name;
+        this.unit = CatId;
         this.quantity = quantity;
         this.price = price;
+        this.exp_date = exp_date;
     }
 
     public int getId() {
@@ -23,20 +27,20 @@ public class Product {
         this.id = id;
     }
 
-    public String getItemNumber() {
-        return itemNumber;
+    public String getName() {
+        return name;
     }
 
-    public void setItemNumber(String itemNumber) {
-        this.itemNumber = itemNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCatId() {
-        return CatId;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setCatId(String catId) {
-        CatId = catId;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public int getQuantity() {
@@ -53,5 +57,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public LocalDate getExp_date() {
+        return exp_date;
+    }
+
+    public void setExp_date(LocalDate exp_date) {
+        this.exp_date = exp_date;
     }
 }
