@@ -41,6 +41,7 @@ import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 public class DashboardController implements Initializable {
 
 
+
     private double x;
     private double y;
 
@@ -169,6 +170,12 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> cust_col_name;
 
     @FXML
+    private TableColumn<?, ?> cust_col_email;
+
+    @FXML
+    private TableColumn<?, ?> cust_col_rol;
+
+    @FXML
     private TableColumn<?, ?> cust_col_phone;
 
     @FXML
@@ -197,6 +204,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TextField cust_field_phone;
+
+    @FXML
+    private TextField cust_field_email;
+
+    @FXML
+    private TextField cust_field_rol;
 
     @FXML
     private TextField customer_search;
@@ -828,6 +841,8 @@ public class DashboardController implements Initializable {
     public void customerClearData(){
         cust_field_name.setText("");
         cust_field_phone.setText("");
+        cust_field_email.setText("");
+        cust_field_rol.setText("");
     }
     public ObservableList<Customer> listCustomerData(){
         ObservableList<Customer> customersList=FXCollections.observableArrayList();
@@ -840,7 +855,12 @@ public class DashboardController implements Initializable {
 
             Customer customer;
             while (resultSet.next()){
-                customer=new Customer(Integer.parseInt(resultSet.getString("id")),resultSet.getString("name"),resultSet.getString("phonenumber"));
+                customer=new Customer(
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("name"),
+                        resultSet.getString("phoneNumber"),
+                        resultSet.getString("email"),
+                        resultSet.getString("rol"));
                 customersList.addAll(customer);
             }
 
@@ -855,6 +875,8 @@ public class DashboardController implements Initializable {
         cust_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         cust_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         cust_col_phone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        cust_col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
+        cust_col_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         customer_table.setItems(customerList);
     }
     public boolean checkForCustomerAvailability(){
@@ -885,11 +907,13 @@ public class DashboardController implements Initializable {
             return;
         }
         connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO CUSTOMERS(name,phonenumber)VALUES(?,?)";
+        String sql="INSERT INTO CUSTOMERS(name,phonenumber,email,rol)VALUES(?,?,?,?)";
         try{
             preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setString(1,cust_field_name.getText());
             preparedStatement.setString(2,cust_field_phone.getText());
+            preparedStatement.setString(3,cust_field_email.getText());
+            preparedStatement.setString(4,cust_field_rol.getText());
             int result=preparedStatement.executeUpdate();
             if(result>0){
                 showCustomerData();
@@ -914,6 +938,8 @@ public class DashboardController implements Initializable {
 
         cust_field_name.setText(customerData.getName());
         cust_field_phone.setText(customerData.getPhoneNumber());
+        cust_field_email.setText(customerData.getEmail());
+        cust_field_rol.setText(customerData.getRol());
     }
 
     public void updateCustomerData(){
