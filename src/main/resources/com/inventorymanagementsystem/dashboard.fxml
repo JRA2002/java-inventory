@@ -41,7 +41,7 @@
                         <Font name="Arial Black" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="user" alignment="CENTER" layoutX="72.0" layoutY="96.0" prefHeight="30.0" prefWidth="134.0" text="Admin" textFill="WHITE">
+                  <Label fx:id="user" alignment="CENTER" layoutX="72.0" layoutY="96.0" prefHeight="30.0" prefWidth="134.0" textFill="WHITE">
                      <font>
                         <Font name="Arial Black" size="20.0" />
                      </font>
@@ -164,7 +164,7 @@
                                     <Font name="Arial Rounded MT Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="71.0" layoutY="67.0" prefHeight="45.0" prefWidth="26.0" text="S/. " textFill="WHITE">
+                              <Label layoutX="71.0" layoutY="67.0" prefHeight="45.0" prefWidth="26.0" text="S/ " textFill="WHITE">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -319,7 +319,7 @@
                         <TableView fx:id="customer_table" layoutX="13.0" layoutY="209.0" onMouseClicked="#selectCustomerTableData" prefHeight="374.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
                               <TableColumn fx:id="cust_col_id" prefWidth="164" text="Id" />
-                              <TableColumn fx:id="cust_col_name" prefWidth="164" text="Nombre" />
+                              <TableColumn fx:id="cust_col_username" prefWidth="164" text="Usuario" />
                               <TableColumn fx:id="cust_col_phone" prefWidth="164" text="Telefono" />
                               <TableColumn fx:id="cust_col_email" prefWidth="164" text="Email" />
                               <TableColumn fx:id="cust_col_rol" prefWidth="164" text="Rol" />
@@ -337,7 +337,7 @@
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="MINUS_CIRCLE" size="18.0" wrappingWidth="13.485666275024414" />
                            </graphic></Button>
-                        <TextField fx:id="cust_field_name" layoutX="113.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
+                        <TextField fx:id="cust_field_username" layoutX="113.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="cust_field_email" layoutX="113.0" layoutY="143.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="cust_field_phone" layoutX="487.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="cust_field_rol" layoutX="487.0" layoutY="143.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />

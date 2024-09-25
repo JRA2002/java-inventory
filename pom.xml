@@ -7,7 +7,7 @@
     <groupId>com.inventorymanagementsystem</groupId>
     <artifactId>inventory-management-system</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>inventory-management-system</name>
+    <username>inventory-management-system</username>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

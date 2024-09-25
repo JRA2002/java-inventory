@@ -8,11 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -39,6 +36,7 @@ public class LoginController implements Initializable {
     @FXML
     private AnchorPane login_form;
 
+    private User currentUser;
 
     private Connection connection;
 
@@ -77,7 +75,7 @@ public class LoginController implements Initializable {
             preparedStatement.setString(2, password.getText());
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
-                User.name=username.getText();
+                User.nameD = username.getText();
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Mensaje de Bienvenida");
                 alert.setHeaderText(null);

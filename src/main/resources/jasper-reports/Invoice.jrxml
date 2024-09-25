@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Invoice" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
-	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
-	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
-	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
-	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
-	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" username="Invoice" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property username="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property username="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<style username="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style username="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style username="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style username="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style username="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#EEEFF0"/>
 		</conditionalStyle>
 	</style>
-	<style name="Table">
+	<style username="Table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
 			<topPen lineWidth="1.0" lineColor="#000000"/>
@@ -22,7 +22,7 @@
 			<rightPen lineWidth="1.0" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+	<style username="Table_TH" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -31,7 +31,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+	<style username="Table_CH" mode="Opaque" backcolor="#CACED0">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -40,7 +40,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+	<style username="Table_TD" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -53,7 +53,7 @@
 			<style backcolor="#D8D8D8"/>
 		</conditionalStyle>
 	</style>
-	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+	<style username="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -62,7 +62,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+	<style username="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -71,7 +71,7 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+	<style username="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -80,109 +80,109 @@
 			<rightPen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
+	<subDataset username="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
 		<queryString>
 			<![CDATA[]]>
 		</queryString>
 	</subDataset>
-	<subDataset name="itemlist" uuid="918e2d3e-789f-4e8f-983f-b56d38830d92">
-		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
-		<parameter name="InvNum" class="java.lang.String"/>
+	<subDataset username="itemlist" uuid="918e2d3e-789f-4e8f-983f-b56d38830d92">
+		<property username="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property username="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+		<parameter username="InvNum" class="java.lang.String"/>
 		<queryString language="SQL">
 			<![CDATA[SELECT * FROM `sales` s INNER JOIN customers c ON s.cust_id=c.id and s.inv_num=$P{InvNum};]]>
 		</queryString>
-		<field name="item_number" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.name" value="item_number"/>
-			<property name="com.jaspersoft.studio.field.label" value="item_number"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+		<field username="item_number" class="java.lang.String">
+			<property username="com.jaspersoft.studio.field.username" value="item_number"/>
+			<property username="com.jaspersoft.studio.field.label" value="item_number"/>
+			<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 		</field>
-		<field name="price" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.name" value="price"/>
-			<property name="com.jaspersoft.studio.field.label" value="price"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+		<field username="price" class="java.lang.Double">
+			<property username="com.jaspersoft.studio.field.username" value="price"/>
+			<property username="com.jaspersoft.studio.field.label" value="price"/>
+			<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 		</field>
-		<field name="quantity" class="java.lang.Integer">
-			<property name="com.jaspersoft.studio.field.name" value="quantity"/>
-			<property name="com.jaspersoft.studio.field.label" value="quantity"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+		<field username="quantity" class="java.lang.Integer">
+			<property username="com.jaspersoft.studio.field.username" value="quantity"/>
+			<property username="com.jaspersoft.studio.field.label" value="quantity"/>
+			<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 		</field>
-		<field name="total_amount" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.name" value="total_amount"/>
-			<property name="com.jaspersoft.studio.field.label" value="total_amount"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+		<field username="total_amount" class="java.lang.Double">
+			<property username="com.jaspersoft.studio.field.username" value="total_amount"/>
+			<property username="com.jaspersoft.studio.field.label" value="total_amount"/>
+			<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 		</field>
-		<variable name="Final Amount" class="java.lang.Double" calculation="Sum">
+		<variable username="Final Amount" class="java.lang.Double" calculation="Sum">
 			<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
 		</variable>
 	</subDataset>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM `sales` s INNER JOIN customers c ON s.cust_id=c.id and s.inv_num=(SELECT MAX(inv_num) as inv_num FROM `sales`);]]>
 	</queryString>
-	<field name="id" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="id"/>
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="id" class="java.lang.Integer">
+		<property username="com.jaspersoft.studio.field.username" value="id"/>
+		<property username="com.jaspersoft.studio.field.label" value="id"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="inv_num" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="inv_num"/>
-		<property name="com.jaspersoft.studio.field.label" value="inv_num"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="inv_num" class="java.lang.String">
+		<property username="com.jaspersoft.studio.field.username" value="inv_num"/>
+		<property username="com.jaspersoft.studio.field.label" value="inv_num"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="cust_id" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="cust_id"/>
-		<property name="com.jaspersoft.studio.field.label" value="cust_id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="cust_id" class="java.lang.Integer">
+		<property username="com.jaspersoft.studio.field.username" value="cust_id"/>
+		<property username="com.jaspersoft.studio.field.label" value="cust_id"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="price" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="price"/>
-		<property name="com.jaspersoft.studio.field.label" value="price"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="price" class="java.lang.Double">
+		<property username="com.jaspersoft.studio.field.username" value="price"/>
+		<property username="com.jaspersoft.studio.field.label" value="price"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="quantity" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="quantity"/>
-		<property name="com.jaspersoft.studio.field.label" value="quantity"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="quantity" class="java.lang.Integer">
+		<property username="com.jaspersoft.studio.field.username" value="quantity"/>
+		<property username="com.jaspersoft.studio.field.label" value="quantity"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="total_amount" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="total_amount"/>
-		<property name="com.jaspersoft.studio.field.label" value="total_amount"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="total_amount" class="java.lang.Double">
+		<property username="com.jaspersoft.studio.field.username" value="total_amount"/>
+		<property username="com.jaspersoft.studio.field.label" value="total_amount"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="date" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="date"/>
-		<property name="com.jaspersoft.studio.field.label" value="date"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="date" class="java.lang.String">
+		<property username="com.jaspersoft.studio.field.username" value="date"/>
+		<property username="com.jaspersoft.studio.field.label" value="date"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="item_number" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="item_number"/>
-		<property name="com.jaspersoft.studio.field.label" value="item_number"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	<field username="item_number" class="java.lang.String">
+		<property username="com.jaspersoft.studio.field.username" value="item_number"/>
+		<property username="com.jaspersoft.studio.field.label" value="item_number"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="sales"/>
 	</field>
-	<field name="COLUMN_9" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="id"/>
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	<field username="COLUMN_9" class="java.lang.Integer">
+		<property username="com.jaspersoft.studio.field.username" value="id"/>
+		<property username="com.jaspersoft.studio.field.label" value="id"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="customers"/>
 	</field>
-	<field name="Name" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="Name"/>
-		<property name="com.jaspersoft.studio.field.label" value="Name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	<field username="Name" class="java.lang.String">
+		<property username="com.jaspersoft.studio.field.username" value="Name"/>
+		<property username="com.jaspersoft.studio.field.label" value="Name"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="customers"/>
 	</field>
-	<field name="PhoneNumber" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="PhoneNumber"/>
-		<property name="com.jaspersoft.studio.field.label" value="PhoneNumber"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	<field username="PhoneNumber" class="java.lang.String">
+		<property username="com.jaspersoft.studio.field.username" value="PhoneNumber"/>
+		<property username="com.jaspersoft.studio.field.label" value="PhoneNumber"/>
+		<property username="com.jaspersoft.studio.field.tree.path" value="customers"/>
 	</field>
-	<variable name="Final Amount" class="java.lang.Double" calculation="Sum">
+	<variable username="Final Amount" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
 	</variable>
 	<title>
 		<band height="386" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="90" width="84" height="25" uuid="57aed2b1-4f4e-40a3-a6ad-54dae8dd4c5a">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property username="local_mesure_unitheight" value="pixel"/>
+					<property username="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
 					<font size="16" isBold="true"/>
@@ -191,8 +191,8 @@
 			</staticText>
 			<line>
 				<reportElement x="0" y="80" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property username="local_mesure_unitheight" value="pixel"/>
+					<property username="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 			</line>
 			<staticText>
@@ -231,8 +231,8 @@
 			</staticText>
 			<staticText>
 				<reportElement x="95" y="0" width="210" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property username="local_mesure_unitheight" value="pixel"/>
+					<property username="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
 					<font size="19" isBold="true"/>
@@ -267,20 +267,20 @@
 			</textField>
 			<componentElement>
 				<reportElement x="-1" y="200" width="556" height="90" uuid="4964963c-72e0-4fdc-b397-30fe7fc39546">
-					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
-					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
-					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
-					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+					<property username="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property username="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property username="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property username="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="itemlist" uuid="3f6d2420-16c1-4620-879a-7c5d5659b59e">
-						<datasetParameter name="InvNum">
+						<datasetParameter username="InvNum">
 							<datasetParameterExpression><![CDATA[$F{inv_num}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="130" uuid="9e0899bc-cbd0-42d3-9626-68e10aff88d7">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<property username="com.jaspersoft.studio.components.table.model.column.username" value="Column1"/>
 						<jr:tableFooter style="Table 1_TH" height="30"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
@@ -300,7 +300,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="150" uuid="ae057d72-3cc0-4c1c-a16d-085193781b3f">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<property username="com.jaspersoft.studio.components.table.model.column.username" value="Column2"/>
 						<jr:tableFooter style="Table 1_TH" height="30"/>
 						<jr:columnHeader style="Table 1_CH" height="30">
 							<staticText>
@@ -320,7 +320,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="130" uuid="b39cceaa-e9fa-4585-99b1-ccd88e97c20d">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<property username="com.jaspersoft.studio.components.table.model.column.username" value="Column3"/>
 						<jr:tableFooter style="Table 1_TH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="130" height="30" uuid="3f9fa511-4f47-4fc3-a5b2-c8daf2eaa3ea"/>
@@ -348,7 +348,7 @@
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="146" uuid="154a628a-c798-4057-b3fd-2bf721fca5cb">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<property username="com.jaspersoft.studio.components.table.model.column.username" value="Column4"/>
 						<jr:tableFooter style="Table 1_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="146" height="30" uuid="d4bc430d-827f-4b36-949e-95629af0b50b"/>

@@ -10,11 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9817e94-3970-49c2-adaf-e2027458d2ad" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/User11.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/Customer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/bills.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/bills.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/dashboard.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/inventorymanagementsystem/dashboard.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/Invoice.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/Invoice.jrxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/customers.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/customers.jrxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/purchase_report.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/purchase_report.jrxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jasper-reports/sales_report.jrxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jasper-reports/sales_report.jrxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,6 +119,10 @@
           <line>37</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

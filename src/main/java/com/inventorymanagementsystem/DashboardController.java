@@ -23,7 +23,6 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -34,7 +33,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
@@ -164,10 +162,13 @@ public class DashboardController implements Initializable {
     private Button cust_btn_edit;
 
     @FXML
+    private TableView<User> customer_table;
+
+    @FXML
     private TableColumn<?, ?> cust_col_id;
 
     @FXML
-    private TableColumn<?, ?> cust_col_name;
+    private TableColumn<?, ?> cust_col_username;
 
     @FXML
     private TableColumn<?, ?> cust_col_email;
@@ -199,8 +200,13 @@ public class DashboardController implements Initializable {
     @FXML
     private TableColumn<?, ?> prod_col_date;
 
+
+
     @FXML
-    private TextField cust_field_name;
+    private TextField cust_field_username;
+
+    @FXML
+    private TextField cust_field_password;
 
     @FXML
     private TextField cust_field_phone;
@@ -214,8 +220,7 @@ public class DashboardController implements Initializable {
     @FXML
     private TextField customer_search;
 
-    @FXML
-    private TableView<Customer> customer_table;
+
 
     @FXML
     private TableColumn<?, ?> sales_col_cust_name;
@@ -396,9 +401,11 @@ public class DashboardController implements Initializable {
 
 
     }
+    private User currentUser;
 
-    public void setUsername(){
-        user.setText(User.name.toUpperCase());
+    public void setUsername() {
+
+        user.setText(User.nameD.toUpperCase());
     }
 
     public void activateDashboard(){
@@ -839,29 +846,30 @@ public class DashboardController implements Initializable {
         }
     }
     public void customerClearData(){
-        cust_field_name.setText("");
+        cust_field_username.setText("");
         cust_field_phone.setText("");
         cust_field_email.setText("");
         cust_field_rol.setText("");
     }
-    public ObservableList<Customer> listCustomerData(){
-        ObservableList<Customer> customersList=FXCollections.observableArrayList();
+    public ObservableList<User> listCustomerData(){
+        ObservableList<User> customersList=FXCollections.observableArrayList();
         connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM Customers";
+        String sql="SELECT * FROM users";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
 
 
-            Customer customer;
+            User customer;
             while (resultSet.next()){
-                customer=new Customer(
+                customer=new User(
                         Integer.parseInt(resultSet.getString("id")),
-                        resultSet.getString("name"),
-                        resultSet.getString("phoneNumber"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("phone"),
                         resultSet.getString("email"),
                         resultSet.getString("rol"));
-                customersList.addAll(customer);
+                customersList.add(customer);
             }
 
 
@@ -871,17 +879,17 @@ public class DashboardController implements Initializable {
         return customersList;
     }
     public void showCustomerData(){
-        ObservableList<Customer> customerList=listCustomerData();
+        ObservableList<User> customerList=listCustomerData();
         cust_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        cust_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        cust_col_phone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        cust_col_username.setCellValueFactory(new PropertyValueFactory<>("username"));
+        cust_col_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         cust_col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
         cust_col_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         customer_table.setItems(customerList);
     }
     public boolean checkForCustomerAvailability(){
         connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM CUSTOMERS WHERE phoneNumber=?";
+        String sql="SELECT * FROM users WHERE phone=?";
         try{
             preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setString(1,cust_field_phone.getText());
@@ -907,13 +915,14 @@ public class DashboardController implements Initializable {
             return;
         }
         connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO CUSTOMERS(name,phonenumber,email,rol)VALUES(?,?,?,?)";
+        String sql="INSERT INTO users(username,password,phone,email,rol)VALUES(?,?,?,?,?)";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,cust_field_name.getText());
-            preparedStatement.setString(2,cust_field_phone.getText());
-            preparedStatement.setString(3,cust_field_email.getText());
-            preparedStatement.setString(4,cust_field_rol.getText());
+            preparedStatement.setString(1,cust_field_username.getText());
+            preparedStatement.setString(2,cust_field_password.getText());
+            preparedStatement.setString(3,cust_field_phone.getText());
+            preparedStatement.setString(4,cust_field_email.getText());
+            preparedStatement.setString(5,cust_field_rol.getText());
             int result=preparedStatement.executeUpdate();
             if(result>0){
                 showCustomerData();
@@ -931,19 +940,19 @@ public class DashboardController implements Initializable {
     }
     public void selectCustomerTableData(){
         int num=customer_table.getSelectionModel().getSelectedIndex();
-        Customer customerData=customer_table.getSelectionModel().getSelectedItem();
+        User customerData=customer_table.getSelectionModel().getSelectedItem();
         if(num-1 < -1){
             return;
         }
 
-        cust_field_name.setText(customerData.getName());
-        cust_field_phone.setText(customerData.getPhoneNumber());
+        cust_field_username.setText(customerData.getUsername());
+        cust_field_phone.setText(customerData.getPhone());
         cust_field_email.setText(customerData.getEmail());
         cust_field_rol.setText(customerData.getRol());
     }
 
     public void updateCustomerData(){
-        if(cust_field_phone.getText().isBlank() || cust_field_name.getText().isBlank() ){
+        if(cust_field_phone.getText().isBlank() || cust_field_username.getText().isBlank() ){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -952,10 +961,10 @@ public class DashboardController implements Initializable {
             return;
         }
         connection = Database.getInstance().connectDB();
-        String sql = "UPDATE CUSTOMERS SET name=? WHERE phonenumber=?";
+        String sql = "UPDATE users SET username=? WHERE phone=?";
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,cust_field_name.getText());
+            preparedStatement.setString(1,cust_field_username.getText());
             preparedStatement.setString(2, cust_field_phone.getText());
             int result = preparedStatement.executeUpdate();
             if (result > 0) {
@@ -965,7 +974,7 @@ public class DashboardController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill the mandatory data such as name, phone number .");
+                alert.setContentText("Please fill the mandatory data such as username, phone number .");
                 alert.showAndWait();
             }
         } catch (Exception err) {
@@ -983,10 +992,10 @@ public class DashboardController implements Initializable {
             return;
         }
         connection = Database.getInstance().connectDB();
-        String sql="DELETE FROM CUSTOMERS WHERE phonenumber=?";
+        String sql="DELETE FROM users WHERE username=?";
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,customer_table.getSelectionModel().getSelectedItem().getPhoneNumber());
+            preparedStatement.setString(1,customer_table.getSelectionModel().getSelectedItem().getPhone());
             int result = preparedStatement.executeUpdate();
             if (result > 0) {
                 showCustomerData();
@@ -1009,7 +1018,7 @@ public class DashboardController implements Initializable {
     }
     public void printCustomersDetails(){
         connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM customers";
+        String sql="SELECT * FROM users";
         try{
             JasperDesign jasperDesign= JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/customers.jrxml"));
             JRDesignQuery updateQuery=new JRDesignQuery();

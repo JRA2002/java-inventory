@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inventorymanagementsystem</groupId>
   <artifactId>inventory-management-system</artifactId>
-  <name>inventory-management-system</name>
+  <username>inventory-management-system</username>
   <version>1.0-SNAPSHOT</version>
   <build>
     <plugins>
