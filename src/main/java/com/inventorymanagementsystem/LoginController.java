@@ -76,6 +76,7 @@ public class LoginController implements Initializable {
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
                 User.nameD = username.getText();
+                User.rolD = resultSet.getString("rol");
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Mensaje de Bienvenida");
                 alert.setHeaderText(null);

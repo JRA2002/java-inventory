@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.PasswordField?>
 
 <AnchorPane prefHeight="694.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventorymanagementsystem.DashboardController">
    <children>
@@ -316,7 +317,7 @@
                      </children></AnchorPane>
                   <AnchorPane fx:id="customer_pane" layoutX="-1.0" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
-                        <TableView fx:id="customer_table" layoutX="13.0" layoutY="209.0" onMouseClicked="#selectCustomerTableData" prefHeight="374.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="customer_table" layoutX="13.0" layoutY="229.0" onMouseClicked="#selectCustomerTableData" prefHeight="374.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
                               <TableColumn fx:id="cust_col_id" prefWidth="164" text="Id" />
                               <TableColumn fx:id="cust_col_username" prefWidth="164" text="Usuario" />
@@ -339,19 +340,25 @@
                            </graphic></Button>
                         <TextField fx:id="cust_field_username" layoutX="113.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="cust_field_email" layoutX="113.0" layoutY="143.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
+                        <PasswordField fx:id="cust_field_password" layoutX="140.0" layoutY="192.0" prefHeight="32.0" prefWidth="246.0" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="cust_field_phone" layoutX="487.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
                         <TextField fx:id="cust_field_rol" layoutX="487.0" layoutY="143.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <Label layoutX="36.0" layoutY="94.0" prefHeight="32.0" prefWidth="65.0" text="Name :">
+                        <Label layoutX="36.0" layoutY="94.0" prefHeight="32.0" prefWidth="65.0" text="Nombre :">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="36.0" layoutY="143.0" prefHeight="32.0" prefWidth="65.0" text="Email :">
+                        <Label layoutX="36.0" layoutY="143.0" prefHeight="32.0" prefWidth="85.0" text="Email :">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="361.0" layoutY="94.0" prefHeight="32.0" prefWidth="122.0" text="Phone Number :">
+                        <Label layoutX="36.0" layoutY="192.0" prefHeight="32.0" prefWidth="95.0" text="Password :">
+                           <font>
+                              <Font name="Dubai Bold" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="361.0" layoutY="94.0" prefHeight="32.0" prefWidth="122.0" text="Telefono :">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>

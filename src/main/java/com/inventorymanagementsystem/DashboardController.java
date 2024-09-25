@@ -32,6 +32,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
@@ -201,6 +202,8 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> prod_col_date;
 
 
+    @FXML
+    private TextField cust_field_id;
 
     @FXML
     private TextField cust_field_username;
@@ -401,11 +404,22 @@ public class DashboardController implements Initializable {
 
 
     }
-    private User currentUser;
 
     public void setUsername() {
 
         user.setText(User.nameD.toUpperCase());
+    }
+
+    private void checkUserRole() {
+        if ("admin".equals(User.rolD)) {
+            cust_btn_add.setVisible(true);
+            cust_btn_delete.setVisible(true);
+            cust_btn_edit.setVisible(true);
+        } else {
+            cust_btn_add.setVisible(false);
+            cust_btn_delete.setVisible(false);
+            cust_btn_edit.setVisible(false);
+        }
     }
 
     public void activateDashboard(){
@@ -850,6 +864,7 @@ public class DashboardController implements Initializable {
         cust_field_phone.setText("");
         cust_field_email.setText("");
         cust_field_rol.setText("");
+        cust_field_password.setText("");
     }
     public ObservableList<User> listCustomerData(){
         ObservableList<User> customersList=FXCollections.observableArrayList();
@@ -952,20 +967,18 @@ public class DashboardController implements Initializable {
     }
 
     public void updateCustomerData(){
-        if(cust_field_phone.getText().isBlank() || cust_field_username.getText().isBlank() ){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Please fill the mandatory data such as name, phone number .");
-            alert.showAndWait();
-            return;
-        }
+
+
         connection = Database.getInstance().connectDB();
-        String sql = "UPDATE users SET username=? WHERE phone=?";
+        String sql = "UPDATE users SET phone=?, email=?, password=?,rol=? WHERE username=?";
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,cust_field_username.getText());
-            preparedStatement.setString(2, cust_field_phone.getText());
+            preparedStatement.setString(1, cust_field_phone.getText());
+            preparedStatement.setString(2, cust_field_email.getText());
+            preparedStatement.setString(3, cust_field_password.getText());
+            preparedStatement.setString(4, cust_field_rol.getText());
+            preparedStatement.setString(5, cust_field_username.getText());
+
             int result = preparedStatement.executeUpdate();
             if (result > 0) {
                 showCustomerData();
@@ -987,34 +1000,50 @@ public class DashboardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
-            alert.setContentText("Please select customer for deletion.");
+            alert.setContentText("Por favor seleciona aun usuario.");
             alert.showAndWait();
             return;
         }
-        connection = Database.getInstance().connectDB();
-        String sql="DELETE FROM users WHERE username=?";
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,customer_table.getSelectionModel().getSelectedItem().getPhone());
-            int result = preparedStatement.executeUpdate();
-            if (result > 0) {
-                showCustomerData();
-                customerClearData();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
+        String customerName = customer_table.getSelectionModel().getSelectedItem().getUsername();
+
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Delete Confirmation");
+        confirmationAlert.setHeaderText("Esta  seguro de eliminar a este usuario?");
+        confirmationAlert.setContentText("usuario: " + customerName.toUpperCase());
+
+        Optional<ButtonType> result1 = confirmationAlert.showAndWait();
+
+        if (result1.isPresent() && result1.get() == ButtonType.OK) {
+            connection = Database.getInstance().connectDB();
+
+            String sql="DELETE FROM users WHERE username=?";
+            try {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1,customer_table.getSelectionModel().getSelectedItem().getUsername());
+                int result = preparedStatement.executeUpdate();
+
+                if (result > 0) {
+                    showCustomerData();
+                    customerClearData();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No hay datos en la Tabla.");
+                    alert.showAndWait();
+                }
+            } catch (Exception err) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeight(500);
+                alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("No data present in the customer table.");
+                alert.setContentText(err.getMessage());
                 alert.showAndWait();
             }
-        } catch (Exception err) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeight(500);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText(err.getMessage());
-            alert.showAndWait();
+
         }
+
+
     }
     public void printCustomersDetails(){
         connection=Database.getInstance().connectDB();
@@ -1340,7 +1369,9 @@ public class DashboardController implements Initializable {
         showBillingData();
 
 //      CUSTOMER PANE
+        checkUserRole();
         showCustomerData();
+
 
  //     PRODUCTS PANE
         showProductsData();
