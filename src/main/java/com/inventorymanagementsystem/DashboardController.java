@@ -199,7 +199,13 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> prod_col_uni;
 
     @FXML
+    private TableColumn<?, ?> prod_col_cat_name;
+
+    @FXML
     private TableColumn<?, ?> prod_col_date;
+
+    @FXML
+    private TextField prod_field_search;
 
 
     @FXML
@@ -435,7 +441,9 @@ public class DashboardController implements Initializable {
 
         productsList=FXCollections.observableArrayList();
         connection= Database.getInstance().connectDB();
-        String sql="SELECT * FROM PRODUCTS";
+        String sql="SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date FROM products AS pd \n" +
+                "JOIN category AS ct \n" +
+                "WHERE pd.cat_id=ct.id;";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
@@ -446,7 +454,8 @@ public class DashboardController implements Initializable {
                         resultSet.getString("name"),                       // name
                         resultSet.getString("unit"),                       // unit
                         Integer.parseInt(resultSet.getString("quantity")), // quantity
-                        Double.parseDouble(resultSet.getString("price")),  // price
+                        Double.parseDouble(resultSet.getString("price")),
+                        resultSet.getString("cat_name"),// price
                         resultSet.getDate("exp_date").toLocalDate()
                 );
                 productsList.add(product);
@@ -461,9 +470,24 @@ public class DashboardController implements Initializable {
             alert.setContentText(err.getMessage());
             alert.showAndWait();
         }
+        prod_field_search.textProperty().addListener((observable, oldValue, newValue) -> filterProducts(newValue));
         return productsList;
     }
+    public void filterProducts(String searchText) {
+        ObservableList<Product> filteredList = FXCollections.observableArrayList();
 
+        if (searchText == null || searchText.isEmpty()) {
+            product_table.setItems(productsList);
+        } else {
+            for (Product product : productsList) {
+                if (product.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                        product.getCat_name().toLowerCase().contains(searchText.toLowerCase())) {
+                    filteredList.add(product);
+                }
+            }
+            product_table.setItems(filteredList);
+        }
+    }
     public void showProductsData(){
         ObservableList<Product> productsList=getItemsList();
         prod_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -471,6 +495,7 @@ public class DashboardController implements Initializable {
         prod_col_pre.setCellValueFactory(new PropertyValueFactory<>("price"));
         prod_col_qty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         prod_col_uni.setCellValueFactory(new PropertyValueFactory<>("unit"));
+        prod_col_cat_name.setCellValueFactory(new PropertyValueFactory<>("cat_name"));
         prod_col_date.setCellValueFactory(new PropertyValueFactory<>("exp_date"));
         product_table.setItems(productsList);
 

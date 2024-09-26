@@ -165,9 +165,9 @@
                                     <Font name="Arial Rounded MT Bold" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="71.0" layoutY="67.0" prefHeight="45.0" prefWidth="26.0" text="S/ " textFill="WHITE">
+                              <Label layoutX="71.0" layoutY="67.0" prefHeight="45.0" prefWidth="56.0" text="S/ " textFill="WHITE">
                                  <font>
-                                    <Font size="30.0" />
+                                    <Font size="25.0" />
                                  </font>
                               </Label>
                            </children>
@@ -378,17 +378,18 @@
                      <children>
                         <TableView fx:id="product_table" layoutX="13.0" layoutY="159.0" onMouseClicked="#selectCustomerTableData" prefHeight="474.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="prod_col_id" prefWidth="120" text="Id" />
-                              <TableColumn fx:id="prod_col_name" prefWidth="152.79" text="Nombre" />
-                              <TableColumn fx:id="prod_col_qty" prefWidth="136.79" text="Cantidad" />
-                              <TableColumn fx:id="prod_col_uni" prefWidth="136.79" text="Unidad" />
-                              <TableColumn fx:id="prod_col_pre" prefWidth="136.79" text="Precio" />
-                              <TableColumn fx:id="prod_col_date" prefWidth="136.79" text="Vencimiento" />
+                              <TableColumn fx:id="prod_col_id" prefWidth="100" text="Id" />
+                              <TableColumn fx:id="prod_col_name" prefWidth="120" text="Nombre" />
+                              <TableColumn fx:id="prod_col_qty" prefWidth="120" text="Cantidad" />
+                              <TableColumn fx:id="prod_col_uni" prefWidth="120" text="Unidad" />
+                              <TableColumn fx:id="prod_col_pre" prefWidth="120" text="Precio" />
+                              <TableColumn fx:id="prod_col_date" prefWidth="120" text="Vencimiento" />
+                              <TableColumn fx:id="prod_col_cat_name" prefWidth="120" text="Categoria" />
                            </columns>
                         </TableView>
+                        <TextField fx:id="prod_field_search" layoutX="113.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" promptText="Search Product..." stylesheets="@dashboard.css" />
 
-
-                        <Label layoutX="36.0" layoutY="94.0" prefHeight="32.0" prefWidth="65.0" text="Name :">
+                        <Label layoutX="36.0" layoutY="94.0" prefHeight="32.0" prefWidth="65.0" text="Buscar :">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
                            </font>

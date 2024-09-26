@@ -8,14 +8,16 @@ public class Product {
     private String unit;
     private int quantity;
     private double price;
+    private String cat_name;
     private LocalDate exp_date;
 
-    public Product(int id, String name, String CatId, int quantity, double price, LocalDate exp_date) {
+    public Product(int id, String name, String unit, int quantity, double price, String cat_name, LocalDate exp_date) {
         this.id = id;
         this.name = name;
-        this.unit = CatId;
+        this.unit = unit;
         this.quantity = quantity;
         this.price = price;
+        this.cat_name = cat_name;
         this.exp_date = exp_date;
     }
 
@@ -57,6 +59,14 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getCat_name() {
+        return cat_name;
+    }
+
+    public void setCat_name(double price) {
+        this.cat_name = cat_name;
     }
 
     public LocalDate getExp_date() {
