@@ -47,31 +47,15 @@
                         <Font name="Arial Black" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="sales_btn" layoutX="39.0" layoutY="396.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="VENTAS" textFill="WHITE">
+                  <Button fx:id="sales_btn" layoutX="39.0" layoutY="353.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="FACTURAS" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
                      <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_CART" size="1.2em" />
+                        <FontAwesomeIconView fill="WHITE" glyphName="CLIPBOARD" size="1.2em" />
                      </graphic>
                   </Button>
-                  <Button fx:id="billing_btn" layoutX="39.0" layoutY="310.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="BILLING" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CLIPBOARD" size="1.2em" text="" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="purchase_btn" layoutX="39.0" layoutY="440.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="COMPRAS" textFill="WHITE">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_BAG" size="1.2em" />
-                     </graphic>
-                  </Button>
-                  <Button fx:id="customer_btn" layoutX="39.0" layoutY="353.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="USUARIOS" textFill="WHITE">
+                  <Button fx:id="customer_btn" layoutX="39.0" layoutY="396.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="USUARIOS" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -79,6 +63,23 @@
                         <FontAwesomeIconView fill="WHITE" glyphName="USER" size="1.2em" />
                      </graphic>
                   </Button>
+                  <Button fx:id="billing_btn" layoutX="39.0" layoutY="310.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="VENTAS" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_BAG" size="1.2em"  />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="purchase_btn" layoutX="39.0" layoutY="440.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="COMPRAS" textFill="WHITE">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_CART" size="1.2em" />
+                     </graphic>
+                  </Button>
+
                   <Button fx:id="signout_btn" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onAction="#signOut" prefHeight="38.0" prefWidth="115.0" styleClass="navbutton" stylesheets="@dashboard.css" text="SALIR" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
