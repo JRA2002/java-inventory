@@ -400,6 +400,12 @@
                                  <FontAwesomeIconView fx:id="product_print" fill="WHITE" glyphName="PRINT" size="18.0" />
                              </graphic>
                          </Button>
+
+                        <Button fx:id="prod_btn_search" layoutX="420.0" layoutY="94.0" mnemonicParsing="false" onAction="#searchProductsLocation" prefHeight="32.0" prefWidth="100.0" styleClass="add" stylesheets="@dashboard.css" text="UBICACION">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="product_search" fill="WHITE" glyphName="SEARCH" size="18.0" />
+                           </graphic>
+                        </Button>
                      </children></AnchorPane>
                   <AnchorPane fx:id="sales_pane" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>

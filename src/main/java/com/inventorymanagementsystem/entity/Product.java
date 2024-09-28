@@ -10,8 +10,9 @@ public class Product {
     private double price;
     private String cat_name;
     private LocalDate exp_date;
+    private String loc_name;
 
-    public Product(int id, String name, String unit, int quantity, double price, String cat_name, LocalDate exp_date) {
+    public Product(int id, String name, String unit, int quantity, double price, String cat_name, LocalDate exp_date, String loc_name) {
         this.id = id;
         this.name = name;
         this.unit = unit;
@@ -19,6 +20,7 @@ public class Product {
         this.price = price;
         this.cat_name = cat_name;
         this.exp_date = exp_date;
+        this.loc_name = loc_name;
     }
 
     public int getId() {
@@ -75,5 +77,11 @@ public class Product {
 
     public void setExp_date(LocalDate exp_date) {
         this.exp_date = exp_date;
+    }
+
+    public String getLoc_name() {return loc_name;}
+
+    public void setLoc_name(String loc_name) {
+        this.loc_name = loc_name;
     }
 }

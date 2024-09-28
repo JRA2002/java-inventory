@@ -211,6 +211,9 @@ public class DashboardController implements Initializable {
     @FXML
     private Button prod_btn_print;
 
+    @FXML
+    private Button prod_btn_search;
+
 
     @FXML
     private TextField cust_field_id;
@@ -445,9 +448,10 @@ public class DashboardController implements Initializable {
 
         productsList=FXCollections.observableArrayList();
         connection= Database.getInstance().connectDB();
-        String sql="SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date FROM products AS pd \n" +
+        String sql="SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date,ln.loc_name FROM products AS pd \n" +
                 "JOIN category AS ct \n" +
-                "WHERE pd.cat_id=ct.id;";
+                "JOIN location AS ln \n" +
+                "WHERE pd.cat_id=ct.id and pd.loc_id=ln.loc_id;";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
@@ -460,7 +464,8 @@ public class DashboardController implements Initializable {
                         Integer.parseInt(resultSet.getString("quantity")), // quantity
                         Double.parseDouble(resultSet.getString("price")),
                         resultSet.getString("cat_name"),// price
-                        resultSet.getDate("exp_date").toLocalDate()
+                        resultSet.getDate("exp_date").toLocalDate(),
+                        resultSet.getString("loc_name")
                 );
                 productsList.add(product);
 
@@ -519,6 +524,24 @@ public class DashboardController implements Initializable {
         }catch (Exception err){
             err.printStackTrace();
         }
+    }
+
+    public void searchProductsLocation(){
+        if(product_table.getSelectionModel().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor seleccione un producto.");
+            alert.showAndWait();
+            return;
+        }
+        String productLocation = product_table.getSelectionModel().getSelectedItem().getLoc_name();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Producto encontrado");
+        alert.setHeaderText(null);
+        alert.setContentText("El producto esta en: " + productLocation.toUpperCase());
+        alert.showAndWait();
     }
 
     public void setInvoiceNum(){
