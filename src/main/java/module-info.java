@@ -1,10 +1,7 @@
 module com.inventorymanagementsystem{
-    requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
-    requires javafx.graphics;
     requires javafx.media;
-    requires java.base;
 
 
     requires org.controlsfx.controls;
@@ -16,6 +13,7 @@ module com.inventorymanagementsystem{
     requires java.sql;
     requires jasperreports;
     requires org.burningwave.core;
+    requires de.jensd.fx.glyphs.fontawesome;
 
     opens com.inventorymanagementsystem to javafx.fxml;
     exports com.inventorymanagementsystem;

@@ -2,6 +2,7 @@ package com.inventorymanagementsystem;
 
 import com.inventorymanagementsystem.entity.*;
 import com.inventorymanagementsystem.config.Database;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,7 +41,7 @@ import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 public class DashboardController implements Initializable {
 
 
-
+    public FontAwesomeIconView product_print;
     private double x;
     private double y;
 
@@ -206,6 +207,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TextField prod_field_search;
+
+    @FXML
+    private Button prod_btn_print;
 
 
     @FXML
@@ -499,6 +503,22 @@ public class DashboardController implements Initializable {
         prod_col_date.setCellValueFactory(new PropertyValueFactory<>("exp_date"));
         product_table.setItems(productsList);
 
+    }
+
+    public void printProductsDetails(){
+        connection=Database.getInstance().connectDB();
+        String sql="SELECT * FROM products";
+        try{
+            JasperDesign jasperDesign= JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/products.jrxml"));
+            JRDesignQuery updateQuery=new JRDesignQuery();
+            updateQuery.setText(sql);
+            jasperDesign.setQuery(updateQuery);
+            JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport,null,connection);
+            JasperViewer.viewReport(jasperPrint ,false);
+        }catch (Exception err){
+            err.printStackTrace();
+        }
     }
 
     public void setInvoiceNum(){

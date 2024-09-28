@@ -394,11 +394,12 @@
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="361.0" layoutY="94.0" prefHeight="32.0" prefWidth="122.0" text="Phone Number :">
-                           <font>
-                              <Font name="Dubai Bold" size="15.0" />
-                           </font>
-                        </Label>
+
+                         <Button fx:id="prod_btn_print" layoutX="361.0" layoutY="94.0" mnemonicParsing="false" onAction="#printProductsDetails" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                             <graphic>
+                                 <FontAwesomeIconView fx:id="product_print" fill="WHITE" glyphName="PRINT" size="18.0" />
+                             </graphic>
+                         </Button>
                      </children></AnchorPane>
                   <AnchorPane fx:id="sales_pane" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
