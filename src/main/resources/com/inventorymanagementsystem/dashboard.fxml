@@ -407,6 +407,21 @@
                               <FontAwesomeIconView fx:id="product_search" fill="WHITE" glyphName="SEARCH" size="18.0" />
                            </graphic>
                         </Button>
+                        <Button fx:id="prod_btn_delete" layoutX="530.0" layoutY="94.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="product_delete" fill="WHITE" glyphName="MINUS_CIRCLE" size="18.0" />
+                           </graphic>
+                        </Button>
+                        <Button fx:id="prod_btn_update" layoutX="610.0" layoutY="94.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="product_update" fill="WHITE" glyphName="REFRESH" size="18.0" />
+                           </graphic>
+                        </Button>
+                        <Button fx:id="prod_btn_add" layoutX="690.0" layoutY="94.0" mnemonicParsing="false" onAction="#addProduct" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="product_add" fill="WHITE" glyphName="PLUS_CIRCLE" size="18.0" />
+                           </graphic>
+                        </Button>
                      </children></AnchorPane>
                   <AnchorPane fx:id="sales_pane" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>

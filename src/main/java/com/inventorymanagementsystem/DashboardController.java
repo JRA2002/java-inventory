@@ -7,7 +7,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -214,6 +221,14 @@ public class DashboardController implements Initializable {
     @FXML
     private Button prod_btn_search;
 
+    @FXML
+    private Button prod_btn_delete;
+
+    @FXML
+    private Button prod_btn_update;
+
+    @FXML
+    private Button prod_btn_add;
 
     @FXML
     private TextField cust_field_id;
@@ -543,6 +558,55 @@ public class DashboardController implements Initializable {
         alert.setContentText("El producto esta en: " + productLocation.toUpperCase());
         alert.showAndWait();
     }
+
+    public void deleteProduct(){
+
+    }
+
+    public void updateProduct(){
+
+    }
+
+    public void addProduct(){
+        Stage ventanaEmergente = new Stage();
+        ventanaEmergente.initModality(Modality.APPLICATION_MODAL); // Hace que sea modal
+        ventanaEmergente.setTitle("Agregar nuevo producto");
+
+        // Crear los campos de entrada (nombre, precio)
+        Label lblNombre = new Label("Nombre:");
+        TextField txtNombre = new TextField();
+
+        Label lblPrecio = new Label("Precio:");
+        TextField txtPrecio = new TextField();
+
+        Button btnGuardar = new Button("Guardar");
+        btnGuardar.setOnAction(e -> {
+            // Obtener los valores de los campos y procesarlos
+            String nombre = txtNombre.getText();
+            String precio = txtPrecio.getText();
+
+            // Aquí puedes agregar el código para guardar los datos del producto
+            System.out.println("Producto agregado: " + nombre + " - Precio: " + precio);
+
+            // Cerrar la ventana emergente
+            ventanaEmergente.close();
+        });
+        GridPane layout = new GridPane();
+        layout.setPadding(new Insets(20));
+        layout.setVgap(10);
+        layout.setHgap(10);
+        layout.add(lblNombre, 0, 0);
+        layout.add(txtNombre, 1, 0);
+        layout.add(lblPrecio, 0, 1);
+        layout.add(txtPrecio, 1, 1);
+        layout.add(btnGuardar, 1, 2);
+
+        Scene scene = new Scene(layout, 300, 200);
+        ventanaEmergente.setScene(scene);
+
+        ventanaEmergente.showAndWait(); // Esperar hasta que la ventana se cierre
+    }
+
 
     public void setInvoiceNum(){
         connection=Database.getInstance().connectDB();
