@@ -31,6 +31,7 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import org.w3c.dom.Text;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -235,6 +236,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TextField cust_field_username;
+
+    @FXML
+    private TextField prod_field_name;
+
+    @FXML
+    private TextField prod_field_price;
 
     @FXML
     private TextField cust_field_password;
@@ -567,44 +574,68 @@ public class DashboardController implements Initializable {
 
     }
 
+
     public void addProduct(){
-        Stage ventanaEmergente = new Stage();
-        ventanaEmergente.initModality(Modality.APPLICATION_MODAL); // Hace que sea modal
-        ventanaEmergente.setTitle("Agregar nuevo producto");
+        Stage popup_window = new Stage();
+        popup_window.initModality(Modality.APPLICATION_MODAL);
+        popup_window.setTitle("Agregar nuevo producto");
 
-        // Crear los campos de entrada (nombre, precio)
-        Label lblNombre = new Label("Nombre:");
-        TextField txtNombre = new TextField();
 
-        Label lblPrecio = new Label("Precio:");
-        TextField txtPrecio = new TextField();
+        Label lblName = new Label("Producto:");
+        TextField prod_field_name = new TextField();
+        Label lblPrice = new Label("Precio:");
+        TextField prod_field_price = new TextField();
+        Label lblCat = new Label("Categoria:");
+        TextField prod_field_cat = new TextField();
+        Label lblQty = new Label("Cantidad:");
+        TextField prod_field_qty = new TextField();
 
-        Button btnGuardar = new Button("Guardar");
-        btnGuardar.setOnAction(e -> {
-            // Obtener los valores de los campos y procesarlos
-            String nombre = txtNombre.getText();
-            String precio = txtPrecio.getText();
 
-            // Aquí puedes agregar el código para guardar los datos del producto
-            System.out.println("Producto agregado: " + nombre + " - Precio: " + precio);
+        Button btnSave = new Button("Guardar");
+        btnSave.setOnAction(e -> {
 
-            // Cerrar la ventana emergente
-            ventanaEmergente.close();
+            connection=Database.getInstance().connectDB();
+            String sql="INSERT INTO test(name, price)VALUES(?,?)";
+            try{
+                preparedStatement=connection.prepareStatement(sql);
+                preparedStatement.setString(1,prod_field_name.getText());
+                preparedStatement.setString(2,prod_field_price.getText());
+
+                int result=preparedStatement.executeUpdate();
+                if(result>0){
+                    showCustomerData();
+                    customerClearData();
+                }else{
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Please fill the mandatory data such as name and price.");
+                    alert.showAndWait();
+                }
+            }catch (Exception err){
+                err.printStackTrace();
+            }
+
+            popup_window.close();
         });
         GridPane layout = new GridPane();
         layout.setPadding(new Insets(20));
         layout.setVgap(10);
         layout.setHgap(10);
-        layout.add(lblNombre, 0, 0);
-        layout.add(txtNombre, 1, 0);
-        layout.add(lblPrecio, 0, 1);
-        layout.add(txtPrecio, 1, 1);
-        layout.add(btnGuardar, 1, 2);
+        layout.add(lblName, 0, 0);
+        layout.add(prod_field_name, 1, 0);
+        layout.add(lblPrice, 0, 1);
+        layout.add(prod_field_price, 1, 1);
+        layout.add(lblCat, 0, 2);
+        layout.add(prod_field_cat, 1, 2);
+        layout.add(lblQty, 0, 3);
+        layout.add(prod_field_qty, 1, 3);
+        layout.add(btnSave, 1, 4);
 
         Scene scene = new Scene(layout, 300, 200);
-        ventanaEmergente.setScene(scene);
+        popup_window.setScene(scene);
 
-        ventanaEmergente.showAndWait(); // Esperar hasta que la ventana se cierre
+        popup_window.showAndWait();
     }
 
 
