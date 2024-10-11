@@ -10,6 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9817e94-3970-49c2-adaf-e2027458d2ad" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/entity/Supplier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inventorymanagementsystem/DashboardController.java" afterDir="false" />
     </list>
@@ -30,6 +32,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6

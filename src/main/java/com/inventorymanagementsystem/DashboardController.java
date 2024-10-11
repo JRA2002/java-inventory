@@ -8,15 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -132,6 +129,9 @@ public class DashboardController implements Initializable {
     private ComboBox<?> bill_quantity;
 
     @FXML
+    private ComboBox<?> prod_category;
+
+    @FXML
     private Button bill_save;
 
     @FXML
@@ -149,7 +149,7 @@ public class DashboardController implements Initializable {
     private  String invoiceList[]={"BX123456","ZX123456","AX123456"};
 
     private String quantityList[]={"1","2","3","4","5","6","7","8","9","10"};
-
+    private String unitList[]={"Kg","Ltr","Gr","und"};
     @FXML
     private TableColumn<?, ?> col_bill_item_num;
 
@@ -573,30 +573,69 @@ public class DashboardController implements Initializable {
     public void updateProduct(){
 
     }
+    public ComboBox<String> comboBoxUnit(){
+        ComboBox<String> comboUnit = new ComboBox<>();
+        for(String unit:unitList){
+            comboUnit.getItems().add(unit);
+        }
+        return comboUnit;
+    }
 
+    public ComboBox<Category> comboCategoryData(){
+        ComboBox<Category> categoryCombo=new ComboBox<>();
+        connection=Database.getInstance().connectDB();
+        String sql="SELECT * FROM category";
+        try{
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(sql);
+
+
+            Category categoryData;
+            while (resultSet.next()){
+                categoryData=new Category(
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("cat_name"));
+                System.out.println(categoryData);
+                categoryCombo.getItems().add(categoryData);
+            }
+
+        }catch (Exception err){
+            err.printStackTrace();
+        }
+
+        return categoryCombo;
+    }
 
     public void addProduct(){
+
         Stage popup_window = new Stage();
         popup_window.initModality(Modality.APPLICATION_MODAL);
         popup_window.setTitle("Agregar nuevo producto");
 
-
         Label lblName = new Label("Producto:");
         TextField prod_field_name = new TextField();
+        Label lblUnit = new Label("Unidad:");
+        ComboBox<String> comboBoxUnit = comboBoxUnit();
         Label lblPrice = new Label("Precio:");
         TextField prod_field_price = new TextField();
         Label lblCat = new Label("Categoria:");
-        TextField prod_field_cat = new TextField();
+        ComboBox<Category> categoryList=comboCategoryData();
         Label lblQty = new Label("Cantidad:");
         TextField prod_field_qty = new TextField();
-
+        Label lblDate = new Label("Vencimiento:");
+        DatePicker expDate = new DatePicker();
 
         Button btnSave = new Button("Guardar");
         btnSave.setOnAction(e -> {
 
+            Category categoriaSeleccionada = categoryList.getValue();
+            int id = categoriaSeleccionada.getId();
+            System.out.println(id);
+
             connection=Database.getInstance().connectDB();
             String sql="INSERT INTO test(name, price)VALUES(?,?)";
             try{
+
                 preparedStatement=connection.prepareStatement(sql);
                 preparedStatement.setString(1,prod_field_name.getText());
                 preparedStatement.setString(2,prod_field_price.getText());
@@ -627,12 +666,16 @@ public class DashboardController implements Initializable {
         layout.add(lblPrice, 0, 1);
         layout.add(prod_field_price, 1, 1);
         layout.add(lblCat, 0, 2);
-        layout.add(prod_field_cat, 1, 2);
+        layout.add(categoryList, 1, 2);
         layout.add(lblQty, 0, 3);
         layout.add(prod_field_qty, 1, 3);
-        layout.add(btnSave, 1, 4);
+        layout.add(lblDate, 0, 4);
+        layout.add(expDate, 1, 4);
+        layout.add(lblUnit, 0, 5);
+        layout.add(comboBoxUnit, 1, 5);
+        layout.add(btnSave, 1, 7);
 
-        Scene scene = new Scene(layout, 300, 200);
+        Scene scene = new Scene(layout, 300, 400);
         popup_window.setScene(scene);
 
         popup_window.showAndWait();
@@ -640,7 +683,7 @@ public class DashboardController implements Initializable {
 
 
     public void setInvoiceNum(){
-        connection=Database.getInstance().connectDB();
+         connection=Database.getInstance().connectDB();
         String sql="SELECT MAX(inv_num) AS inv_num FROM sales";
 
         try {
@@ -747,7 +790,11 @@ public class DashboardController implements Initializable {
 
               Billing billingData;
               while (resultSet.next()){
-              billingData=new Billing(resultSet.getString("item_number"),Integer.parseInt(resultSet.getString("quantity")),Double.parseDouble(resultSet.getString("price")),Double.parseDouble(resultSet.getString("total_amount")));
+              billingData=new Billing(
+                      resultSet.getString("item_number"),
+                      Integer.parseInt(resultSet.getString("quantity")),
+                      Double.parseDouble(resultSet.getString("price")),
+                      Double.parseDouble(resultSet.getString("total_amount")));
               billingList.addAll(billingData);
              }
 
@@ -755,6 +802,7 @@ public class DashboardController implements Initializable {
         }catch (Exception err){
             err.printStackTrace();
         }
+        System.out.println(billingList);
         return billingList;
     }
 
