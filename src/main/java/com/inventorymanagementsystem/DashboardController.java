@@ -606,6 +606,58 @@ public class DashboardController implements Initializable {
         return categoryCombo;
     }
 
+    public ComboBox<Supplier> comboSupplierData(){
+        ComboBox<Supplier> supplierCombo=new ComboBox<>();
+        connection=Database.getInstance().connectDB();
+        String sql="SELECT * FROM supplier";
+        try{
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(sql);
+
+
+            Supplier supplierData;
+            while (resultSet.next()){
+                supplierData=new Supplier(
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("name"),
+                        resultSet.getString("phone"));
+                System.out.println(supplierData);
+                supplierCombo.getItems().add(supplierData);
+            }
+
+        }catch (Exception err){
+            err.printStackTrace();
+        }
+
+        return supplierCombo;
+    }
+
+    public ComboBox<Location> comboLocationData(){
+        ComboBox<Location> locationCombo=new ComboBox<>();
+        connection=Database.getInstance().connectDB();
+        String sql="SELECT * FROM location";
+        try{
+            statement=connection.createStatement();
+            resultSet=statement.executeQuery(sql);
+
+
+            Location locationData;
+            while (resultSet.next()){
+                locationData=new Location(
+                        Integer.parseInt(resultSet.getString("loc_id")),
+                        resultSet.getString("loc_name"));
+
+                System.out.println(locationData);
+                locationCombo.getItems().add(locationData);
+            }
+
+        }catch (Exception err){
+            err.printStackTrace();
+        }
+
+        return locationCombo;
+    }
+
     public void addProduct(){
 
         Stage popup_window = new Stage();
@@ -624,16 +676,24 @@ public class DashboardController implements Initializable {
         TextField prod_field_qty = new TextField();
         Label lblDate = new Label("Vencimiento:");
         DatePicker expDate = new DatePicker();
+        Label lblSupp = new Label("Proveedor:");
+        ComboBox<Supplier> supplierCombo=comboSupplierData();
+        Label lblLoc = new Label("Location:");
+        ComboBox<Location> locationCombo=comboLocationData();
 
         Button btnSave = new Button("Guardar");
         btnSave.setOnAction(e -> {
 
-            Category categoriaSeleccionada = categoryList.getValue();
-            int id = categoriaSeleccionada.getId();
-            System.out.println(id);
+            Category categorySelected = categoryList.getValue();
+            int cat_id = categorySelected.getId();
+            System.out.println(cat_id);
+
+            Supplier supplierSelected = supplierCombo.getValue();
+            int supp_id = supplierSelected.getSupp_id();
+            System.out.println(supp_id);
 
             connection=Database.getInstance().connectDB();
-            String sql="INSERT INTO test(name, price)VALUES(?,?)";
+            String sql="INSERT INTO products(name, price)VALUES(?,?)";
             try{
 
                 preparedStatement=connection.prepareStatement(sql);
@@ -673,7 +733,11 @@ public class DashboardController implements Initializable {
         layout.add(expDate, 1, 4);
         layout.add(lblUnit, 0, 5);
         layout.add(comboBoxUnit, 1, 5);
-        layout.add(btnSave, 1, 7);
+        layout.add(lblSupp, 0, 6);
+        layout.add(supplierCombo, 1, 6);
+        layout.add(lblLoc, 0, 7);
+        layout.add(locationCombo, 1, 7);
+        layout.add(btnSave, 1, 9);
 
         Scene scene = new Scene(layout, 300, 400);
         popup_window.setScene(scene);
