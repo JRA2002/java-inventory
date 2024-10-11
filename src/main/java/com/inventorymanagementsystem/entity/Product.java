@@ -22,6 +22,10 @@ public class Product {
         this.exp_date = exp_date;
         this.loc_name = loc_name;
     }
+    public Product(Double price, String name){
+        this.price = price;
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -84,4 +88,7 @@ public class Product {
     public void setLoc_name(String loc_name) {
         this.loc_name = loc_name;
     }
+
+
+
 }

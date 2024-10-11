@@ -126,7 +126,7 @@ public class DashboardController implements Initializable {
     private Button bill_print;
 
     @FXML
-    private ComboBox<?> bill_quantity;
+    private TextField sales_quantity;
 
     @FXML
     private ComboBox<?> prod_category;
@@ -490,8 +490,6 @@ public class DashboardController implements Initializable {
                         resultSet.getString("loc_name")
                 );
                 productsList.add(product);
-
-
             }
         }catch (Exception err){
             Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -687,7 +685,6 @@ public class DashboardController implements Initializable {
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
 
-
             Location locationData;
             while (resultSet.next()){
                 locationData=new Location(
@@ -806,7 +803,7 @@ public class DashboardController implements Initializable {
 
 
     public void setInvoiceNum(){
-         connection=Database.getInstance().connectDB();
+        connection=Database.getInstance().connectDB();
         String sql="SELECT MAX(inv_num) AS inv_num FROM sales";
 
         try {
@@ -828,27 +825,18 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
-
-    public void comboBoxQuantity(){
-        List<String> list=new ArrayList<>();
-        for(String quantity:quantityList){
-            list.add(quantity);
-        }
-        ObservableList comboList= FXCollections.observableArrayList(list);
-        bill_quantity.setItems(comboList);
-    }
+    
     public void checkForPriceandQuantity(){
-        if(!bill_price.getText().isBlank()&& !bill_quantity.getSelectionModel().isEmpty()){
-            bill_total_amount.setText(String.valueOf(Integer.parseInt(bill_price.getText())*Integer.parseInt(bill_quantity.getValue().toString())));
-        }else{
-            bill_total_amount.setText("0");
-        }
+
     }
     public void getPriceOfTheItem(){
+        String productIdStr = bill_item.getText();
+        int productId = Integer.parseInt(productIdStr);
         try {
-            Product product = productsList.stream().filter(prod -> prod.getName().equals(bill_item.getText())).findAny().get();
+            Optional<Product> foundproduct = productsList.stream().filter(prod -> prod.getId() == productId).findFirst();
+            Product product = foundproduct.get();
             System.out.println("Price " + product.getPrice());
-            bill_price.setText(String.valueOf((int) product.getPrice()));
+            final_amount.setText(Double.toString(product.getPrice()));
         }catch (Exception err){
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
@@ -856,21 +844,22 @@ public class DashboardController implements Initializable {
             alert.setContentText("Exception Item Number : "+err.getMessage());
             alert.showAndWait();
         }
+
     }
 
     public void onInputTextChanged(){
-        bill_price.setOnKeyReleased(event-> checkForPriceandQuantity());
-        bill_price.setOnKeyPressed(event-> checkForPriceandQuantity());
-        bill_price.setOnKeyTyped(event-> checkForPriceandQuantity());
-        bill_quantity.setOnAction(actionEvent -> checkForPriceandQuantity());
-        bill_item.setOnKeyPressed(actionEvent ->{
+
+        sales_quantity.setOnKeyReleased(event-> checkForPriceandQuantity());
+        sales_quantity.setOnKeyPressed(event-> checkForPriceandQuantity());
+        sales_quantity.setOnKeyTyped(event-> checkForPriceandQuantity());
+        sales_quantity.setOnKeyPressed(actionEvent ->{
             if(actionEvent.getCode().equals(KeyCode.ENTER)) {
                 getPriceOfTheItem();
             }
         });
     }
     public void addBillingData(){
-        if(bill_item.getText().isBlank()||bill_quantity.getSelectionModel().isEmpty()||bill_price.getText().isBlank()||bill_total_amount.getText().isBlank()){
+        if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()||bill_price.getText().isBlank()||bill_total_amount.getText().isBlank()){
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -883,7 +872,7 @@ public class DashboardController implements Initializable {
         try{
             preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setString(1,bill_item.getText());
-            preparedStatement.setString(2, bill_quantity.getValue().toString());
+            preparedStatement.setString(2, sales_quantity.getText());
             preparedStatement.setString(3, bill_price.getText());
             preparedStatement.setString(4,bill_total_amount.getText());
             int result=preparedStatement.executeUpdate();
@@ -953,10 +942,9 @@ public class DashboardController implements Initializable {
         col_bill_total_amt.setCellValueFactory(new PropertyValueFactory<>("total_amount"));
 
         billing_table.setItems(billingList);
-        LocalDate date=LocalDate.now();
-        bill_date.setValue(date);
+
         if(!billingList.isEmpty()){
-         calculateFinalAmount();
+            calculateFinalAmount();
         }else{
             final_amount.setText("0.00");
         }
@@ -970,7 +958,7 @@ public class DashboardController implements Initializable {
 
     public void billClearData(){
         bill_item.clear();
-        bill_quantity.setValue(null);
+        sales_quantity.clear();
         bill_price.setText("");
         bill_total_amount.setText("");
     }
@@ -990,7 +978,7 @@ public class DashboardController implements Initializable {
         String sql = "UPDATE billing SET quantity=?,price=?,total_amount=? WHERE item_number=?";
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,bill_quantity.getValue().toString());
+            preparedStatement.setString(1,sales_quantity.getText());
             preparedStatement.setString(2, bill_price.getText());
             preparedStatement.setString(3, bill_total_amount.getText());
             preparedStatement.setString(4, bill_item.getText());
@@ -1698,9 +1686,8 @@ public class DashboardController implements Initializable {
 
 //      BILLING PANE
 
-        comboBoxQuantity();
         setInvoiceNum();
-        showBillingData();
+//        showBillingData();
 
 //      CUSTOMER PANE
         checkUserRole();
