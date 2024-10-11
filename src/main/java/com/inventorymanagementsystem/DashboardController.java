@@ -565,13 +565,60 @@ public class DashboardController implements Initializable {
         alert.setContentText("El producto esta en: " + productLocation.toUpperCase());
         alert.showAndWait();
     }
+    public void editProduct(){
 
+    }
     public void deleteProduct(){
+        if(product_table.getSelectionModel().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor selecciona aun producto.");
+            alert.showAndWait();
+            return;
+        }
+        String productName = product_table.getSelectionModel().getSelectedItem().getName();
 
+        Alert confirmationAlert = new Alert(Alert.AlertType.WARNING);
+        confirmationAlert.setTitle("Delete Confirmation");
+        confirmationAlert.setHeaderText("Esta  seguro de eliminar a este producto?");
+        confirmationAlert.setContentText("Producto: " + productName.toUpperCase());
+
+        Optional<ButtonType> result1 = confirmationAlert.showAndWait();
+
+        if (result1.isPresent() && result1.get() == ButtonType.OK) {
+            connection = Database.getInstance().connectDB();
+
+            String sql="DELETE FROM products WHERE id=?";
+            try {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1,product_table.getSelectionModel().getSelectedItem().getId());
+                int result = preparedStatement.executeUpdate();
+
+                if (result > 0) {
+                    showCustomerData();
+                    customerClearData();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No hay productos en la Tabla.");
+                    alert.showAndWait();
+                }
+            } catch (Exception err) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeight(500);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText(err.getMessage());
+                alert.showAndWait();
+            }
+
+        }
     }
 
     public void updateProduct(){
-
+        showProductsData();
     }
     public ComboBox<String> comboBoxUnit(){
         ComboBox<String> comboUnit = new ComboBox<>();
