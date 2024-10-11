@@ -686,19 +686,31 @@ public class DashboardController implements Initializable {
 
             Category categorySelected = categoryList.getValue();
             int cat_id = categorySelected.getId();
-            System.out.println(cat_id);
 
             Supplier supplierSelected = supplierCombo.getValue();
             int supp_id = supplierSelected.getSupp_id();
-            System.out.println(supp_id);
+
+            Location locationSelected = locationCombo.getValue();
+            int loc_id = locationSelected.getLoc_id();
+
+            LocalDate dateSelected = expDate.getValue();
+            String date_exp = dateSelected.toString();
+
+            String unitSelected = comboBoxUnit.getValue();
 
             connection=Database.getInstance().connectDB();
-            String sql="INSERT INTO products(name, price)VALUES(?,?)";
+            String sql="INSERT INTO products(name, cat_id,quantity,price,exp_date,unit,supp_id,loc_id)VALUES(?,?,?,?,?,?,?,?)";
             try{
 
                 preparedStatement=connection.prepareStatement(sql);
                 preparedStatement.setString(1,prod_field_name.getText());
-                preparedStatement.setString(2,prod_field_price.getText());
+                preparedStatement.setInt(2,cat_id);
+                preparedStatement.setInt(3,Integer.parseInt(prod_field_qty.getText()));
+                preparedStatement.setDouble(4,Double.parseDouble(prod_field_price.getText()));
+                preparedStatement.setString(5,date_exp);
+                preparedStatement.setString(6,unitSelected);
+                preparedStatement.setInt(7,supp_id);
+                preparedStatement.setInt(8,loc_id);
 
                 int result=preparedStatement.executeUpdate();
                 if(result>0){
