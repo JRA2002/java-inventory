@@ -148,10 +148,12 @@ public class DashboardController implements Initializable {
 
     private  String invoiceList[]={"BX123456","ZX123456","AX123456"};
 
-    private String quantityList[]={"1","2","3","4","5","6","7","8","9","10"};
-    private String unitList[]={"Kg","Ltr","Gr","und"};
+    private String unitList[]={"Kg","Ltr","Gr","Und"};
     @FXML
     private TableColumn<?, ?> col_bill_item_num;
+
+    @FXML
+    private TableColumn<?, ?> col_bill_item_id;
 
     @FXML
     private TableColumn<?, ?> col_bill_price;
@@ -164,6 +166,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Button cust_btn_add;
+
+    private boolean saleCreated = false;
 
     @FXML
     private Button cust_btn_delete;
@@ -436,17 +440,16 @@ public class DashboardController implements Initializable {
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             });
 
-
-
     }
 
     public void setUsername() {
-
-        user.setText(User.nameD.toUpperCase());
+        User loggedInUser = Session.getCurrentUser();
+        user.setText(loggedInUser.getUsername().toUpperCase());
     }
 
     private void checkUserRole() {
-        if ("admin".equals(User.rolD)) {
+        User loggedInUser = Session.getCurrentUser();
+        if ("admin".equals(loggedInUser.getRol())) {
             cust_btn_add.setVisible(true);
             cust_btn_delete.setVisible(true);
             cust_btn_edit.setVisible(true);
@@ -802,34 +805,11 @@ public class DashboardController implements Initializable {
     }
 
 
-    public void setInvoiceNum(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT MAX(inv_num) AS inv_num FROM sales";
-
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-            while(resultSet.next()) {
-                String result=resultSet.getString("inv_num");
-                if (result == null) {
-                    Invoice.billingInvoiceNumber = "INV-1";
-                    inv_num.setText(Invoice.billingInvoiceNumber);
-                } else {
-                    int invId = Integer.parseInt(result.substring(4));
-                    invId++;
-                    Invoice.billingInvoiceNumber = "INV-" + invId;
-                    inv_num.setText(Invoice.billingInvoiceNumber);
-                }
-            }
-        }catch (Exception err){
-            err.printStackTrace();
-        }
-    }
-    
     public void checkForPriceandQuantity(){
 
     }
     public void getPriceOfTheItem(){
+
         String productIdStr = bill_item.getText();
         int productId = Integer.parseInt(productIdStr);
         try {
@@ -858,7 +838,44 @@ public class DashboardController implements Initializable {
             }
         });
     }
+    private void createNewSale() {
+        if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()){
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por Favor ingrese codigo de producto o cantidad");
+            alert.showAndWait();
+            return;
+        }
+
+
+        connection=Database.getInstance().connectDB();
+        String sql="INSERT INTO sales(date,user_id)VALUES(?,?)";
+
+        try{
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+            preparedStatement.setInt(2,1);
+
+            int result=preparedStatement.executeUpdate();
+            if(result>0){
+                //salesId = resultSet.getInt(1); // Obtener el ID generado
+            }else{
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill the mandatory data such as item number, quantity and price .");
+                alert.showAndWait();
+            }
+            saleCreated = true; // Marcar que la venta ha sido creada
+                // System.out.println("Nueva venta creada con sales_id: " + salesId);
+        }catch (Exception err){
+            err.printStackTrace();
+        }
+
+    }
     public void addBillingData(){
+
         if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()||bill_price.getText().isBlank()||bill_total_amount.getText().isBlank()){
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
@@ -959,8 +976,6 @@ public class DashboardController implements Initializable {
     public void billClearData(){
         bill_item.clear();
         sales_quantity.clear();
-        bill_price.setText("");
-        bill_total_amount.setText("");
     }
 
     public void selectBillingTableData(){
@@ -1103,7 +1118,6 @@ public class DashboardController implements Initializable {
                       billClearCustomerData();
                       deleteBillingData();
                       showSalesData();
-                      setInvoiceNum();
                       showDashboardData();
                       Alert alert = new Alert(Alert.AlertType.INFORMATION);
                       alert.setTitle("Message");
@@ -1686,7 +1700,7 @@ public class DashboardController implements Initializable {
 
 //      BILLING PANE
 
-        setInvoiceNum();
+
 //        showBillingData();
 
 //      CUSTOMER PANE

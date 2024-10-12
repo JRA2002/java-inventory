@@ -1,6 +1,7 @@
 package com.inventorymanagementsystem;
 
 import com.inventorymanagementsystem.entity.User;
+import com.inventorymanagementsystem.entity.Session;
 import com.inventorymanagementsystem.config.Database;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,8 +76,12 @@ public class LoginController implements Initializable {
             preparedStatement.setString(2, password.getText());
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
-                User.nameD = username.getText();
-                User.rolD = resultSet.getString("rol");
+                int userId = resultSet.getInt("id");
+                String userName = resultSet.getString("username");
+                String userRol = resultSet.getString("rol");
+                User userData = new User(userId, userName, userRol);
+                Session.setCurrentUser(userData);
+
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Mensaje de Bienvenida");
                 alert.setHeaderText(null);

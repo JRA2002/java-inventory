@@ -2,8 +2,6 @@ package com.inventorymanagementsystem.entity;
 
 public class User {
 
-    public static String nameD; //name dashboard
-    public static String rolD; // rol dashboard
     private int id;
     private String username;
     private String password;
@@ -17,6 +15,11 @@ public class User {
         this.password = password;
         this.phone = phone;
         this.email = email;
+        this.rol = rol;
+    }
+    public User(int id, String username,String rol){
+        this.id = id;
+        this.username = username;
         this.rol = rol;
     }
 

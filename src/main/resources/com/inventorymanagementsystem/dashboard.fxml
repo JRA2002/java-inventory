@@ -197,9 +197,10 @@
                      <children>
                         <TableView fx:id="billing_table" layoutX="13.0" layoutY="59.0" onMouseClicked="#selectBillingTableData" prefHeight="280.0" prefWidth="794.0" stylesheets="@dashboard.css">
                           <columns>
-                              <TableColumn fx:id="col_bill_item_num" prefWidth="254.4000244140625" text="Numero Item" />
-                              <TableColumn fx:id="col_bill_quantity" prefWidth="189.5999755859375" text="Cantidad" />
-                              <TableColumn fx:id="col_bill_price" prefWidth="150.4000244140625" text="Precio" />
+                              <TableColumn fx:id="col_bill_item_id" text="Codigo" />
+                              <TableColumn fx:id="col_bill_item_num" prefWidth="234.4000244140625" text="Producto" />
+                              <TableColumn fx:id="col_bill_quantity" prefWidth="159.5999755859375" text="Cantidad" />
+                              <TableColumn fx:id="col_bill_price" prefWidth="120.4000244140625" text="Precio" />
                               <TableColumn fx:id="col_bill_total_amt" minWidth="0.0" prefWidth="197.60001220703123" text="Monto Total" />
                           </columns>
                         </TableView>
@@ -245,7 +246,8 @@
                            </graphic>
                            <font>
                               <Font name="Dubai Bold" size="16.0" />
-                           </font></Button>
+                           </font>
+                        </Button>
                         <Label layoutX="27.0" layoutY="352.0" prefHeight="32.0" prefWidth="115.0" text="Numero de Factura :">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
