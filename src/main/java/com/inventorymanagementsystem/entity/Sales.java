@@ -29,6 +29,7 @@ public class Sales {
         this.item_num = item_num;
     }
 
+
     public int getId() {
         return id;
     }

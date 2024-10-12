@@ -28,16 +28,10 @@ import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import org.w3c.dom.Text;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -138,7 +132,7 @@ public class DashboardController implements Initializable {
     private TextField bill_total_amount;
 
     @FXML
-    private TableView<Billing> billing_table;
+    private TableView<SalesDetails> billing_table;
 
     @FXML
     private TextField billing_table_search;
@@ -153,7 +147,7 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> col_bill_item_num;
 
     @FXML
-    private TableColumn<?, ?> col_bill_item_id;
+    private TableColumn<?, ?> col_bill_item_name;
 
     @FXML
     private TableColumn<?, ?> col_bill_price;
@@ -168,6 +162,7 @@ public class DashboardController implements Initializable {
     private Button cust_btn_add;
 
     private boolean saleCreated = false;
+
 
     @FXML
     private Button cust_btn_delete;
@@ -838,7 +833,7 @@ public class DashboardController implements Initializable {
             }
         });
     }
-    private void createNewSale() {
+    public void createNewSale() {
         if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()){
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
@@ -848,82 +843,120 @@ public class DashboardController implements Initializable {
             return;
         }
 
-
         connection=Database.getInstance().connectDB();
         String sql="INSERT INTO sales(date,user_id)VALUES(?,?)";
 
         try{
+            User loggedInUser = Session.getCurrentUser();
+            int userId = loggedInUser.getId();
+            LocalDate date = LocalDate.now();
+            Date dateSale = Date.valueOf(date);
+
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setDate(1, new java.sql.Date(System.currentTimeMillis()));
-            preparedStatement.setInt(2,1);
+            preparedStatement.setDate(1,dateSale);
+            preparedStatement.setInt(2,userId);
 
             int result=preparedStatement.executeUpdate();
             if(result>0){
-                //salesId = resultSet.getInt(1); // Obtener el ID generado
+                saleCreated = true;
+                System.out.println("heeeree");
             }else{
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill the mandatory data such as item number, quantity and price .");
+                alert.setContentText("Please fill the mandatory data such as name and price.");
                 alert.showAndWait();
             }
-            saleCreated = true; // Marcar que la venta ha sido creada
-                // System.out.println("Nueva venta creada con sales_id: " + salesId);
-        }catch (Exception err){
+        }catch (Exception err) {
             err.printStackTrace();
         }
-
     }
-    public void addBillingData(){
-
-        if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()||bill_price.getText().isBlank()||bill_total_amount.getText().isBlank()){
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Please fill the mandatory data such as item number, quantity and price .");
-            alert.showAndWait();
-            return;
-        }
+    public void insertarProductoEnDetalles(int salesId, int productId, int quantity){
         connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO BILLING(item_number,quantity,price,total_amount)VALUES(?,?,?,?)";
+        String sql="INSERT INTO details_sales(sales_id,quantity,product_id)VALUES(?,?,?)";
+
         try{
+            System.out.println(salesId);
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,bill_item.getText());
-            preparedStatement.setString(2, sales_quantity.getText());
-            preparedStatement.setString(3, bill_price.getText());
-            preparedStatement.setString(4,bill_total_amount.getText());
+            preparedStatement.setInt(1,salesId);
+            preparedStatement.setInt(2,quantity);
+            preparedStatement.setInt(3,productId);
+
             int result=preparedStatement.executeUpdate();
             if(result>0){
-               showBillingData();
-               billClearData();
+                System.out.println("heeeree in details");
             }else{
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill the mandatory data such as item number, quantity and price .");
+                alert.setContentText("Please fill the mandatory data such as name and price.");
                 alert.showAndWait();
             }
-        }catch (Exception err){
+        }catch (Exception err) {
             err.printStackTrace();
         }
     }
-
-    public ObservableList<Billing> listBilligData(){
-        ObservableList<Billing> billingList=FXCollections.observableArrayList();
+    public int getSalesId(){
+        int salesId=0;
         connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM BILLING";
+        String sql="SELECT MAX(sales_id) AS sales_id FROM sales";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
 
+            while (resultSet.next()){
 
-              Billing billingData;
+                salesId = resultSet.getInt("sales_id");
+
+            }
+
+        }catch (Exception err){
+            err.printStackTrace();
+        }
+
+        return salesId;
+    }
+    public void addProductBilling() {
+        try {
+
+            if (!saleCreated) {
+                createNewSale();
+            }
+            int salId = getSalesId();
+            int productId = Integer.parseInt(bill_item.getText());
+            int quantity = Integer.parseInt(sales_quantity.getText());
+
+            insertarProductoEnDetalles(salId, productId, quantity);
+
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+        billClearData();
+        showBillingData();
+    }
+
+    public ObservableList<SalesDetails> listBilligData(int salesId){
+        ObservableList<SalesDetails> billingList=FXCollections.observableArrayList();
+        connection=Database.getInstance().connectDB();
+        String sql="SELECT p.id,ds.quantity,p.name, p.price,(p.price*ds.quantity) AS subtotal " +
+                "FROM details_sales AS ds " +
+                "JOIN products AS p ON ds.product_id=p.id\n" +
+                "WHERE ds.sales_id=?;";
+        try{
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setInt(1,salesId);
+            resultSet=preparedStatement.executeQuery();
+
+
+              SalesDetails billingData;
               while (resultSet.next()){
-              billingData=new Billing(
-                      resultSet.getString("item_number"),
+              billingData=new SalesDetails(
+                      Integer.parseInt(resultSet.getString("id")),
+                      resultSet.getString("name"),
                       Integer.parseInt(resultSet.getString("quantity")),
                       Double.parseDouble(resultSet.getString("price")),
-                      Double.parseDouble(resultSet.getString("total_amount")));
+                  Double.parseDouble(resultSet.getString("subtotal")));
+
               billingList.addAll(billingData);
              }
 
@@ -952,11 +985,14 @@ public class DashboardController implements Initializable {
     }
 
     public void showBillingData(){
-        ObservableList<Billing> billingList=listBilligData();
-        col_bill_item_num.setCellValueFactory(new PropertyValueFactory<>("item_number"));
+        int salId = getSalesId();
+        System.out.println(salId+" aquiii");
+        ObservableList<SalesDetails> billingList=listBilligData(salId);
+        col_bill_item_num.setCellValueFactory(new PropertyValueFactory<>("productId"));
+        col_bill_item_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
         col_bill_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        col_bill_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        col_bill_total_amt.setCellValueFactory(new PropertyValueFactory<>("total_amount"));
+        col_bill_price.setCellValueFactory(new PropertyValueFactory<>("prodPrice"));
+        col_bill_total_amt.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
 
         billing_table.setItems(billingList);
 
@@ -968,10 +1004,6 @@ public class DashboardController implements Initializable {
 
     }
 
-    public void billClearCustomerData(){
-        bill_name.setText("");
-        bill_phone.setText("");
-    }
 
     public void billClearData(){
         bill_item.clear();
@@ -980,13 +1012,11 @@ public class DashboardController implements Initializable {
 
     public void selectBillingTableData(){
         int num=billing_table.getSelectionModel().getSelectedIndex();
-        Billing billingData=billing_table.getSelectionModel().getSelectedItem();
+        SalesDetails billingData=billing_table.getSelectionModel().getSelectedItem();
         if(num-1 < -1){
             return;
         }
-        bill_item.setText(billingData.getItem_number());
-        bill_price.setText(String.valueOf((int)billingData.getPrice()));
-        bill_total_amount.setText(String.valueOf((int)billingData.getTotal_amount()));
+
     }
     public void updateSelectedBillingData() {
         connection = Database.getInstance().connectDB();
@@ -1021,9 +1051,9 @@ public class DashboardController implements Initializable {
                 sql = "DELETE FROM BILLING";
                 preparedStatement = connection.prepareStatement(sql);
             }else{
-                sql="DELETE FROM BILLING WHERE item_number=?";
+                sql="DELETE FROM sales WHERE item_number=?";
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1,billing_table.getSelectionModel().getSelectedItem().getItem_number());
+                preparedStatement.setString(1,billing_table.getSelectionModel().getSelectedItem().getProductName());
             }
            int result = preparedStatement.executeUpdate();
             if (result > 0) {
@@ -1115,7 +1145,7 @@ public class DashboardController implements Initializable {
                       count++;
                   }
                   if(count>0){
-                      billClearCustomerData();
+
                       deleteBillingData();
                       showSalesData();
                       showDashboardData();
@@ -1210,7 +1240,6 @@ public class DashboardController implements Initializable {
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
 
-
             User customer;
             while (resultSet.next()){
                 customer=new User(
@@ -1303,7 +1332,6 @@ public class DashboardController implements Initializable {
     }
 
     public void updateCustomerData(){
-
 
         connection = Database.getInstance().connectDB();
         String sql = "UPDATE users SET phone=?, email=?, password=?,rol=? WHERE username=?";

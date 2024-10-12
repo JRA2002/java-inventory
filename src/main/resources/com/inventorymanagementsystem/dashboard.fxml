@@ -197,8 +197,8 @@
                      <children>
                         <TableView fx:id="billing_table" layoutX="13.0" layoutY="59.0" onMouseClicked="#selectBillingTableData" prefHeight="280.0" prefWidth="794.0" stylesheets="@dashboard.css">
                           <columns>
-                              <TableColumn fx:id="col_bill_item_id" text="Codigo" />
-                              <TableColumn fx:id="col_bill_item_num" prefWidth="234.4000244140625" text="Producto" />
+                              <TableColumn fx:id="col_bill_item_num" text="Codigo" />
+                              <TableColumn fx:id="col_bill_item_name" prefWidth="234.4000244140625" text="Producto" />
                               <TableColumn fx:id="col_bill_quantity" prefWidth="159.5999755859375" text="Cantidad" />
                               <TableColumn fx:id="col_bill_price" prefWidth="120.4000244140625" text="Precio" />
                               <TableColumn fx:id="col_bill_total_amt" minWidth="0.0" prefWidth="197.60001220703123" text="Monto Total" />
@@ -240,7 +240,7 @@
                            </graphic>
                         </Button>
 
-                        <Button fx:id="bill_add" alignment="CENTER" layoutX="707.0" layoutY="583.0" mnemonicParsing="false" onAction="#addBillingData" prefHeight="38.0" prefWidth="91.0" styleClass="add" stylesheets="@dashboard.css" text="Add">
+                        <Button fx:id="bill_add" alignment="CENTER" layoutX="707.0" layoutY="583.0" mnemonicParsing="false" onAction="#addProductBilling" prefHeight="38.0" prefWidth="91.0" styleClass="add" stylesheets="@dashboard.css" text="Add">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="18.0" text="" />
                            </graphic>
