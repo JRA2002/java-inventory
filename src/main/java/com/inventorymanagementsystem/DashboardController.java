@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
@@ -799,40 +798,6 @@ public class DashboardController implements Initializable {
         popup_window.showAndWait();
     }
 
-
-    public void checkForPriceandQuantity(){
-
-    }
-    public void getPriceOfTheItem(){
-
-        String productIdStr = bill_item.getText();
-        int productId = Integer.parseInt(productIdStr);
-        try {
-            Optional<Product> foundproduct = productsList.stream().filter(prod -> prod.getId() == productId).findFirst();
-            Product product = foundproduct.get();
-            System.out.println("Price " + product.getPrice());
-            final_amount.setText(Double.toString(product.getPrice()));
-        }catch (Exception err){
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Exception Item Number : "+err.getMessage());
-            alert.showAndWait();
-        }
-
-    }
-
-    public void onInputTextChanged(){
-
-        sales_quantity.setOnKeyReleased(event-> checkForPriceandQuantity());
-        sales_quantity.setOnKeyPressed(event-> checkForPriceandQuantity());
-        sales_quantity.setOnKeyTyped(event-> checkForPriceandQuantity());
-        sales_quantity.setOnKeyPressed(actionEvent ->{
-            if(actionEvent.getCode().equals(KeyCode.ENTER)) {
-                getPriceOfTheItem();
-            }
-        });
-    }
     public void createNewSale() {
         if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()){
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
@@ -842,7 +807,6 @@ public class DashboardController implements Initializable {
             alert.showAndWait();
             return;
         }
-
         connection=Database.getInstance().connectDB();
         String sql="INSERT INTO sales(date,user_id)VALUES(?,?)";
 
@@ -871,7 +835,7 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
-    public void insertarProductoEnDetalles(int salesId, int productId, int quantity){
+    public void insertNewProductDetailsSales(int salesId, int productId, int quantity){
         connection=Database.getInstance().connectDB();
         String sql="INSERT INTO details_sales(sales_id,quantity,product_id)VALUES(?,?,?)";
 
@@ -905,9 +869,7 @@ public class DashboardController implements Initializable {
             resultSet=statement.executeQuery(sql);
 
             while (resultSet.next()){
-
                 salesId = resultSet.getInt("sales_id");
-
             }
 
         }catch (Exception err){
@@ -916,6 +878,7 @@ public class DashboardController implements Initializable {
 
         return salesId;
     }
+
     public void addProductBilling() {
         try {
 
@@ -926,7 +889,7 @@ public class DashboardController implements Initializable {
             int productId = Integer.parseInt(bill_item.getText());
             int quantity = Integer.parseInt(sales_quantity.getText());
 
-            insertarProductoEnDetalles(salId, productId, quantity);
+            insertNewProductDetailsSales(salId, productId, quantity);
 
         } catch (Exception err) {
             err.printStackTrace();
@@ -935,7 +898,7 @@ public class DashboardController implements Initializable {
         showBillingData();
     }
 
-    public ObservableList<SalesDetails> listBilligData(int salesId){
+    public ObservableList<SalesDetails> listBillingData(int salesId){
         ObservableList<SalesDetails> billingList=FXCollections.observableArrayList();
         connection=Database.getInstance().connectDB();
         String sql="SELECT p.id,ds.quantity,p.name, p.price,(p.price*ds.quantity) AS subtotal " +
@@ -969,11 +932,15 @@ public class DashboardController implements Initializable {
     }
 
     public void calculateFinalAmount(){
+        int salId = getSalesId();
         connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(total_amount) AS final_amount FROM billing";
+        String sql="SELECT ds.sales_id,SUM(ds.quantity*p.price) AS final_amount " +
+                "FROM details_sales AS ds JOIN products AS p\n" +
+                "WHERE ds.product_id=p.id and ds.sales_id=?;";
         try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setInt(1,salId);
+            resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
                 final_amount.setText(resultSet.getString("final_amount"));
             }
@@ -986,14 +953,12 @@ public class DashboardController implements Initializable {
 
     public void showBillingData(){
         int salId = getSalesId();
-        System.out.println(salId+" aquiii");
-        ObservableList<SalesDetails> billingList=listBilligData(salId);
+        ObservableList<SalesDetails> billingList=listBillingData(salId);
         col_bill_item_num.setCellValueFactory(new PropertyValueFactory<>("productId"));
         col_bill_item_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
         col_bill_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         col_bill_price.setCellValueFactory(new PropertyValueFactory<>("prodPrice"));
         col_bill_total_amt.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
-
         billing_table.setItems(billingList);
 
         if(!billingList.isEmpty()){
@@ -1001,22 +966,11 @@ public class DashboardController implements Initializable {
         }else{
             final_amount.setText("0.00");
         }
-
     }
-
 
     public void billClearData(){
         bill_item.clear();
         sales_quantity.clear();
-    }
-
-    public void selectBillingTableData(){
-        int num=billing_table.getSelectionModel().getSelectedIndex();
-        SalesDetails billingData=billing_table.getSelectionModel().getSelectedItem();
-        if(num-1 < -1){
-            return;
-        }
-
     }
 
     public void deleteBillingData(){
@@ -1056,30 +1010,6 @@ public class DashboardController implements Initializable {
                 alert.showAndWait();
             }
         showBillingData();
-    }
-    public void updateSelectedBillingData() {
-        connection = Database.getInstance().connectDB();
-        String sql = "UPDATE billing SET quantity=?,price=?,total_amount=? WHERE item_number=?";
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,sales_quantity.getText());
-            preparedStatement.setString(2, bill_price.getText());
-            preparedStatement.setString(3, bill_total_amount.getText());
-            preparedStatement.setString(4, bill_item.getText());
-            int result = preparedStatement.executeUpdate();
-            if (result > 0) {
-                showBillingData();
-                billClearData();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill the mandatory data such as item number, quantity and price .");
-                alert.showAndWait();
-            }
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
     }
 
     public boolean saveCustomerDetails(){

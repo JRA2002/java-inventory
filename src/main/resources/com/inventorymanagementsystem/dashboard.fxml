@@ -207,7 +207,7 @@
                         <TextField fx:id="billing_table_search" layoutX="12.0" layoutY="13.0" prefHeight="36.0" prefWidth="236.0" promptText="Search" styleClass="search-billing" stylesheets="@dashboard.css" />
                         <FontAwesomeIconView glyphName="SEARCH" layoutX="21.0" layoutY="37.0" size="18.0" wrappingWidth="14.857142448425293" />
                         <Separator layoutX="13.0" layoutY="342.0" prefHeight="10.0" prefWidth="794.0" />
-                        <TextField fx:id="bill_item" layoutX="151.0" layoutY="389.0" prefHeight="32.0" prefWidth="180.0" onKeyPressed="#onInputTextChanged" promptText="Ingrese Product Id" styleClass="textfield" stylesheets="@dashboard.css" />
+                        <TextField fx:id="bill_item" layoutX="151.0" layoutY="389.0" prefHeight="32.0" prefWidth="180.0" promptText="Ingrese Product Id" styleClass="textfield" stylesheets="@dashboard.css" />
                         <Label layoutX="28.0" layoutY="389.0" prefHeight="32.0" prefWidth="83.0" text="Product Id:">
                            <font>
                               <Font name="Dubai Bold" size="15.0" />
@@ -269,7 +269,7 @@
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="sales_quantity" layoutX="554.0" layoutY="388.0" onAction="#onInputTextChanged" prefHeight="32.0" prefWidth="180.0" promptText="Ingrese Cantidad" styleClass="textfield" stylesheets="@dashboard.css" />
+                        <TextField fx:id="sales_quantity" layoutX="554.0" layoutY="388.0" prefHeight="32.0" prefWidth="180.0" promptText="Ingrese Cantidad" styleClass="textfield" stylesheets="@dashboard.css" />
                         <Button fx:id="bill_update" alignment="CENTER" layoutX="682.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#updateSelectedBillingData" prefHeight="38.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="24.0" />
