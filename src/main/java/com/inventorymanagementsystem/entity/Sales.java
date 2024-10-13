@@ -1,5 +1,7 @@
 package com.inventorymanagementsystem.entity;
 
+import java.time.LocalDate;
+
 public class Sales {
     private int id;
     private String inv_num;
@@ -13,8 +15,8 @@ public class Sales {
 
     private double total_amount;
 
-    private String date;
-
+    private LocalDate dateSale;
+    private Double totalSale;
     private String item_num;
 
     public Sales(int id, String inv_num, int cust_id, String custName, double price, int quantity, double total_amount, String date, String item_num) {
@@ -25,10 +27,14 @@ public class Sales {
         this.price = price;
         this.quantity = quantity;
         this.total_amount = total_amount;
-        this.date = date;
+
         this.item_num = item_num;
     }
-
+    public Sales(int id, LocalDate dateSale, Double totalSale){
+        this.id = id;
+        this.dateSale = dateSale;
+        this.totalSale = totalSale;
+    }
 
     public int getId() {
         return id;
@@ -36,6 +42,22 @@ public class Sales {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public LocalDate getDateSale() {
+        return dateSale;
+    }
+
+    public void setDateSale(LocalDate dateSale) {
+        this.dateSale = dateSale;
+    }
+
+    public double getTotalSale() {
+        return totalSale;
+    }
+
+    public void setTotalSale(double totalSale) {
+        this.totalSale = totalSale;
     }
 
     public String getInv_num() {
@@ -78,14 +100,6 @@ public class Sales {
         this.total_amount = total_amount;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getCustName() {
         return custName;
     }
@@ -101,4 +115,6 @@ public class Sales {
     public void setItem_num(String item_num) {
         this.item_num = item_num;
     }
+
+
 }

@@ -1123,7 +1123,7 @@ public class DashboardController implements Initializable {
     }
     public void searchForBills(){
         try{
-            Parent root = FXMLLoader.load(getClass().getResource("bills.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("hola.fxml"));
             Scene scene = new Scene(root);
             Stage stage=new Stage();
             root.setOnMousePressed((event)->{
