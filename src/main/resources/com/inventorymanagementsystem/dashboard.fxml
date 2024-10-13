@@ -195,7 +195,7 @@
                      </children></AnchorPane>
                   <AnchorPane fx:id="billing_pane" layoutX="-1.0" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" stylesheets="@dashboard.css">
                      <children>
-                        <TableView fx:id="billing_table" layoutX="13.0" layoutY="59.0" onMouseClicked="#selectBillingTableData" prefHeight="280.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="billing_table" layoutX="13.0" layoutY="59.0" prefHeight="280.0" prefWidth="794.0" stylesheets="@dashboard.css">
                           <columns>
                               <TableColumn fx:id="col_bill_item_num" text="Codigo" />
                               <TableColumn fx:id="col_bill_item_name" prefWidth="234.4000244140625" text="Producto" />
@@ -227,7 +227,7 @@
                            <font>
                               <Font name="Dubai Bold" size="16.0" />
                            </font></Button>
-                        <Button fx:id="bill_clear" layoutX="446.0" layoutY="583.0" mnemonicParsing="false" onAction="#billClearData" onMouseClicked="#billClearData" prefHeight="38.0" prefWidth="115.0" styleClass="clear" stylesheets="@dashboard.css" text="Limpiar">
+                        <Button fx:id="bill_clear" layoutX="446.0" layoutY="583.0" mnemonicParsing="false" onAction="#billCancelSale" onMouseClicked="#billCancelSale" prefHeight="38.0" prefWidth="115.0" styleClass="clear" stylesheets="@dashboard.css" text="CANCELAR">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="REMOVE" size="18.0" text="" />
                            </graphic>
@@ -270,11 +270,7 @@
                            </font>
                         </Label>
                         <TextField fx:id="sales_quantity" layoutX="554.0" layoutY="388.0" prefHeight="32.0" prefWidth="180.0" promptText="Ingrese Cantidad" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <Button fx:id="bill_update" alignment="CENTER" layoutX="682.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#updateSelectedBillingData" prefHeight="38.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
-                           <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="24.0" />
-                           </graphic>
-                        </Button>
+
                         <Button fx:id="bill_delete" alignment="CENTER" layoutX="622.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#deleteBillingData" prefHeight="38.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="MINUS_CIRCLE" size="24.0" />
@@ -439,7 +435,7 @@
                      </children></AnchorPane>
                   <AnchorPane fx:id="purchase_pane" layoutX="-1.0" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
-                        <TableView fx:id="purchase_table" layoutX="13.0" layoutY="68.0" onMouseClicked="#selectBillingTableData" prefHeight="558.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="purchase_table" layoutX="13.0" layoutY="68.0" prefHeight="558.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
                               <TableColumn fx:id="purchase_col_id" prefWidth="69.60000610351562" text="Id" />
                               <TableColumn fx:id="purchase_col_invoice" prefWidth="161.5999755859375" text="invoice" />

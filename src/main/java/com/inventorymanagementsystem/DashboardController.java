@@ -644,7 +644,6 @@ public class DashboardController implements Initializable {
         }catch (Exception err){
             err.printStackTrace();
         }
-
         return categoryCombo;
     }
 
@@ -655,8 +654,6 @@ public class DashboardController implements Initializable {
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
-
-
             Supplier supplierData;
             while (resultSet.next()){
                 supplierData=new Supplier(
@@ -798,12 +795,35 @@ public class DashboardController implements Initializable {
         popup_window.showAndWait();
     }
 
+    private boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public void createNewSale() {
         if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()){
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
             alert.setContentText("Por Favor ingrese codigo de producto o cantidad");
+            alert.showAndWait();
+            return;
+        }else if(!isInteger(bill_item.getText()) || !isInteger(sales_quantity.getText()) ){
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por Favor ingrese un ID o cantidad valida");
+            alert.showAndWait();
+            return;
+        } else if (!existsProductId()) {
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("PRODUCT ID NO EXISTE !!");
             alert.showAndWait();
             return;
         }
@@ -840,7 +860,6 @@ public class DashboardController implements Initializable {
         String sql="INSERT INTO details_sales(sales_id,quantity,product_id)VALUES(?,?,?)";
 
         try{
-            System.out.println(salesId);
             preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setInt(1,salesId);
             preparedStatement.setInt(2,quantity);
@@ -860,30 +879,47 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
+
     public int getSalesId(){
         int salesId=0;
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT MAX(sales_id) AS sales_id FROM sales";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+        if(saleCreated){
+            connection=Database.getInstance().connectDB();
+            String sql="SELECT MAX(sales_id) AS sales_id FROM sales";
+            try{
+                statement=connection.createStatement();
+                resultSet=statement.executeQuery(sql);
 
-            while (resultSet.next()){
-                salesId = resultSet.getInt("sales_id");
+                while (resultSet.next()){
+                    salesId = resultSet.getInt("sales_id");
+                }
+
+            }catch (Exception err){
+                err.printStackTrace();
             }
-
-        }catch (Exception err){
-            err.printStackTrace();
         }
 
         return salesId;
     }
+    private boolean existsProductId(){
+
+            String input = bill_item.getText();
+            int productId = Integer.parseInt(input);
+            return productsList.stream().anyMatch(product -> product.getId() == productId);
+
+    }
 
     public void addProductBilling() {
         try {
-
-            if (!saleCreated) {
+            if (!saleCreated && existsProductId()) {
                 createNewSale();
+            } else if (!existsProductId()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Message");
+                alert.setHeaderText(null);
+                alert.setContentText("PRODUCT ID INVALIDO");
+                alert.showAndWait();
+                billClearData();
+                return;
             }
             int salId = getSalesId();
             int productId = Integer.parseInt(bill_item.getText());
@@ -973,12 +1009,49 @@ public class DashboardController implements Initializable {
         sales_quantity.clear();
     }
 
+    public void billCancelSale(){
+        int salId = getSalesId();
+        if (salId != 0){
+            connection = Database.getInstance().connectDB();
+            String sql="DELETE FROM sales WHERE sales_id=?";
+            try {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1,salId);
+                int result = preparedStatement.executeUpdate();
+
+                if (result > 0) {
+                    billClearData();
+                    billing_table.getItems().clear();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No hay datos en la Tabla.");
+                    alert.showAndWait();
+                }
+            } catch (Exception err) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeight(500);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText(err.getMessage());
+                alert.showAndWait();
+            }
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Aun no ha hecho una venta !!");
+            alert.showAndWait();
+        }
+    }
+
     public void deleteBillingData(){
         if(billing_table.getSelectionModel().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
-            alert.setContentText("Por favor selecione un producto.");
+            alert.setContentText("Por favor seleccione un producto.");
             alert.showAndWait();
             return;
         }
@@ -1012,118 +1085,24 @@ public class DashboardController implements Initializable {
         showBillingData();
     }
 
-    public boolean saveCustomerDetails(){
-        if(bill_phone.getText().isBlank() || bill_name.getText().isBlank()){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Kindly Fill Customer Name and Phone number.");
-            alert.showAndWait();
-            return false;
-        }
-        connection = Database.getInstance().connectDB();
-        String sql="SELECT * FROM CUSTOMERS WHERE phonenumber=?";
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,bill_phone.getText());
-            resultSet= preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Customer Data is already present in customer table. Proceeding further to save invoice.");
-                alert.showAndWait();
-                return true;
-            } else {
-                String customerSql="INSERT INTO CUSTOMERS(name,phonenumber) VALUES(?,?)";
-                preparedStatement = connection.prepareStatement(customerSql);
-                preparedStatement.setString(1,bill_name.getText());
-                preparedStatement.setString(2,bill_phone.getText());
-                int result= preparedStatement.executeUpdate();
-                if(result>0){
-                    showCustomerData();
-                    return true;
-                }else{
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Customer Data not saved. Please fill name and phone number correctly.");
-                    alert.showAndWait();
-                    return false;
-                }
-            }
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
-        return false;
-    }
-    public void saveInvoiceDetails(){
-        // GET CUSTOMER ID FOR MAPPING INVOICE RECORDS
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT id FROM CUSTOMERS WHERE PHONENUMBER=?";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,bill_phone.getText());
-            resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
-                  String custId=resultSet.getString("id");
-                  // GET BILLING TABLE DETAILS
-                  String getBillingDetails="SELECT * FROM BILLING";
-                  preparedStatement=connection.prepareStatement(getBillingDetails);
-                  resultSet=preparedStatement.executeQuery();
-                  // SAVE INVOICE DETAILS ALONG WITH CUSTOMER ID AND DATE IN SALES TABLE
-                  int count=0;
-                  while (resultSet.next()){
-                      String salesDetailsSQL="INSERT INTO sales(inv_num,item_number,cust_id,price,quantity,total_amount,date) VALUES(?,?,?,?,?,?,?)";
-                      preparedStatement=connection.prepareStatement(salesDetailsSQL);
-                      preparedStatement.setString(1,inv_num.getText());
-                      preparedStatement.setString(2,resultSet.getString("item_number"));
-                      preparedStatement.setString(3,custId);
-                      preparedStatement.setString(4,resultSet.getString("price"));
-                      preparedStatement.setString(5,resultSet.getString("quantity"));
-                      preparedStatement.setString(6,resultSet.getString("total_amount"));
-                      preparedStatement.setString(7,bill_date.getValue().toString());
-                      preparedStatement.executeUpdate();
-                      count++;
-                  }
-                  if(count>0){
-
-                      deleteBillingData();
-                      showSalesData();
-                      showDashboardData();
-                      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                      alert.setTitle("Message");
-                      alert.setHeaderText(null);
-                      alert.setContentText("Data is successfully saved in the sales tables. ");
-                      alert.showAndWait();
-                  }else{
-                      Alert alert = new Alert(Alert.AlertType.ERROR);
-                      alert.setTitle("Error Message");
-                      alert.setHeaderText(null);
-                      alert.setContentText("No Data saved in the sales table. ");
-                      alert.showAndWait();
-                  }
-            }else{
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Kindly fill Customer Details such as Name and Phone Number correctly.");
-                alert.showAndWait();
-            }
-        }catch (Exception err){
-            err.printStackTrace();
-        }
-
-
-    }
-
     public void billSave(){
-        // Save Customer Details
-        if(!saveCustomerDetails()) {
-            return;
+
+        if(!billing_table.getItems().isEmpty()) {
+            saleCreated=false;
+            billing_table.getItems().clear();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Venta Realizada");
+            alert.setHeaderText(null);
+            alert.setContentText("Venta realizada con exito");
+            alert.showAndWait();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Agregue productos para realizar la venta");
+            alert.showAndWait();
         }
-        //Save Invoice Details in Sales Table and Reference Customer
-        saveInvoiceDetails();
 
     }
 
@@ -1348,9 +1327,8 @@ public class DashboardController implements Initializable {
             }
 
         }
-
-
     }
+
     public void printCustomersDetails(){
         connection=Database.getInstance().connectDB();
         String sql="SELECT * FROM users";
@@ -1366,6 +1344,7 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
+
     public void getTotalSalesAmount(){
         connection=Database.getInstance().connectDB();
         String sql="SELECT SUM(total_amount) as total_sale_amount FROM sales";
@@ -1407,6 +1386,7 @@ public class DashboardController implements Initializable {
         }
         return salesList;
     }
+    
     public void showSalesData(){
         ObservableList<Sales> salesList=listSalesData();
         sales_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
