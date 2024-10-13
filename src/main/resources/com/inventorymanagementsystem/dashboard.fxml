@@ -156,12 +156,12 @@
                                     <Font name="Arial Rounded MT Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="dash_total_sales_this_month" layoutX="97.0" layoutY="71.0" prefHeight="36.0" prefWidth="191.0" text="15000" textFill="WHITE">
+                              <Label fx:id="dash_total_sales_this_month" layoutX="97.0" layoutY="71.0" prefHeight="36.0" prefWidth="191.0" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="30.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="dash_total_sales_this_month_name" alignment="CENTER" layoutX="71.0" layoutY="127.0" prefHeight="28.0" prefWidth="156.0" text="MAY" textFill="WHITE">
+                              <Label fx:id="dash_total_sales_this_month_name" alignment="CENTER" layoutX="71.0" layoutY="127.0" prefHeight="28.0" prefWidth="156.0" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="24.0" />
                                  </font>
@@ -180,12 +180,12 @@
                                     <Font name="Arial Rounded MT Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="dash_total_items_sold_this_month" alignment="CENTER" layoutX="13.0" layoutY="64.0" prefHeight="36.0" prefWidth="247.0" text="9" textFill="WHITE">
+                              <Label fx:id="dash_total_items_sold_this_month" alignment="CENTER" layoutX="13.0" layoutY="64.0" prefHeight="36.0" prefWidth="247.0"  textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="30.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="dash_total_sales_items_this_month_name" alignment="CENTER" layoutX="68.0" layoutY="122.0" prefHeight="28.0" prefWidth="149.0" text="MAY" textFill="WHITE">
+                              <Label fx:id="dash_total_sales_items_this_month_name" alignment="CENTER" layoutX="68.0" layoutY="122.0" prefHeight="28.0" prefWidth="149.0" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Rounded MT Bold" size="24.0" />
                                  </font>

@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-
+import java.util.HashMap;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -1090,7 +1090,7 @@ public class DashboardController implements Initializable {
         if(!billing_table.getItems().isEmpty()) {
             saleCreated=false;
             billing_table.getItems().clear();
-
+            final_amount.setText("0.00");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Venta Realizada");
             alert.setHeaderText(null);
@@ -1386,7 +1386,7 @@ public class DashboardController implements Initializable {
         }
         return salesList;
     }
-    
+
     public void showSalesData(){
         ObservableList<Sales> salesList=listSalesData();
         sales_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -1492,7 +1492,7 @@ public class DashboardController implements Initializable {
 
     public void getTotalPurchase(){
         connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(total_items) as total_purchase FROM PURCHASE";
+        String sql="SELECT COUNT(order_id) as total_purchase FROM orders";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
@@ -1517,7 +1517,7 @@ public class DashboardController implements Initializable {
 
     public void getTotalSales(){
         connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(quantity) as total_sale FROM sales";
+        String sql="SELECT COUNT(sales_id) AS total_sale FROM sales";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
@@ -1541,20 +1541,44 @@ public class DashboardController implements Initializable {
     }
 
     public void getTotalStocks(){
+
         int totalPurchase=Integer.parseInt(dash_total_purchase.getText());
         int total_sold= Integer.parseInt(dash_total_sold.getText());
         int totalStockLeft=totalPurchase-total_sold;
         dash_total_stocks.setText(String.valueOf(totalStockLeft));
     }
 
+    private String setMonth(String month){
+        HashMap<String, String> months = new HashMap<>();
+
+        months.put("JANUARY", "ENERO");
+        months.put("FEBRUARY", "FEBRERO");
+        months.put("MARCH", "MARZO");
+        months.put("APRIL", "ABRIL");
+        months.put("MAY", "MAYO");
+        months.put("JUNE", "JUNIO");
+        months.put("JULY", "JULIO");
+        months.put("AUGUST", "AGOSTO");
+        months.put("SEPTEMBER", "SEPTIEMBRE");
+        months.put("OCTOBER", "OCTUBRE");
+        months.put("NOVEMBER", "NOVIEMBRE");
+        months.put("DECEMBER", "DICIEMBRE");
+
+        return months.get(month);
+    }
+
     public void getSalesDetailsOfThisMonth(){
         LocalDate date=LocalDate.now();
-        String monthName=date.getMonth().toString();
+        String monthEnglish = date.getMonth().toString();
+        String monthName = setMonth(monthEnglish);
+
         connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(total_amount) as total_sales_this_month FROM SALES WHERE MONTHNAME(DATE)=?";
+        String sql="SELECT SUM(p.price*ds.quantity) AS total_sales_this_month " +
+                "FROM details_sales AS ds JOIN products AS p JOIN sales AS s\n" +
+                "WHERE ds.product_id=p.id and DATE_FORMAT(s.date, '%M') = ?";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,monthName);
+            preparedStatement.setString(1,monthEnglish);
             resultSet=preparedStatement.executeQuery();
             while (resultSet.next()){
                 String result=resultSet.getString("total_sales_this_month");
@@ -1576,20 +1600,24 @@ public class DashboardController implements Initializable {
     }
     public void getItemSoldThisMonth(){
         LocalDate date=LocalDate.now();
-        String monthName=date.getMonth().toString();
+        String monthEnglish = date.getMonth().toString();
+        String monthName = setMonth(monthEnglish);
+
         connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(quantity) as total_items_sold_this_month FROM SALES WHERE MONTHNAME(DATE)=?";
+        String sql="SELECT COUNT(sales_id) AS total FROM sales WHERE DATE_FORMAT(date, '%M')=?";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,monthName);
+            preparedStatement.setString(1,monthEnglish);
             resultSet=preparedStatement.executeQuery();
+
             while (resultSet.next()){
-                String result=resultSet.getString("total_items_sold_this_month");
+                String result=resultSet.getString("total");
                 if (result == null) {
                     dash_total_items_sold_this_month.setText("0");
                 }else{
                     dash_total_items_sold_this_month.setText(result);
                 }
+
                 dash_total_sales_items_this_month_name.setText(monthName);
             }
         }catch (Exception err){
