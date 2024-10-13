@@ -964,7 +964,7 @@ public class DashboardController implements Initializable {
         }catch (Exception err){
             err.printStackTrace();
         }
-        System.out.println(billingList);
+
         return billingList;
     }
 
@@ -1018,6 +1018,45 @@ public class DashboardController implements Initializable {
         }
 
     }
+
+    public void deleteBillingData(){
+        if(billing_table.getSelectionModel().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor selecione un producto.");
+            alert.showAndWait();
+            return;
+        }
+        int salId = getSalesId();
+        connection = Database.getInstance().connectDB();
+        String sql="DELETE FROM details_sales WHERE product_id=? and sales_id=?";
+            try {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1,billing_table.getSelectionModel().getSelectedItem().getProductId());
+                preparedStatement.setInt(2,salId);
+                int result = preparedStatement.executeUpdate();
+
+                if (result > 0) {
+                    showCustomerData();
+                    customerClearData();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No hay datos en la Tabla.");
+                    alert.showAndWait();
+                }
+            } catch (Exception err) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeight(500);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText(err.getMessage());
+                alert.showAndWait();
+            }
+        showBillingData();
+    }
     public void updateSelectedBillingData() {
         connection = Database.getInstance().connectDB();
         String sql = "UPDATE billing SET quantity=?,price=?,total_amount=? WHERE item_number=?";
@@ -1043,33 +1082,6 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void deleteBillingData(){
-        connection = Database.getInstance().connectDB();
-        String sql;
-        try {
-            if(billing_table.getSelectionModel().isEmpty()){
-                sql = "DELETE FROM BILLING";
-                preparedStatement = connection.prepareStatement(sql);
-            }else{
-                sql="DELETE FROM sales WHERE item_number=?";
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1,billing_table.getSelectionModel().getSelectedItem().getProductName());
-            }
-           int result = preparedStatement.executeUpdate();
-            if (result > 0) {
-                showBillingData();
-                billClearData();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("No data present in the billing table..");
-                alert.showAndWait();
-            }
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
-    }
     public boolean saveCustomerDetails(){
         if(bill_phone.getText().isBlank() || bill_name.getText().isBlank()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
