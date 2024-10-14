@@ -1,9 +1,7 @@
 package com.inventorymanagementsystem;
 
 import com.inventorymanagementsystem.config.Database;
-
 import com.inventorymanagementsystem.entity.Sales;
-import com.inventorymanagementsystem.entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

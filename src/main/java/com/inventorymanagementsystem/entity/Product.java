@@ -1,4 +1,7 @@
 package com.inventorymanagementsystem.entity;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.time.LocalDate;
 
@@ -11,6 +14,9 @@ public class Product {
     private String cat_name;
     private LocalDate exp_date;
     private String loc_name;
+    private String  suppName;
+    private double pricePur;
+    private double total;
 
     public Product(int id, String name, String unit, int quantity, double price, String cat_name, LocalDate exp_date, String loc_name) {
         this.id = id;
@@ -22,9 +28,18 @@ public class Product {
         this.exp_date = exp_date;
         this.loc_name = loc_name;
     }
+
     public Product(Double price, String name){
         this.price = price;
         this.name = name;
+    }
+
+    public Product(String name,String suppName,double pricePur){
+        this.name = name;
+        this.suppName = suppName;
+        this.pricePur = pricePur;
+        //this.quantity = quantity;
+
     }
 
     public int getId() {
@@ -38,7 +53,9 @@ public class Product {
     public String getName() {
         return name;
     }
-
+    public String getSuppName() {
+        return suppName;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -62,7 +79,12 @@ public class Product {
     public double getPrice() {
         return price;
     }
-
+    public double getPricePur() {
+        return pricePur;
+    }
+    public double getTotal() {
+        return total;
+    }
     public void setPrice(double price) {
         this.price = price;
     }
@@ -88,7 +110,6 @@ public class Product {
     public void setLoc_name(String loc_name) {
         this.loc_name = loc_name;
     }
-
 
 
 }

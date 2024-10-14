@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.Insets;
 import javafx.fxml.Initializable;
@@ -19,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
+import javafx.util.converter.IntegerStringConverter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -292,31 +295,37 @@ public class DashboardController implements Initializable {
     private Button purchase_btn_add;
 
     @FXML
+    private Button purchase_btn_cancel;
+
+    @FXML
+    private Button purchase_btn_new;
+
+    @FXML
+    private Button purchase_btn_save;
+
+    @FXML
     private Button purchase_btn_print;
 
     @FXML
     private Label purchase_total_amount;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_date_of_purchase;
+    private TableColumn<?, ?> purchase_col_prod;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_id;
+    private TableColumn<?, ?> purchase_col_supplier;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_invoice;
+    private TableColumn<?, ?> purchase_col_price;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_shop_details;
+    private TableColumn<?, ?> purchase_col_total;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_total_amount;
+    private TableColumn<?,?> purchase_col_qty;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_total_items;
-
-    @FXML
-    private TableView<Purchase> purchase_table;
+    private TableView<Product> purchase_table;
 
     @FXML
     private Label dash_total_items_sold_this_month;
@@ -658,7 +667,7 @@ public class DashboardController implements Initializable {
             while (resultSet.next()){
                 supplierData=new Supplier(
                         Integer.parseInt(resultSet.getString("id")),
-                        resultSet.getString("name"),
+                        resultSet.getString("supp_name"),
                         resultSet.getString("phone"));
                 System.out.println(supplierData);
                 supplierCombo.getItems().add(supplierData);
@@ -1455,38 +1464,41 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
-    public ObservableList<Purchase> listPurchaseData(){
+    public ObservableList<Product> listProductsToPurchase(){
 
-        ObservableList<Purchase> purchaseList=FXCollections.observableArrayList();
+        ObservableList<Product> purchaseList=FXCollections.observableArrayList();
         connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM purchases";
+        String sql="SELECT p.name,sp.supp_name,p.purch_price\n" +
+                "FROM products AS p\n" +
+                "INNER JOIN supplier AS sp ON p.supp_id=sp.id";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
-            Purchase purchase;
+            Product productPurchase;
             while (resultSet.next()){
-                purchase=new Purchase(
-                        Integer.parseInt(resultSet.getString("purchase_id")),
-                        resultSet.getDate("date").toLocalDate(),
-                        Integer.parseInt(resultSet.getString("user_id")));
-
-                purchaseList.addAll(purchase);
+                productPurchase=new Product(
+                        resultSet.getString("name"),
+                        resultSet.getString("supp_name"),
+                        Double.parseDouble(resultSet.getString("purch_price")));
+                        //Integer.parseInt(resultSet.getString("quantity")));
+                purchaseList.addAll(productPurchase);
             }
         }catch (Exception err){
             err.printStackTrace();
         }
         return purchaseList;
     }
-    public void showPurchaseData(){
-        ObservableList<Purchase> purchaseList=listPurchaseData();
-        purchase_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        purchase_col_invoice.setCellValueFactory(new PropertyValueFactory<>("invoice"));
-        purchase_col_shop_details.setCellValueFactory(new PropertyValueFactory<>("shopDetails"));
-        purchase_col_total_items.setCellValueFactory(new PropertyValueFactory<>("totalItems"));
-        purchase_col_total_amount.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
-        purchase_col_date_of_purchase.setCellValueFactory(new PropertyValueFactory<>("dateOfPurchase"));
+    public void showProductsToPurchase(){
+        //purchase_table.setEditable(true);
+        ObservableList<Product> purchaseList=listProductsToPurchase();
+        purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
+        purchase_col_supplier.setCellValueFactory(new PropertyValueFactory<>("suppName"));
+        purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("pricePur"));
+        purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        System.out.println("tabla purchase");
+
         purchase_table.setItems(purchaseList);
-        getTotalPurchaseAmount();
+
     }
 
     public void getTotalPurchase(){
@@ -1696,6 +1708,6 @@ public class DashboardController implements Initializable {
         showSalesData();
 
 //      Purchase Pane
-        showPurchaseData();
+        showProductsToPurchase();
     }
 }

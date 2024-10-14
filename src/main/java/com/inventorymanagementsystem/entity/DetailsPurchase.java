@@ -1,31 +1,37 @@
 package com.inventorymanagementsystem.entity;
 
 public class DetailsPurchase {
-    private int idProd;
+    //private int idProd;
     private String prodName;
-    private Double price;
+    private String supplier;
+    private Double priceC;
     private int qtyP;
-    private Double totalP;
+    private Double total;
 
     // Constructor, getters y setters
-    public DetailsPurchase(int idProd, String prodName, Double price, int qtyP, Double totalP) {
-        this.idProd = idProd;
+    public DetailsPurchase(String prodName,String supplier, Double priceC, int qtyP, Double total) {
+        //this.idProd = idProd;
         this.prodName = prodName;
-        this.price = price;
+        this.priceC = priceC;
         this.qtyP = qtyP;
-        this.totalP = totalP;
+        this.supplier = supplier;
+        this.total = total;
     }
 
-    public Integer getIdProd() {
-        return idProd;
-    }
+    //public Integer getIdProd() {
+        //return idProd;
+    //}
 
     public String getProdName() {
         return prodName;
     }
 
-    public Double getPrice() {
-        return price;
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public Double getPriceC() {
+        return priceC;
     }
 
     public Integer getQtyP() {
@@ -36,7 +42,7 @@ public class DetailsPurchase {
         this.qtyP = qtyP;
     }
 
-    public Double getTotalP() {
-        return totalP;
+    public Double getTotal() {
+        return total;
     }
 }

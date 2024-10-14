@@ -429,15 +429,14 @@
                      <children>
                         <TableView fx:id="purchase_table" layoutX="13.0" layoutY="68.0" prefHeight="400.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="purchase_col_id" prefWidth="69.60000610351562" text="Id" />
-                              <TableColumn fx:id="purchase_col_invoice" prefWidth="161.5999755859375" text="invoice" />
-                              <TableColumn fx:id="purchase_col_shop_details" prefWidth="163.20001220703125" text="Shop Details" />
-                              <TableColumn fx:id="purchase_col_total_items" minWidth="0.0" prefWidth="136.0" text="Total Items" />
-                              <TableColumn fx:id="purchase_col_total_amount" minWidth="0.0" prefWidth="136.0" text="Total Amount" />
-                              <TableColumn fx:id="purchase_col_date_of_purchase" minWidth="0.0" prefWidth="125.59995117187498" text="Date Of Purchase" />
+                              <TableColumn fx:id="purchase_col_prod" prefWidth="69.60000610351562" text="PRODUCTO" />
+                              <TableColumn fx:id="purchase_col_supplier" prefWidth="161.5999755859375" text="PROVEEDOR" />
+                              <TableColumn fx:id="purchase_col_price" prefWidth="163.20001220703125" text="PRECIO" />
+                              <TableColumn fx:id="purchase_col_qty" minWidth="0.0" prefWidth="136.0" text="CANTIDAD" />
+
                            </columns>
                         </TableView>
-                        <Button fx:id="purchase_btn_cancel" layoutX="326.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="CANCEL">
+                        <Button fx:id="purchase_btn_cancel" layoutX="316.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="CANCEL">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="24.0" />
                            </graphic>
