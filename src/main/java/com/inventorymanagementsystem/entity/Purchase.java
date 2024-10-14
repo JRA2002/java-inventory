@@ -1,52 +1,53 @@
 package com.inventorymanagementsystem.entity;
 
+import java.time.LocalDate;
+
 public class Purchase {
-    private int id;
-    private String invoice;
-    private String shopDetails;
-    private int totalItems;
+    private int purchId;
+    private String supplier;
+    private int quantity;
+    private LocalDate dateOfPurchase;
     private Double totalAmount;
-    private String dateOfPurchase;
+    private int userId;
 
-    public Purchase(int id, String invoice, String shopDetails, int totalItems, Double totalAmount, String dateOfPurchase) {
-        this.id = id;
-        this.invoice = invoice;
-        this.shopDetails = shopDetails;
-        this.totalItems = totalItems;
-        this.totalAmount = totalAmount;
+
+    public Purchase(int purchId, String supplier, int quantity,LocalDate dateOfPurchase, Double totalAmount) {
+        this.purchId = purchId;
+        this.supplier = supplier;
+        this.quantity = quantity;
         this.dateOfPurchase = dateOfPurchase;
+        this.totalAmount = totalAmount;
+
     }
 
-    public int getId() {
-        return id;
+    public Purchase(int purchId,LocalDate dateOfPurchase,int userId){
+        this.purchId = purchId;
+        this.dateOfPurchase = dateOfPurchase;
+        this.userId = userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getPurchId() {
+        return purchId;
     }
 
-    public String getInvoice() {
-        return invoice;
+    public void setPurchId(int id) {
+        this.purchId = purchId;
     }
 
-    public void setInvoice(String invoice) {
-        this.invoice = invoice;
+    public String getSupplier() {
+        return supplier;
     }
 
-    public String getShopDetails() {
-        return shopDetails;
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
     }
 
-    public void setShopDetails(String shopDetails) {
-        this.shopDetails = shopDetails;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public int getTotalItems() {
-        return totalItems;
-    }
-
-    public void setTotalItems(int totalItems) {
-        this.totalItems = totalItems;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Double getTotalAmount() {
@@ -57,11 +58,11 @@ public class Purchase {
         this.totalAmount = totalAmount;
     }
 
-    public String getDateOfPurchase() {
+    public LocalDate getDateOfPurchase() {
         return dateOfPurchase;
     }
 
-    public void setDateOfPurchase(String dateOfPurchase) {
+    public void setDateOfPurchase(LocalDate dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
     }
 }

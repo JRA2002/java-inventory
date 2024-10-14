@@ -1,8 +1,9 @@
 package com.inventorymanagementsystem;
 
 import com.inventorymanagementsystem.config.Database;
-import com.inventorymanagementsystem.entity.Product;
+
 import com.inventorymanagementsystem.entity.Sales;
+import com.inventorymanagementsystem.entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -61,6 +62,7 @@ public class BillsController implements Initializable {
     public void onExit(){
         bills_btn_close.getScene().getWindow().hide();
     }
+
     public ObservableList<Sales> getSalesList(){
 
         ObservableList<Sales> salesList = FXCollections.observableArrayList();

@@ -1456,21 +1456,20 @@ public class DashboardController implements Initializable {
         }
     }
     public ObservableList<Purchase> listPurchaseData(){
+
         ObservableList<Purchase> purchaseList=FXCollections.observableArrayList();
         connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM Purchase";
+        String sql="SELECT * FROM purchases";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
             Purchase purchase;
             while (resultSet.next()){
                 purchase=new Purchase(
-                        Integer.parseInt(resultSet.getString("id")),
-                        resultSet.getString("invoice"),
-                        resultSet.getString("shop and address"),
-                        Integer.parseInt(resultSet.getString("total_items")),
-                        Double.parseDouble(resultSet.getString("total_amount")),
-                        resultSet.getString("date_of_purchase"));
+                        Integer.parseInt(resultSet.getString("purchase_id")),
+                        resultSet.getDate("date").toLocalDate(),
+                        Integer.parseInt(resultSet.getString("user_id")));
+
                 purchaseList.addAll(purchase);
             }
         }catch (Exception err){
@@ -1573,9 +1572,11 @@ public class DashboardController implements Initializable {
         String monthName = setMonth(monthEnglish);
 
         connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(p.price*ds.quantity) AS total_sales_this_month " +
-                "FROM details_sales AS ds JOIN products AS p JOIN sales AS s\n" +
-                "WHERE ds.product_id=p.id and DATE_FORMAT(s.date, '%M') = ?";
+        String sql="SELECT SUM(ds.quantity * p.price) AS total_sales_this_month\n" +
+                "FROM sales AS s\n" +
+                "INNER JOIN details_sales AS ds ON s.sales_id = ds.sales_id\n" +
+                "INNER JOIN products AS p ON ds.product_id = p.id\n" +
+                "WHERE DATE_FORMAT(s.date, '%M') = ?";
         try{
             preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setString(1,monthEnglish);

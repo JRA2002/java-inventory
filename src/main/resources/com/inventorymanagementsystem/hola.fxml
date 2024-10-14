@@ -14,10 +14,14 @@
 
 <AnchorPane fx:id="bills_print_anchor_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="600.0" styleClass="billsanchorpane" stylesheets="@hola.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inventorymanagementsystem.BillsController">
    <children>
-      <Button fx:id="bills_btn_close" layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#onExit" prefHeight="32.0" prefWidth="32.0" text="X" styleClass="close" stylesheets="@hola.css" />
-       <Label layoutX="232.0" layoutY="46.0" prefHeight="32.0" prefWidth="115.0" text="LISTA DE VENTAS">
+       <Button fx:id="bills_btn_close" layoutX="532.0" layoutY="14.0" mnemonicParsing="false" onAction="#onExit" prefHeight="32.0" prefWidth="32.0" styleClass="close" stylesheets="@hola.css" >
+           <graphic>
+               <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="18.0" />
+           </graphic>
+       </Button>
+       <Label layoutX="232.0" layoutY="46.0" prefHeight="32.0" prefWidth="135.0" text="LISTA DE VENTAS">
          <font>
-            <Font size="14.0" />
+            <Font size="18.0" />
          </font>
       </Label>
       <TableView fx:id="sales_tableview" layoutX="50.0" layoutY="107.0" prefHeight="217.0" prefWidth="500.0" styleClass="tableview" stylesheets="@hola.css">
@@ -27,6 +31,13 @@
             <TableColumn fx:id="sale_col_total" prefWidth="166.66" text="TOTAL" />
         </columns>
       </TableView>
-      <Button fx:id="bills_btn_print_bill" layoutX="221.0" layoutY="366.0" mnemonicParsing="false" onAction="#searchAndPrintBillDetails" styleClass="print" stylesheets="@hola.css" prefHeight="49.0" prefWidth="158.0" text="IMPRIMIR" />
+       <Button fx:id="bills_btn_print_bill" layoutX="221.0" layoutY="366.0" mnemonicParsing="false" onAction="#searchAndPrintBillDetails" styleClass="print" stylesheets="@hola.css" prefHeight="49.0" prefWidth="158.0" text="IMPRIMIR" >
+           <graphic>
+               <FontAwesomeIconView fill="WHITE" glyphName="PRINT" size="24.0" />
+           </graphic>
+           <font>
+               <Font name="Dubai Bold" size="18.0" />
+           </font>
+       </Button>
    </children>
 </AnchorPane>
