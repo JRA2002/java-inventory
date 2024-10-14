@@ -310,19 +310,19 @@ public class DashboardController implements Initializable {
     private Label purchase_total_amount;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_prod;
+    private TableColumn<Product, String> purchase_col_prod;
 
     @FXML
     private TableColumn<?, ?> purchase_col_supplier;
 
     @FXML
-    private TableColumn<?, ?> purchase_col_price;
+    private TableColumn<?,?> purchase_col_price;
 
     @FXML
     private TableColumn<?, ?> purchase_col_total;
 
     @FXML
-    private TableColumn<?,?> purchase_col_qty;
+    private TableColumn<Product,Integer> purchase_col_qty;
 
     @FXML
     private TableView<Product> purchase_table;
@@ -1472,6 +1472,7 @@ public class DashboardController implements Initializable {
                 "FROM products AS p\n" +
                 "INNER JOIN supplier AS sp ON p.supp_id=sp.id";
         try{
+            int qty = 0;
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
             Product productPurchase;
@@ -1479,8 +1480,9 @@ public class DashboardController implements Initializable {
                 productPurchase=new Product(
                         resultSet.getString("name"),
                         resultSet.getString("supp_name"),
-                        Double.parseDouble(resultSet.getString("purch_price")));
-                        //Integer.parseInt(resultSet.getString("quantity")));
+                        Double.parseDouble(resultSet.getString("purch_price")),
+                        qty);
+                System.out.println(productPurchase);
                 purchaseList.addAll(productPurchase);
             }
         }catch (Exception err){
@@ -1489,12 +1491,27 @@ public class DashboardController implements Initializable {
         return purchaseList;
     }
     public void showProductsToPurchase(){
-        //purchase_table.setEditable(true);
+        purchase_table.setEditable(true);
         ObservableList<Product> purchaseList=listProductsToPurchase();
         purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
         purchase_col_supplier.setCellValueFactory(new PropertyValueFactory<>("suppName"));
         purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("pricePur"));
-        purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+
+        purchase_col_prod.setCellFactory(TextFieldTableCell.<Product>forTableColumn());
+        purchase_col_prod.setOnEditCommit(event -> {
+            String value = event.getNewValue();
+            event.getRowValue().setName(value);
+
+            purchase_table.refresh();
+        });
+        purchase_col_qty.setCellFactory(TextFieldTableCell.<Product,Integer>forTableColumn(new IntegerStringConverter()));
+        purchase_col_qty.setOnEditCommit(event -> {
+            Integer value = event.getNewValue();
+            event.getRowValue().setQty(value);
+
+            purchase_table.refresh();
+        });
         System.out.println("tabla purchase");
 
         purchase_table.setItems(purchaseList);

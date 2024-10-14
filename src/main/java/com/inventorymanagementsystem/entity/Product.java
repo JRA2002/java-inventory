@@ -17,6 +17,7 @@ public class Product {
     private String  suppName;
     private double pricePur;
     private double total;
+    private int qty;
 
     public Product(int id, String name, String unit, int quantity, double price, String cat_name, LocalDate exp_date, String loc_name) {
         this.id = id;
@@ -34,11 +35,11 @@ public class Product {
         this.name = name;
     }
 
-    public Product(String name,String suppName,double pricePur){
+    public Product(String name,String suppName,double pricePur,int qty){
         this.name = name;
         this.suppName = suppName;
         this.pricePur = pricePur;
-        //this.quantity = quantity;
+        this.qty = 0;
 
     }
 
@@ -74,6 +75,13 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public double getPrice() {
