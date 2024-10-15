@@ -37,6 +37,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
@@ -911,11 +912,9 @@ public class DashboardController implements Initializable {
         return salesId;
     }
     private boolean existsProductId(){
-
             String input = bill_item.getText();
             int productId = Integer.parseInt(input);
             return productsList.stream().anyMatch(product -> product.getId() == productId);
-
     }
 
     public void addProductBilling() {
@@ -1182,13 +1181,12 @@ public class DashboardController implements Initializable {
                         resultSet.getString("rol"));
                 customersList.add(customer);
             }
-
-
         }catch (Exception err){
             err.printStackTrace();
         }
         return customersList;
     }
+
     public void showCustomerData(){
         ObservableList<User> customerList=listCustomerData();
         cust_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -1495,6 +1493,7 @@ public class DashboardController implements Initializable {
     }
     public void showProductsToPurchase(boolean status){
         ObservableList<Product> purchaseList=listProductsToPurchase();
+        List<Integer> productIdList = new ArrayList<>() ;
         if(status){
             purchase_table.setEditable(true);
             purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1505,24 +1504,65 @@ public class DashboardController implements Initializable {
 
             purchase_col_qty.setCellFactory(TextFieldTableCell.<Product,Integer>forTableColumn(new IntegerStringConverter()));
             purchase_col_qty.setOnEditCommit(event -> {
-                Product product = event.getRowValue();
-                product.setQty(event.getNewValue());  // Actualizar el valor en el objeto Product
-                int id = product.getId();
-                System.out.println("Nuevo valor de cantidad: "+id+"  " + event.getNewValue());
-                // Aquí podrías agregar lógica para guardar el nuevo valor en una base de datos o en otra estructura.
 
+                Product product = event.getRowValue();
+                product.setQty(event.getNewValue());
+                int qty = product.getQty();
+                int pId = product.getId();
+
+                if(qty>0 && !productIdList.contains(pId)) {
+                    productIdList.add(pId);
+                    insertPurchase(pId,qty);
+                }else{
+                    updatePurchase(pId,qty);
+                }
             });
             purchase_table.setItems(purchaseList);
 
         }else{
             purchase_table.getItems().clear();
         }
-        sendP(purchaseList);
     }
-    public void sendP(ObservableList<Product> purchaseList){
-        for (Product product : purchaseList) {
-            System.out.println(product);  // Esto llamará al método toString() del objeto Product
+
+    private void updatePurchase(int pId,int qty){
+        connection = Database.getInstance().connectDB();
+        String sql = "UPDATE details_purchases SET quantity=? WHERE product_id=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, qty);
+            preparedStatement.setInt(2, pId);
+            preparedStatement.executeUpdate();
+        } catch (Exception err) {
+            err.printStackTrace();
         }
+    }
+
+    public void insertPurchase(int pId, int qty){
+        System.out.println("nuevo purchase " +pId+" "+"cantidad "+qty);
+        int purchaseId = getPurchaseId();
+        connection=Database.getInstance().connectDB();
+        String sql="INSERT INTO details_purchases(purchase_id,quantity,product_id)VALUES(?,?,?)";
+        try{
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setInt(1,purchaseId);
+            preparedStatement.setInt(2,qty);
+            preparedStatement.setInt(3,pId);
+
+            int result=preparedStatement.executeUpdate();
+            if(result>0){
+                purchaseCreated = true;
+                System.out.println("heeeree");
+            }else{
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Nose pudo crear la compra");
+                alert.showAndWait();
+            }
+        }catch (Exception err) {
+            err.printStackTrace();
+        }
+
     }
     private int getPurchaseId(){
         int purchaseId=0;
@@ -1546,7 +1586,7 @@ public class DashboardController implements Initializable {
 
     public void cancelPurchase() {
         if (purchaseCreated) {
-            System.out.println("CANCEL PURCHASE");
+
             connection = Database.getInstance().connectDB();
             String sql = "DELETE FROM purchases WHERE purchase_id=?";
             try {
@@ -1622,6 +1662,16 @@ public class DashboardController implements Initializable {
     }
 
     public void savePurchase(){
+        if(purchaseCreated){
+            purchase_table.getItems().clear();
+            purchaseCreated=false;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeight(500);
+            alert.setTitle("MENSAJE");
+            alert.setHeaderText(null);
+            alert.setContentText("COMPRA REGISTRADA");
+            alert.showAndWait();
+        }
 
     }
 
