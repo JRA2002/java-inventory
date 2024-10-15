@@ -429,14 +429,14 @@
                      <children>
                         <TableView fx:id="purchase_table" layoutX="13.0" layoutY="68.0" prefHeight="400.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="purchase_col_prod" prefWidth="69.60000610351562" text="PRODUCTO" />
-                              <TableColumn fx:id="purchase_col_supplier" prefWidth="161.5999755859375" text="PROVEEDOR" />
-                              <TableColumn fx:id="purchase_col_price" prefWidth="163.20001220703125" text="PRECIO" />
-                              <TableColumn fx:id="purchase_col_qty" minWidth="0.0" prefWidth="136.0" text="CANTIDAD" />
+                              <TableColumn fx:id="purchase_col_prod" prefWidth="208.5" text="PRODUCTO" />
+                              <TableColumn fx:id="purchase_col_supplier" prefWidth="228.5" text="PROVEEDOR" />
+                              <TableColumn fx:id="purchase_col_price" prefWidth="168.5" text="PRECIO" />
+                              <TableColumn fx:id="purchase_col_qty" minWidth="0.0" prefWidth="188.5" text="CANTIDAD" />
 
                            </columns>
                         </TableView>
-                        <Button fx:id="purchase_btn_cancel" layoutX="316.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="CANCEL">
+                        <Button fx:id="purchase_btn_cancel" layoutX="316.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#cancelPurchase" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="CANCEL">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="24.0" />
                            </graphic>
@@ -444,7 +444,7 @@
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="purchase_btn_new" layoutX="480.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="NUEVA">
+                        <Button fx:id="purchase_btn_new" layoutX="480.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#newPurchase" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="NUEVA">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="24.0" />
                            </graphic>
@@ -452,7 +452,7 @@
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="purchase_btn_save" layoutX="644.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="COMPRAR">
+                        <Button fx:id="purchase_btn_save" layoutX="644.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addDataPurchase" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="COMPRAR">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="SAVE" size="24.0" />
                            </graphic>

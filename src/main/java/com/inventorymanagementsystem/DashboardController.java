@@ -142,9 +142,7 @@ public class DashboardController implements Initializable {
     @FXML
     private Label final_amount;
 
-    private  String invoiceList[]={"BX123456","ZX123456","AX123456"};
-
-    private String unitList[]={"Kg","Ltr","Gr","Und"};
+    private final String[] unitList ={"Kg","Ltr","Gr","Und"};
     @FXML
     private TableColumn<?, ?> col_bill_item_num;
 
@@ -164,7 +162,7 @@ public class DashboardController implements Initializable {
     private Button cust_btn_add;
 
     private boolean saleCreated = false;
-
+    private boolean purchaseCreated = false;
 
     @FXML
     private Button cust_btn_delete;
@@ -310,7 +308,7 @@ public class DashboardController implements Initializable {
     private Label purchase_total_amount;
 
     @FXML
-    private TableColumn<Product, String> purchase_col_prod;
+    private TableColumn<?,?> purchase_col_prod;
 
     @FXML
     private TableColumn<?, ?> purchase_col_supplier;
@@ -1490,31 +1488,123 @@ public class DashboardController implements Initializable {
         }
         return purchaseList;
     }
-    public void showProductsToPurchase(){
-        purchase_table.setEditable(true);
-        ObservableList<Product> purchaseList=listProductsToPurchase();
-        purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
-        purchase_col_supplier.setCellValueFactory(new PropertyValueFactory<>("suppName"));
-        purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("pricePur"));
-        purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+    public void showProductsToPurchase(boolean status){
+        if(status){
+            purchase_table.setEditable(true);
+            ObservableList<Product> purchaseList=listProductsToPurchase();
+            purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
+            purchase_col_supplier.setCellValueFactory(new PropertyValueFactory<>("suppName"));
+            purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("pricePur"));
+            purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
-        purchase_col_prod.setCellFactory(TextFieldTableCell.<Product>forTableColumn());
-        purchase_col_prod.setOnEditCommit(event -> {
-            String value = event.getNewValue();
-            event.getRowValue().setName(value);
+            purchase_col_qty.setCellFactory(TextFieldTableCell.<Product,Integer>forTableColumn(new IntegerStringConverter()));
+            purchase_col_qty.setOnEditCommit(event -> {
+                Integer value = event.getNewValue();
+                event.getRowValue().setQty(value);
+                purchase_table.refresh();
+            });
+            purchase_table.setItems(purchaseList);
+        }else{
+            purchase_table.getItems().clear();
+        }
 
-            purchase_table.refresh();
-        });
-        purchase_col_qty.setCellFactory(TextFieldTableCell.<Product,Integer>forTableColumn(new IntegerStringConverter()));
-        purchase_col_qty.setOnEditCommit(event -> {
-            Integer value = event.getNewValue();
-            event.getRowValue().setQty(value);
+    }
+    private int getPurchaseId(){
+        int purchaseId=0;
+        if(purchaseCreated){
+            connection=Database.getInstance().connectDB();
+            String sql="SELECT MAX(purchase_id) AS purchase_id FROM purchases";
+            try{
+                statement=connection.createStatement();
+                resultSet=statement.executeQuery(sql);
 
-            purchase_table.refresh();
-        });
-        System.out.println("tabla purchase");
+                while (resultSet.next()){
+                    purchaseId = resultSet.getInt("purchase_id");
+                }
 
-        purchase_table.setItems(purchaseList);
+            }catch (Exception err){
+                err.printStackTrace();
+            }
+        }
+        return purchaseId;
+    }
+
+    public void cancelPurchase() {
+        if (purchaseCreated) {
+            System.out.println("CANCEL PURCHASE");
+            connection = Database.getInstance().connectDB();
+            String sql = "DELETE FROM purchases WHERE purchase_id=?";
+            try {
+                int purchaseId = getPurchaseId();
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, purchaseId);
+
+                int result = preparedStatement.executeUpdate();
+                if (result > 0) {
+                    purchaseCreated = false;
+                    showProductsToPurchase(false);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("No hay datos en la Tabla.");
+                    alert.showAndWait();
+                }
+            } catch (Exception err) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeight(500);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText(err.getMessage());
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public void newPurchase(){
+        showProductsToPurchase(true);
+        createNewPurchase();
+    }
+
+    public void createNewPurchase(){
+        if (!purchaseCreated){
+            connection=Database.getInstance().connectDB();
+            String sql="INSERT INTO purchases(date,user_id)VALUES(?,?)";
+
+            try{
+                User loggedInUser = Session.getCurrentUser();
+                int userId = loggedInUser.getId();
+                LocalDate date = LocalDate.now();
+                Date datePurchase = Date.valueOf(date);
+
+                preparedStatement=connection.prepareStatement(sql);
+                preparedStatement.setDate(1,datePurchase);
+                preparedStatement.setInt(2,userId);
+
+                int result=preparedStatement.executeUpdate();
+                if(result>0){
+                    purchaseCreated = true;
+                    System.out.println("heeeree");
+                }else{
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nose pudo crear la compra");
+                    alert.showAndWait();
+                }
+            }catch (Exception err) {
+                err.printStackTrace();
+            }
+        }else{
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Usted ya tiene una COMPRA creada !!");
+            alert.showAndWait();
+        }
+    }
+
+    public void addDataPurchase(){
 
     }
 
@@ -1724,7 +1814,5 @@ public class DashboardController implements Initializable {
 //      SALES PANE
         showSalesData();
 
-//      Purchase Pane
-        showProductsToPurchase();
     }
 }
