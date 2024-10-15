@@ -145,6 +145,7 @@ public class DashboardController implements Initializable {
     private Label final_amount;
 
     private final String[] unitList ={"Kg","Ltr","Gr","Und"};
+    private final List<Integer> productIdList = new ArrayList<>();
     @FXML
     private TableColumn<?, ?> col_bill_item_num;
 
@@ -1493,7 +1494,7 @@ public class DashboardController implements Initializable {
     }
     public void showProductsToPurchase(boolean status){
         ObservableList<Product> purchaseList=listProductsToPurchase();
-        List<Integer> productIdList = new ArrayList<>() ;
+
         if(status){
             purchase_table.setEditable(true);
             purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1509,12 +1510,17 @@ public class DashboardController implements Initializable {
                 product.setQty(event.getNewValue());
                 int qty = product.getQty();
                 int pId = product.getId();
-
+                System.out.println(productIdList);
                 if(qty>0 && !productIdList.contains(pId)) {
                     productIdList.add(pId);
-                    insertPurchase(pId,qty);
+                    insertPurchaseItem(pId,qty);
+                } else if (qty==0 && productIdList.contains(pId)) {
+                    deletePurchaseItem(pId);
+                    if (productIdList.isEmpty()){
+                        cancelPurchase();
+                    }
                 }else{
-                    updatePurchase(pId,qty);
+                    updatePurchaseItem(pId,qty);
                 }
             });
             purchase_table.setItems(purchaseList);
@@ -1524,20 +1530,36 @@ public class DashboardController implements Initializable {
         }
     }
 
-    private void updatePurchase(int pId,int qty){
+    private void deletePurchaseItem(int pId){
+        int purchaseId = getPurchaseId();
         connection = Database.getInstance().connectDB();
-        String sql = "UPDATE details_purchases SET quantity=? WHERE product_id=?";
+        String sql = "DELETE FROM details_purchases WHERE product_id=? and purchase_id=?";
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, qty);
-            preparedStatement.setInt(2, pId);
+            preparedStatement.setInt(1, pId);
+            preparedStatement.setInt(2, purchaseId);
             preparedStatement.executeUpdate();
         } catch (Exception err) {
             err.printStackTrace();
         }
     }
 
-    public void insertPurchase(int pId, int qty){
+    private void updatePurchaseItem(int pId,int qty){
+        int purchaseId = getPurchaseId();
+        connection = Database.getInstance().connectDB();
+        String sql = "UPDATE details_purchases SET quantity=? WHERE product_id=? and purchase_id=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, qty);
+            preparedStatement.setInt(2, pId);
+            preparedStatement.setInt(3, purchaseId);
+            preparedStatement.executeUpdate();
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+    }
+
+    public void insertPurchaseItem(int pId, int qty){
         System.out.println("nuevo purchase " +pId+" "+"cantidad "+qty);
         int purchaseId = getPurchaseId();
         connection=Database.getInstance().connectDB();
@@ -1551,12 +1573,11 @@ public class DashboardController implements Initializable {
             int result=preparedStatement.executeUpdate();
             if(result>0){
                 purchaseCreated = true;
-                System.out.println("heeeree");
             }else{
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Nose pudo crear la compra");
+                alert.setContentText("No se pudo crear la compra");
                 alert.showAndWait();
             }
         }catch (Exception err) {
@@ -1617,6 +1638,7 @@ public class DashboardController implements Initializable {
     }
 
     public void newPurchase(){
+
         if(!purchaseCreated){
             showProductsToPurchase(true);
             createNewPurchase();
@@ -1662,6 +1684,9 @@ public class DashboardController implements Initializable {
     }
 
     public void savePurchase(){
+        if (productIdList.isEmpty()){
+            cancelPurchase();
+        }
         if(purchaseCreated){
             purchase_table.getItems().clear();
             purchaseCreated=false;
