@@ -37,8 +37,6 @@ import net.sf.jasperreports.view.JasperViewer;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
 public class DashboardController implements Initializable {
@@ -72,7 +70,6 @@ public class DashboardController implements Initializable {
     @FXML
     private AnchorPane dasboard_pane;
 
-
     @FXML
     private Button purchase_btn;
 
@@ -87,9 +84,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Label user;
-
-    @FXML
-    private Label inv_num;
 
     private Connection connection;
 
@@ -146,6 +140,7 @@ public class DashboardController implements Initializable {
 
     private final String[] unitList ={"Kg","Ltr","Gr","Und"};
     private final List<Integer> productIdList = new ArrayList<>();
+
     @FXML
     private TableColumn<?, ?> col_bill_item_num;
 
@@ -259,8 +254,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TextField customer_search;
-
-
 
     @FXML
     private TableColumn<?, ?> sales_col_cust_name;
@@ -536,7 +529,6 @@ public class DashboardController implements Initializable {
         prod_col_cat_name.setCellValueFactory(new PropertyValueFactory<>("cat_name"));
         prod_col_date.setCellValueFactory(new PropertyValueFactory<>("exp_date"));
         product_table.setItems(productsList);
-
     }
 
     public void printProductsDetails(){
@@ -1425,30 +1417,7 @@ public class DashboardController implements Initializable {
             err.printStackTrace();
         }
     }
-    public void getTotalPurchaseAmount(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(total_amount) as total_purchase_amount FROM purchase";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
-            while (resultSet.next()){
-                String result=resultSet.getString("total_purchase_amount");
-                if (result == null) {
-                    purchase_total_amount.setText("0.00");
-                }else{
-                    purchase_total_amount.setText(result);
-                }
-            }
-        }catch (Exception err){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeight(500);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText(err.getMessage());
-            alert.showAndWait();
-        }
 
-    }
     public void printPurchaseDetails(){
         connection=Database.getInstance().connectDB();
         String sql="SELECT * FROM purchase";
@@ -1492,6 +1461,7 @@ public class DashboardController implements Initializable {
         }
         return purchaseList;
     }
+
     public void showProductsToPurchase(boolean status){
         ObservableList<Product> purchaseList=listProductsToPurchase();
 
@@ -1514,6 +1484,7 @@ public class DashboardController implements Initializable {
                 if(qty>0 && !productIdList.contains(pId)) {
                     productIdList.add(pId);
                     insertPurchaseItem(pId,qty);
+
                 } else if (qty==0 && productIdList.contains(pId)) {
                     deletePurchaseItem(pId);
                     if (productIdList.isEmpty()){
@@ -1557,13 +1528,15 @@ public class DashboardController implements Initializable {
         } catch (Exception err) {
             err.printStackTrace();
         }
+        getTotalPurchaseAmount();
     }
 
     public void insertPurchaseItem(int pId, int qty){
+
         System.out.println("nuevo purchase " +pId+" "+"cantidad "+qty);
         int purchaseId = getPurchaseId();
         connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO details_purchases(purchase_id,quantity,product_id)VALUES(?,?,?)";
+        String sql="INSERT INTO details_purchases(purchase_id,quantity,product_id) VALUES(?,?,?)";
         try{
             preparedStatement=connection.prepareStatement(sql);
             preparedStatement.setInt(1,purchaseId);
@@ -1583,8 +1556,9 @@ public class DashboardController implements Initializable {
         }catch (Exception err) {
             err.printStackTrace();
         }
-
+        getTotalPurchaseAmount();
     }
+
     private int getPurchaseId(){
         int purchaseId=0;
         if(purchaseCreated){
@@ -1682,6 +1656,35 @@ public class DashboardController implements Initializable {
             }
         }
     }
+    private void getTotalPurchaseAmount(){
+        int purchID = getPurchaseId();
+        connection=Database.getInstance().connectDB();
+        String sql="SELECT SUM(dp.quantity * p.purch_price) AS total_amount\n" +
+                "FROM details_purchases AS dp\n" +
+                "INNER JOIN products AS p ON p.id = dp.product_id\n" +
+                "WHERE dp.purchase_id = ?";
+        try{
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setInt(1,purchID);
+            resultSet=preparedStatement.executeQuery();
+            while (resultSet.next()){
+                String result=resultSet.getString("total_amount");
+                System.out.println("aquiii "+result);
+                if (result == null) {
+                    purchase_total_amount.setText("0.00");
+                }else{
+                    purchase_total_amount.setText(result);
+                }
+            }
+        }catch (Exception err){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeight(500);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText(err.getMessage());
+            alert.showAndWait();
+        }
+    }
 
     public void savePurchase(){
         if (productIdList.isEmpty()){
@@ -1697,7 +1700,6 @@ public class DashboardController implements Initializable {
             alert.setContentText("COMPRA REGISTRADA");
             alert.showAndWait();
         }
-
     }
 
     public void getTotalPurchase(){
@@ -1724,7 +1726,16 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void getTotalSales(){
+    public void getTotalStocks(){
+
+        int totalPurchase=Integer.parseInt(dash_total_purchase.getText());
+        int total_sold= Integer.parseInt(dash_total_sold.getText());
+        int totalStockLeft=totalPurchase-total_sold;
+        dash_total_stocks.setText(String.valueOf(totalStockLeft));
+    }
+
+    private void getTotalSales(){
+
         connection=Database.getInstance().connectDB();
         String sql="SELECT COUNT(sales_id) AS total_sale FROM sales";
         try{
@@ -1746,15 +1757,6 @@ public class DashboardController implements Initializable {
             alert.setContentText(err.getMessage());
             alert.showAndWait();
         }
-
-    }
-
-    public void getTotalStocks(){
-
-        int totalPurchase=Integer.parseInt(dash_total_purchase.getText());
-        int total_sold= Integer.parseInt(dash_total_sold.getText());
-        int totalStockLeft=totalPurchase-total_sold;
-        dash_total_stocks.setText(String.valueOf(totalStockLeft));
     }
 
     private String setMonth(String month){
@@ -1873,7 +1875,6 @@ public class DashboardController implements Initializable {
             alert.setContentText(err.getMessage());
             alert.showAndWait();
         }
-
     }
 
     @Override
