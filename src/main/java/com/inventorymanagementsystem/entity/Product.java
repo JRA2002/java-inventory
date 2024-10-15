@@ -1,7 +1,4 @@
 package com.inventorymanagementsystem.entity;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 import java.time.LocalDate;
 
@@ -35,12 +32,13 @@ public class Product {
         this.name = name;
     }
 
-    public Product(String name,String suppName,double pricePur,int qty){
+    public Product(int id,String name,String suppName,double pricePur,String unit ,int qty){
+        this.id = id;
         this.name = name;
         this.suppName = suppName;
         this.pricePur = pricePur;
+        this.unit = unit;
         this.qty = 0;
-
     }
 
     public int getId() {
@@ -119,5 +117,8 @@ public class Product {
         this.loc_name = loc_name;
     }
 
-
+    @Override
+    public String toString() {
+        return "Product{name='" + name + "', quantity=" + qty + "}";
+    }
 }

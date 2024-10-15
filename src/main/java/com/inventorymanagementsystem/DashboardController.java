@@ -15,7 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import java.util.HashMap;
+
+import java.sql.Date;
+import java.util.*;
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -34,8 +37,6 @@ import net.sf.jasperreports.view.JasperViewer;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 import static org.burningwave.core.assembler.StaticComponentContainer.Modules;
 
@@ -309,6 +310,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TableColumn<?,?> purchase_col_prod;
+    @FXML
+    private TableColumn<?,?> purchase_col_unit;
 
     @FXML
     private TableColumn<?, ?> purchase_col_supplier;
@@ -1466,7 +1469,7 @@ public class DashboardController implements Initializable {
 
         ObservableList<Product> purchaseList=FXCollections.observableArrayList();
         connection=Database.getInstance().connectDB();
-        String sql="SELECT p.name,sp.supp_name,p.purch_price\n" +
+        String sql="SELECT p.id,p.name,sp.supp_name,p.purch_price,p.unit\n" +
                 "FROM products AS p\n" +
                 "INNER JOIN supplier AS sp ON p.supp_id=sp.id";
         try{
@@ -1476,9 +1479,11 @@ public class DashboardController implements Initializable {
             Product productPurchase;
             while (resultSet.next()){
                 productPurchase=new Product(
+                        Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("name"),
                         resultSet.getString("supp_name"),
                         Double.parseDouble(resultSet.getString("purch_price")),
+                        resultSet.getString("unit"),
                         qty);
                 System.out.println(productPurchase);
                 purchaseList.addAll(productPurchase);
@@ -1489,25 +1494,35 @@ public class DashboardController implements Initializable {
         return purchaseList;
     }
     public void showProductsToPurchase(boolean status){
+        ObservableList<Product> purchaseList=listProductsToPurchase();
         if(status){
             purchase_table.setEditable(true);
-            ObservableList<Product> purchaseList=listProductsToPurchase();
             purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
             purchase_col_supplier.setCellValueFactory(new PropertyValueFactory<>("suppName"));
             purchase_col_price.setCellValueFactory(new PropertyValueFactory<>("pricePur"));
+            purchase_col_unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
             purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
             purchase_col_qty.setCellFactory(TextFieldTableCell.<Product,Integer>forTableColumn(new IntegerStringConverter()));
             purchase_col_qty.setOnEditCommit(event -> {
-                Integer value = event.getNewValue();
-                event.getRowValue().setQty(value);
-                purchase_table.refresh();
+                Product product = event.getRowValue();
+                product.setQty(event.getNewValue());  // Actualizar el valor en el objeto Product
+                int id = product.getId();
+                System.out.println("Nuevo valor de cantidad: "+id+"  " + event.getNewValue());
+                // Aquí podrías agregar lógica para guardar el nuevo valor en una base de datos o en otra estructura.
+
             });
             purchase_table.setItems(purchaseList);
+
         }else{
             purchase_table.getItems().clear();
         }
-
+        sendP(purchaseList);
+    }
+    public void sendP(ObservableList<Product> purchaseList){
+        for (Product product : purchaseList) {
+            System.out.println(product);  // Esto llamará al método toString() del objeto Product
+        }
     }
     private int getPurchaseId(){
         int purchaseId=0;
@@ -1562,8 +1577,16 @@ public class DashboardController implements Initializable {
     }
 
     public void newPurchase(){
-        showProductsToPurchase(true);
-        createNewPurchase();
+        if(!purchaseCreated){
+            showProductsToPurchase(true);
+            createNewPurchase();
+        }else{
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Usted ya tiene una COMPRA creada !!");
+            alert.showAndWait();
+        }
     }
 
     public void createNewPurchase(){
@@ -1595,22 +1618,16 @@ public class DashboardController implements Initializable {
             }catch (Exception err) {
                 err.printStackTrace();
             }
-        }else{
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Usted ya tiene una COMPRA creada !!");
-            alert.showAndWait();
         }
     }
 
-    public void addDataPurchase(){
+    public void savePurchase(){
 
     }
 
     public void getTotalPurchase(){
         connection=Database.getInstance().connectDB();
-        String sql="SELECT COUNT(order_id) as total_purchase FROM orders";
+        String sql="SELECT COUNT(purchase_id) as total_purchase FROM purchases";
         try{
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
@@ -1630,7 +1647,6 @@ public class DashboardController implements Initializable {
             alert.setContentText(err.getMessage());
             alert.showAndWait();
         }
-
     }
 
     public void getTotalSales(){

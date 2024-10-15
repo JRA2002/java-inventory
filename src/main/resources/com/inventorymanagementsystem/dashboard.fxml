@@ -429,10 +429,11 @@
                      <children>
                         <TableView fx:id="purchase_table" layoutX="13.0" layoutY="68.0" prefHeight="400.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="purchase_col_prod" prefWidth="208.5" text="PRODUCTO" />
-                              <TableColumn fx:id="purchase_col_supplier" prefWidth="228.5" text="PROVEEDOR" />
-                              <TableColumn fx:id="purchase_col_price" prefWidth="168.5" text="PRECIO" />
-                              <TableColumn fx:id="purchase_col_qty" minWidth="0.0" prefWidth="188.5" text="CANTIDAD" />
+                              <TableColumn fx:id="purchase_col_prod" prefWidth="198.5" text="PRODUCTO" />
+                              <TableColumn fx:id="purchase_col_supplier" prefWidth="218.5" text="PROVEEDOR" />
+                              <TableColumn fx:id="purchase_col_price" prefWidth="138.5" text="PRECIO" />
+                              <TableColumn fx:id="purchase_col_unit" prefWidth="80.0" text="UNIDAD" />
+                              <TableColumn fx:id="purchase_col_qty" minWidth="0.0" prefWidth="158.5" text="CANTIDAD" />
 
                            </columns>
                         </TableView>
@@ -452,7 +453,7 @@
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="purchase_btn_save" layoutX="644.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#addDataPurchase" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="COMPRAR">
+                        <Button fx:id="purchase_btn_save" layoutX="644.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#savePurchase" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="COMPRAR">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="SAVE" size="24.0" />
                            </graphic>
