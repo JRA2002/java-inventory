@@ -280,66 +280,48 @@
                      </children></AnchorPane>
                   <AnchorPane fx:id="customer_pane" layoutX="-1.0" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
-                        <TableView fx:id="customer_table" layoutX="13.0" layoutY="229.0" onMouseClicked="#selectCustomerTableData" prefHeight="374.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="customer_table" layoutX="13.0" layoutY="110.0" prefHeight="330.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="cust_col_id" prefWidth="164" text="Id" />
-                              <TableColumn fx:id="cust_col_username" prefWidth="164" text="Usuario" />
-                              <TableColumn fx:id="cust_col_phone" prefWidth="164" text="Telefono" />
-                              <TableColumn fx:id="cust_col_email" prefWidth="164" text="Email" />
-                              <TableColumn fx:id="cust_col_rol" prefWidth="164" text="Rol" />
+                              <TableColumn fx:id="cust_col_username" prefWidth="198.5" text="Usuario" />
+                              <TableColumn fx:id="cust_col_phone" prefWidth="198.5" text="Telefono" />
+                              <TableColumn fx:id="cust_col_email" prefWidth="198.5" text="Email" />
+                              <TableColumn fx:id="cust_col_rol" prefWidth="198.5" text="Rol" />
                            </columns>
                         </TableView>
-                        <Button fx:id="cust_btn_add" layoutX="736.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                        <Button fx:id="cust_btn_delete" layoutX="316.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#deleteCustomerData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="ELIMINAR">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="18.0" />
-                           </graphic></Button>
-                        <Button fx:id="cust_btn_edit" layoutX="679.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#updateCustomerData" prefHeight="32.0" prefWidth="50.0" styleClass="refresh" stylesheets="@dashboard.css">
+                              <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="24.0" />
+                           </graphic>
+                           <font>
+                              <Font name="Dubai Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="cust_btn_edit" layoutX="480.0" layoutY="570.0" mnemonicParsing="false"  prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="EDITAR">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="18.0" />
-                           </graphic></Button>
-                        <Button fx:id="cust_btn_delete" layoutX="620.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#deleteCustomerData" prefHeight="32.0" prefWidth="50.0" styleClass="delete" stylesheets="@dashboard.css">
+                              <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="24.0" />
+                           </graphic>
+                           <font>
+                              <Font name="Dubai Bold" size="18.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="cust_btn_add" layoutX="644.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#setNewUser" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="NUEVO">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="MINUS_CIRCLE" size="18.0" wrappingWidth="13.485666275024414" />
-                           </graphic></Button>
-                        <TextField fx:id="cust_field_username" layoutX="113.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <TextField fx:id="cust_field_email" layoutX="113.0" layoutY="143.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <PasswordField fx:id="cust_field_password" layoutX="140.0" layoutY="192.0" prefHeight="32.0" prefWidth="246.0" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <TextField fx:id="cust_field_phone" layoutX="487.0" layoutY="94.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <TextField fx:id="cust_field_rol" layoutX="487.0" layoutY="143.0" prefHeight="32.0" prefWidth="206.0" styleClass="textfield" stylesheets="@dashboard.css" />
-                        <Label layoutX="36.0" layoutY="94.0" prefHeight="32.0" prefWidth="65.0" text="Nombre :">
+                              <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="24.0" />
+                           </graphic>
                            <font>
-                              <Font name="Dubai Bold" size="15.0" />
+                              <Font name="Dubai Bold" size="18.0" />
                            </font>
-                        </Label>
-                        <Label layoutX="36.0" layoutY="143.0" prefHeight="32.0" prefWidth="85.0" text="Email :">
-                           <font>
-                              <Font name="Dubai Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="36.0" layoutY="192.0" prefHeight="32.0" prefWidth="95.0" text="Password :">
-                           <font>
-                              <Font name="Dubai Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="361.0" layoutY="94.0" prefHeight="32.0" prefWidth="122.0" text="Telefono :">
-                           <font>
-                              <Font name="Dubai Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="361.0" layoutY="143.0" prefHeight="32.0" prefWidth="65.0" text="Rol :">
-                           <font>
-                              <Font name="Dubai Bold" size="15.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="cust_btn_print" layoutX="562.0" layoutY="32.0" mnemonicParsing="false" onAction="#printCustomersDetails" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                        </Button>
+
+                        <Button fx:id="cust_btn_print" layoutX="680.0" layoutY="32.0" mnemonicParsing="false" onAction="#printCustomersDetails" prefHeight="50.0" prefWidth="100.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
-                              <FontAwesomeIconView fx:id="customer_print" fill="WHITE" glyphName="PRINT" size="18.0" />
+                              <FontAwesomeIconView fx:id="customer_print" fill="WHITE" glyphName="PRINT" size="24.0" />
                            </graphic>
                         </Button>
                      </children></AnchorPane>
                   <AnchorPane fx:id="product_pane" layoutX="-1.0" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
-                        <TableView fx:id="product_table" layoutX="13.0" layoutY="159.0" onMouseClicked="#selectCustomerTableData" prefHeight="474.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="product_table" layoutX="13.0" layoutY="159.0"  prefHeight="474.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
                               <TableColumn fx:id="prod_col_id" prefWidth="100" text="Id" />
                               <TableColumn fx:id="prod_col_name" prefWidth="120" text="Nombre" />
@@ -392,7 +374,7 @@
                      </children></AnchorPane>
                   <AnchorPane fx:id="sales_pane" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
-                        <TableView fx:id="sales_table" layoutX="13.0" layoutY="74.0" onMouseClicked="#selectCustomerTableData" prefHeight="558.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="sales_table" layoutX="13.0" layoutY="74.0"  prefHeight="558.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
                               <TableColumn fx:id="sales_col_id" prefWidth="63.200042724609375" text="Id" />
                               <TableColumn fx:id="sales_col_inv_num" prefWidth="122.4000244140625" text="Invoice Number" />
@@ -460,11 +442,6 @@
                            <font>
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
-                        </Button>
-                        <Button fx:id="purchase_btn_add" layoutX="744.0" layoutY="22.0" mnemonicParsing="false" onMouseClicked="#addCustomerData" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
-                           <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="18.0" />
-                           </graphic>
                         </Button>
                         <Button fx:id="purchase_btn_print" layoutX="687.0" layoutY="22.0" mnemonicParsing="false" onAction="#printPurchaseDetails" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>

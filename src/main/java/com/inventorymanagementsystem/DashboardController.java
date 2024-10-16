@@ -21,6 +21,7 @@ import java.util.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -43,9 +44,26 @@ public class DashboardController implements Initializable {
 
 
     public FontAwesomeIconView product_print;
+    public Button btn_exit;
     private double x;
     private double y;
+    @FXML
+    private TextField usr_field_username;
 
+    @FXML
+    private TextField usr_field_email;
+
+    @FXML
+    private TextField usr_field_phone;
+
+    @FXML
+    private TextField usr_field_password1;
+
+    @FXML
+    private TextField usr_field_password2;
+
+    @FXML
+    private Button btn_saveUser;
     @FXML
     private Button billing_btn;
 
@@ -139,6 +157,12 @@ public class DashboardController implements Initializable {
     private Label final_amount;
 
     private final String[] unitList ={"Kg","Ltr","Gr","Und"};
+    //private final String[] rolList ={"Kg","Ltr"};
+    private final ObservableList<String> rolList = FXCollections.observableArrayList("admin", "user");
+
+    @FXML
+    private ComboBox<String> usr_comboRol;
+
     private final List<Integer> productIdList = new ArrayList<>();
 
     @FXML
@@ -232,9 +256,6 @@ public class DashboardController implements Initializable {
     private TextField cust_field_id;
 
     @FXML
-    private TextField cust_field_username;
-
-    @FXML
     private TextField prod_field_name;
 
     @FXML
@@ -242,12 +263,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private TextField cust_field_password;
-
-    @FXML
-    private TextField cust_field_phone;
-
-    @FXML
-    private TextField cust_field_email;
 
     @FXML
     private TextField cust_field_rol;
@@ -596,7 +611,7 @@ public class DashboardController implements Initializable {
 
                 if (result > 0) {
                     showCustomerData();
-                    customerClearData();
+
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");
@@ -712,6 +727,7 @@ public class DashboardController implements Initializable {
         ComboBox<String> comboBoxUnit = comboBoxUnit();
         Label lblPrice = new Label("Precio:");
         TextField prod_field_price = new TextField();
+        prod_field_price.getStyleClass().add("textfield");
         Label lblCat = new Label("Categoria:");
         ComboBox<Category> categoryList=comboCategoryData();
         Label lblQty = new Label("Cantidad:");
@@ -723,7 +739,9 @@ public class DashboardController implements Initializable {
         Label lblLoc = new Label("Location:");
         ComboBox<Location> locationCombo=comboLocationData();
 
-        Button btnSave = new Button("Guardar");
+        Button btnSave = new Button("GUARDAR");
+        btnSave.getStyleClass().add("print");
+        btnSave.autosize();
         btnSave.setOnAction(e -> {
 
             Category categorySelected = categoryList.getValue();
@@ -757,7 +775,7 @@ public class DashboardController implements Initializable {
                 int result=preparedStatement.executeUpdate();
                 if(result>0){
                     showCustomerData();
-                    customerClearData();
+
                 }else{
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
@@ -772,6 +790,7 @@ public class DashboardController implements Initializable {
             popup_window.close();
         });
         GridPane layout = new GridPane();
+
         layout.setPadding(new Insets(20));
         layout.setVgap(10);
         layout.setHgap(10);
@@ -794,6 +813,7 @@ public class DashboardController implements Initializable {
         layout.add(btnSave, 1, 9);
 
         Scene scene = new Scene(layout, 300, 400);
+        scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
         popup_window.setScene(scene);
 
         popup_window.showAndWait();
@@ -960,8 +980,6 @@ public class DashboardController implements Initializable {
 
               billingList.addAll(billingData);
              }
-
-
         }catch (Exception err){
             err.printStackTrace();
         }
@@ -1068,7 +1086,6 @@ public class DashboardController implements Initializable {
 
                 if (result > 0) {
                     showCustomerData();
-                    customerClearData();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");
@@ -1148,13 +1165,7 @@ public class DashboardController implements Initializable {
             alert.showAndWait();
         }
     }
-    public void customerClearData(){
-        cust_field_username.setText("");
-        cust_field_phone.setText("");
-        cust_field_email.setText("");
-        cust_field_rol.setText("");
-        cust_field_password.setText("");
-    }
+
     public ObservableList<User> listCustomerData(){
         ObservableList<User> customersList=FXCollections.observableArrayList();
         connection=Database.getInstance().connectDB();
@@ -1182,103 +1193,166 @@ public class DashboardController implements Initializable {
 
     public void showCustomerData(){
         ObservableList<User> customerList=listCustomerData();
-        cust_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+
         cust_col_username.setCellValueFactory(new PropertyValueFactory<>("username"));
         cust_col_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         cust_col_email.setCellValueFactory(new PropertyValueFactory<>("email"));
         cust_col_rol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         customer_table.setItems(customerList);
     }
-    public boolean checkForCustomerAvailability(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM users WHERE phone=?";
+
+    private void fillComboRol(){
+        usr_comboRol.setItems(rolList);
+        usr_comboRol.setValue("user");
+    }
+    public void setNewUser(){
+        Stage popup_window = new Stage();
+        popup_window.initModality(Modality.APPLICATION_MODAL);
+        popup_window.setTitle("CREAR NUEVO USUARIO");
+
+        Label lblName = new Label("USUARIO:");
+        TextField usr_field_name = new TextField();
+        Label lblEmail = new Label("EMAIL:");
+        TextField usr_field_email = new TextField();
+        Label lblPhone = new Label("TELEFONO:");
+        TextField usr_field_phone = new TextField();
+        Label lblRol = new Label("ROL:");
+        ComboBox<Category> rolList=comboCategoryData();
+        Label lblP1 = new Label("PASSWORD1:");
+        PasswordField usr_field_pass1 = new PasswordField();
+        Label lblP2 = new Label("PASSWORD2:");
+        PasswordField usr_field_pass2 = new PasswordField();
+
+        Button btnSave = new Button("GUARDAR");
+        btnSave.getStyleClass().add("print");
+        btnSave.setOnAction(e ->{});
+
+        GridPane layout = new GridPane();
+        layout.getStyleClass().add("grid-pane");
+        layout.setPadding(new Insets(20));
+        layout.setVgap(10);
+        layout.setHgap(10);
+        layout.add(lblName, 0, 0);
+        layout.add(usr_field_name, 1, 0);
+        layout.add(lblEmail, 0, 1);
+        layout.add(usr_field_email, 1, 1);
+        layout.add(lblPhone, 0, 2);
+        layout.add(usr_field_phone, 1, 2);
+        layout.add(lblRol, 0, 3);
+        layout.add(rolList, 1, 3);
+        layout.add(lblP1, 0, 4);
+        layout.add(usr_field_pass1, 1, 4);
+        layout.add(lblP2, 0, 5);
+        layout.add(usr_field_pass2, 1, 5);
+        layout.add(btnSave, 1, 7);
+
+    Scene scene = new Scene(layout, 300, 400);
+        scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
+        popup_window.setScene(scene);
+
+        popup_window.showAndWait();
+    }
+
+    public void addNewUser(){
+
+        String rol= String.valueOf('a');
+        if(checkForUserAvailability()&&checkForEmailAvailability()){
+            if(checkPassword()){
+                System.out.print("AGREGANDO NUEVO USUARIO");
+                Connection connection = Database.getInstance().connectDB();
+                String sql="INSERT INTO users(username,password,email,phone,rol) VALUES(?,?,?,?,?)";
+                try{
+                    preparedStatement=connection.prepareStatement(sql);
+                    preparedStatement.setString(1,usr_field_username.getText());
+                    preparedStatement.setString(2,usr_field_password1.getText());
+                    preparedStatement.setString(3,usr_field_email.getText());
+                    preparedStatement.setString(4,usr_field_phone.getText());
+                    preparedStatement.setString(5,rol);
+                    int result=preparedStatement.executeUpdate();
+
+                    if(result>0){
+                        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("USUARIO CREADO CORRECTAMENTE.");
+                        alert.showAndWait();
+                        onExit();
+
+                    }else {
+
+                    }
+                }catch (Exception err) {
+                    err.printStackTrace();
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText(err.getMessage());
+                    alert.showAndWait();
+                }
+            }else{
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Las password deben ser iguales.");
+                alert.showAndWait();
+            }
+        }
+    }
+
+    public boolean checkPassword(){
+        String pass1 = usr_field_password1.getText();
+        String pass2 = usr_field_password2.getText();
+        return pass1.equals(pass2);
+    }
+
+    public boolean checkForUserAvailability(){
+        Connection connection = Database.getInstance().connectDB();
+        String sql="SELECT username FROM users WHERE username=?";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,cust_field_phone.getText());
+            preparedStatement.setString(1,usr_field_username.getText());
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Customer already present in the customer table.");
+                alert.setContentText("Nombre de usuario ya registrado.");
                 alert.showAndWait();
                 return false;
             }else {
-              return true;
+                return true;
             }
         }catch (Exception err){
             err.printStackTrace();
         }
-
         return false;
     }
-    public void addCustomerData(){
-        if(!checkForCustomerAvailability()){
-            return;
-        }
-        connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO users(username,password,phone,email,rol)VALUES(?,?,?,?,?)";
+
+    public boolean checkForEmailAvailability(){
+        Connection connection = Database.getInstance().connectDB();
+        String sql="SELECT email FROM users WHERE email=?";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,cust_field_username.getText());
-            preparedStatement.setString(2,cust_field_password.getText());
-            preparedStatement.setString(3,cust_field_phone.getText());
-            preparedStatement.setString(4,cust_field_email.getText());
-            preparedStatement.setString(5,cust_field_rol.getText());
-            int result=preparedStatement.executeUpdate();
-            if(result>0){
-                showCustomerData();
-                customerClearData();
-            }else{
-                Alert alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
+            preparedStatement.setString(1,usr_field_email.getText());
+            resultSet=preparedStatement.executeQuery();
+            if(resultSet.next()){
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Please fill the mandatory data such as name and phone number.");
+                alert.setContentText("Email ya esta registrado.");
                 alert.showAndWait();
+                return false;
+            }else {
+                return true;
             }
         }catch (Exception err){
             err.printStackTrace();
         }
-    }
-    public void selectCustomerTableData(){
-        int num=customer_table.getSelectionModel().getSelectedIndex();
-        User customerData=customer_table.getSelectionModel().getSelectedItem();
-        if(num-1 < -1){
-            return;
-        }
-
-        cust_field_username.setText(customerData.getUsername());
-        cust_field_phone.setText(customerData.getPhone());
-        cust_field_email.setText(customerData.getEmail());
-        cust_field_rol.setText(customerData.getRol());
+        return false;
     }
 
-    public void updateCustomerData(){
+    public void createUser(){
 
-        connection = Database.getInstance().connectDB();
-        String sql = "UPDATE users SET phone=?, email=?, password=?,rol=? WHERE username=?";
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, cust_field_phone.getText());
-            preparedStatement.setString(2, cust_field_email.getText());
-            preparedStatement.setString(3, cust_field_password.getText());
-            preparedStatement.setString(4, cust_field_rol.getText());
-            preparedStatement.setString(5, cust_field_username.getText());
-
-            int result = preparedStatement.executeUpdate();
-            if (result > 0) {
-                showCustomerData();
-                customerClearData();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Please fill the mandatory data such as username, phone number .");
-                alert.showAndWait();
-            }
-        } catch (Exception err) {
-            err.printStackTrace();
-        }
     }
 
     public void deleteCustomerData(){
@@ -1301,16 +1375,13 @@ public class DashboardController implements Initializable {
 
         if (result1.isPresent() && result1.get() == ButtonType.OK) {
             connection = Database.getInstance().connectDB();
-
             String sql="DELETE FROM users WHERE username=?";
             try {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1,customer_table.getSelectionModel().getSelectedItem().getUsername());
                 int result = preparedStatement.executeUpdate();
-
                 if (result > 0) {
                     showCustomerData();
-                    customerClearData();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");
