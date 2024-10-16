@@ -47,23 +47,7 @@ public class DashboardController implements Initializable {
     public Button btn_exit;
     private double x;
     private double y;
-    @FXML
-    private TextField usr_field_username;
 
-    @FXML
-    private TextField usr_field_email;
-
-    @FXML
-    private TextField usr_field_phone;
-
-    @FXML
-    private TextField usr_field_password1;
-
-    @FXML
-    private TextField usr_field_password2;
-
-    @FXML
-    private Button btn_saveUser;
     @FXML
     private Button billing_btn;
 
@@ -157,11 +141,7 @@ public class DashboardController implements Initializable {
     private Label final_amount;
 
     private final String[] unitList ={"Kg","Ltr","Gr","Und"};
-    //private final String[] rolList ={"Kg","Ltr"};
-    private final ObservableList<String> rolList = FXCollections.observableArrayList("admin", "user");
-
-    @FXML
-    private ComboBox<String> usr_comboRol;
+    private final String[] rolList ={"admin","user"};
 
     private final List<Integer> productIdList = new ArrayList<>();
 
@@ -251,24 +231,6 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Button prod_btn_add;
-
-    @FXML
-    private TextField cust_field_id;
-
-    @FXML
-    private TextField prod_field_name;
-
-    @FXML
-    private TextField prod_field_price;
-
-    @FXML
-    private TextField cust_field_password;
-
-    @FXML
-    private TextField cust_field_rol;
-
-    @FXML
-    private TextField customer_search;
 
     @FXML
     private TableColumn<?, ?> sales_col_cust_name;
@@ -579,8 +541,133 @@ public class DashboardController implements Initializable {
         alert.setContentText("El producto esta en: " + productLocation.toUpperCase());
         alert.showAndWait();
     }
-    public void editProduct(){
 
+    public void editProduct(){
+        if(product_table.getSelectionModel().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor selecciona un producto.");
+            alert.showAndWait();
+            return;
+        }
+        String name = product_table.getSelectionModel().getSelectedItem().getName();
+        String unit= product_table.getSelectionModel().getSelectedItem().getUnit();
+        double price = product_table.getSelectionModel().getSelectedItem().getPrice();
+        String catName = product_table.getSelectionModel().getSelectedItem().getCat_name();
+        int quantity = product_table.getSelectionModel().getSelectedItem().getQuantity();
+        LocalDate exp_date = product_table.getSelectionModel().getSelectedItem().getExp_date();
+        String supplier = product_table.getSelectionModel().getSelectedItem().getSuppName();
+        String location = product_table.getSelectionModel().getSelectedItem().getLoc_name();
+
+        Stage popup_window = new Stage();
+        popup_window.initModality(Modality.APPLICATION_MODAL);
+        popup_window.setTitle("EDITAR PRODUCTO");
+
+        Label lblName = new Label("PRODUCTO:");
+        TextField prod_field_name = new TextField();
+        prod_field_name.setEditable(false);
+        prod_field_name.setText(name);
+        Label lblUnit = new Label("UNIDAD:");
+        ComboBox<String> comboBoxUnit = comboBoxUnit();
+        comboBoxUnit.setValue(unit);
+        comboBoxUnit.setEditable(false);
+        Label lblPrice = new Label("PRECIO:");
+        TextField prod_field_price = new TextField();
+        prod_field_price.setText(String.valueOf(price));
+        Label lblCat = new Label("CATEGORIA:");
+        ComboBox<Category> categoryList=comboCategoryData();
+        categoryList.setEditable(false);
+        Label lblQty = new Label("CANTIDAD:");
+        TextField prod_field_qty = new TextField();
+        prod_field_qty.setText(String.valueOf(quantity));
+        Label lblDate = new Label("VENCIMIENTO:");
+        DatePicker expDate = new DatePicker();
+        expDate.setValue(exp_date);
+        Label lblSupp = new Label("PROVEEDOR:");
+        ComboBox<Supplier> supplierCombo=comboSupplierData();
+        supplierCombo.setEditable(false);
+        Label lblLoc = new Label("LUGAR:");
+        ComboBox<Location> locationCombo=comboLocationData();
+
+        Button btnSave = new Button("ACTUALIZAR");
+        btnSave.getStyleClass().add("print");
+        btnSave.autosize();
+        btnSave.setOnAction(e -> {
+
+            Category categorySelected = categoryList.getValue();
+            int cat_id = categorySelected.getId();
+
+            Supplier supplierSelected = supplierCombo.getValue();
+            int supp_id = supplierSelected.getSupp_id();
+
+            Location locationSelected = locationCombo.getValue();
+            int loc_id = locationSelected.getLoc_id();
+
+            LocalDate dateSelected = expDate.getValue();
+            String date_exp = dateSelected.toString();
+
+            String unitSelected = comboBoxUnit.getValue();
+
+            connection=Database.getInstance().connectDB();
+            String sql="INSERT INTO products(name, cat_id,quantity,price,exp_date,unit,supp_id,loc_id)VALUES(?,?,?,?,?,?,?,?)";
+            try{
+
+                preparedStatement=connection.prepareStatement(sql);
+                preparedStatement.setString(1,prod_field_name.getText());
+                preparedStatement.setInt(2,cat_id);
+                preparedStatement.setInt(3,Integer.parseInt(prod_field_qty.getText()));
+                preparedStatement.setDouble(4,Double.parseDouble(prod_field_price.getText()));
+                preparedStatement.setString(5,date_exp);
+                preparedStatement.setString(6,unitSelected);
+                preparedStatement.setInt(7,supp_id);
+                preparedStatement.setInt(8,loc_id);
+
+                int result=preparedStatement.executeUpdate();
+                if(result>0){
+                    showCustomerData();
+
+                }else{
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Please fill the mandatory data such as name and price.");
+                    alert.showAndWait();
+                }
+            }catch (Exception err){
+                err.printStackTrace();
+            }
+
+            popup_window.close();
+        });
+        GridPane layout = new GridPane();
+
+        layout.setPadding(new Insets(20));
+        layout.setVgap(10);
+        layout.setHgap(10);
+        layout.add(lblName, 0, 0);
+        layout.add(prod_field_name, 1, 0);
+        layout.add(lblPrice, 0, 1);
+        layout.add(prod_field_price, 1, 1);
+        layout.add(lblCat, 0, 2);
+        layout.add(categoryList, 1, 2);
+        layout.add(lblQty, 0, 3);
+        layout.add(prod_field_qty, 1, 3);
+        layout.add(lblDate, 0, 4);
+        layout.add(expDate, 1, 4);
+        layout.add(lblUnit, 0, 5);
+        layout.add(comboBoxUnit, 1, 5);
+        layout.add(lblSupp, 0, 6);
+        layout.add(supplierCombo, 1, 6);
+        layout.add(lblLoc, 0, 7);
+        layout.add(locationCombo, 1, 7);
+        layout.add(btnSave, 1, 9);
+
+        Scene scene = new Scene(layout, 300, 400);
+        scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
+        popup_window.setScene(scene);
+
+        popup_window.showAndWait();
     }
     public void deleteProduct(){
         if(product_table.getSelectionModel().isEmpty()){
@@ -650,13 +737,11 @@ public class DashboardController implements Initializable {
             statement=connection.createStatement();
             resultSet=statement.executeQuery(sql);
 
-
             Category categoryData;
             while (resultSet.next()){
                 categoryData=new Category(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("cat_name"));
-                System.out.println(categoryData);
                 categoryCombo.getItems().add(categoryData);
             }
 
@@ -1201,116 +1286,112 @@ public class DashboardController implements Initializable {
         customer_table.setItems(customerList);
     }
 
-    private void fillComboRol(){
-        usr_comboRol.setItems(rolList);
-        usr_comboRol.setValue("user");
+    private ComboBox<String> comboRol(){
+        ComboBox<String> comboRol = new ComboBox<>();
+        for(String unit:rolList){
+            comboRol.getItems().add(unit);
+        }
+        return comboRol;
     }
+
     public void setNewUser(){
         Stage popup_window = new Stage();
         popup_window.initModality(Modality.APPLICATION_MODAL);
         popup_window.setTitle("CREAR NUEVO USUARIO");
 
         Label lblName = new Label("USUARIO:");
-        TextField usr_field_name = new TextField();
+        TextField usr_field_username = new TextField("as");
         Label lblEmail = new Label("EMAIL:");
         TextField usr_field_email = new TextField();
         Label lblPhone = new Label("TELEFONO:");
         TextField usr_field_phone = new TextField();
         Label lblRol = new Label("ROL:");
-        ComboBox<Category> rolList=comboCategoryData();
+        ComboBox<String> rolList=comboRol();
         Label lblP1 = new Label("PASSWORD1:");
         PasswordField usr_field_pass1 = new PasswordField();
-        Label lblP2 = new Label("PASSWORD2:");
+        Label lblP2 = new Label("REESCRIBIR PASSW:");
         PasswordField usr_field_pass2 = new PasswordField();
 
         Button btnSave = new Button("GUARDAR");
         btnSave.getStyleClass().add("print");
-        btnSave.setOnAction(e ->{});
+        btnSave.setOnAction(e ->{
+
+            String rol = rolList.getValue();
+            if(checkForUserAvailability(usr_field_username.getText())&&checkForEmailAvailability(usr_field_email.getText())){
+                if(checkPassword(usr_field_pass1.getText(),usr_field_pass2.getText())){
+                    System.out.print("AGREGANDO NUEVO USUARIO");
+                    Connection connection = Database.getInstance().connectDB();
+                    String sql="INSERT INTO users(username,password,email,phone,rol) VALUES(?,?,?,?,?)";
+                    try{
+                        preparedStatement=connection.prepareStatement(sql);
+                        preparedStatement.setString(1,usr_field_username.getText());
+                        preparedStatement.setString(2,usr_field_pass1.getText());
+                        preparedStatement.setString(3,usr_field_email.getText());
+                        preparedStatement.setString(4,usr_field_phone.getText());
+                        preparedStatement.setString(5,rol);
+                        int result=preparedStatement.executeUpdate();
+                        if(result>0){
+                            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Message");
+                            alert.setHeaderText(null);
+                            alert.setContentText("USUARIO CREADO CORRECTAMENTE.");
+                            alert.showAndWait();
+                            btnSave.getScene().getWindow().hide();
+                            showCustomerData();
+                        }
+                    }catch (Exception err) {
+                        err.printStackTrace();
+                        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText(err.getMessage());
+                        alert.showAndWait();
+                    }
+                }else{
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Las password deben ser iguales.");
+                    alert.showAndWait();
+                }
+            }
+        });
 
         GridPane layout = new GridPane();
         layout.getStyleClass().add("grid-pane");
         layout.setPadding(new Insets(20));
         layout.setVgap(10);
         layout.setHgap(10);
-        layout.add(lblName, 0, 0);
-        layout.add(usr_field_name, 1, 0);
-        layout.add(lblEmail, 0, 1);
-        layout.add(usr_field_email, 1, 1);
-        layout.add(lblPhone, 0, 2);
-        layout.add(usr_field_phone, 1, 2);
-        layout.add(lblRol, 0, 3);
-        layout.add(rolList, 1, 3);
-        layout.add(lblP1, 0, 4);
-        layout.add(usr_field_pass1, 1, 4);
-        layout.add(lblP2, 0, 5);
-        layout.add(usr_field_pass2, 1, 5);
-        layout.add(btnSave, 1, 7);
+        layout.add(lblName, 0, 2);
+        layout.add(usr_field_username, 1, 2);
+        layout.add(lblEmail, 0, 3);
+        layout.add(usr_field_email, 1, 3);
+        layout.add(lblPhone, 0, 4);
+        layout.add(usr_field_phone, 1, 4);
+        layout.add(lblRol, 0, 5);
+        layout.add(rolList, 1, 5);
+        layout.add(lblP1, 0, 6);
+        layout.add(usr_field_pass1, 1, 6);
+        layout.add(lblP2, 0, 7);
+        layout.add(usr_field_pass2, 1, 7);
+        layout.add(btnSave, 1, 9);
 
     Scene scene = new Scene(layout, 300, 400);
         scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
         popup_window.setScene(scene);
-
         popup_window.showAndWait();
     }
 
-    public void addNewUser(){
-
-        String rol= String.valueOf('a');
-        if(checkForUserAvailability()&&checkForEmailAvailability()){
-            if(checkPassword()){
-                System.out.print("AGREGANDO NUEVO USUARIO");
-                Connection connection = Database.getInstance().connectDB();
-                String sql="INSERT INTO users(username,password,email,phone,rol) VALUES(?,?,?,?,?)";
-                try{
-                    preparedStatement=connection.prepareStatement(sql);
-                    preparedStatement.setString(1,usr_field_username.getText());
-                    preparedStatement.setString(2,usr_field_password1.getText());
-                    preparedStatement.setString(3,usr_field_email.getText());
-                    preparedStatement.setString(4,usr_field_phone.getText());
-                    preparedStatement.setString(5,rol);
-                    int result=preparedStatement.executeUpdate();
-
-                    if(result>0){
-                        Alert alert=new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Message");
-                        alert.setHeaderText(null);
-                        alert.setContentText("USUARIO CREADO CORRECTAMENTE.");
-                        alert.showAndWait();
-                        onExit();
-
-                    }else {
-
-                    }
-                }catch (Exception err) {
-                    err.printStackTrace();
-                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText(err.getMessage());
-                    alert.showAndWait();
-                }
-            }else{
-                Alert alert=new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Las password deben ser iguales.");
-                alert.showAndWait();
-            }
-        }
+    public boolean checkPassword(String usr_field_pass1, String usr_field_pass2){
+        return usr_field_pass1.equals(usr_field_pass2);
     }
 
-    public boolean checkPassword(){
-        String pass1 = usr_field_password1.getText();
-        String pass2 = usr_field_password2.getText();
-        return pass1.equals(pass2);
-    }
-
-    public boolean checkForUserAvailability(){
+    public boolean checkForUserAvailability(String usr_field_username){
         Connection connection = Database.getInstance().connectDB();
         String sql="SELECT username FROM users WHERE username=?";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,usr_field_username.getText());
+            preparedStatement.setString(1,usr_field_username);
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
@@ -1328,12 +1409,12 @@ public class DashboardController implements Initializable {
         return false;
     }
 
-    public boolean checkForEmailAvailability(){
+    public boolean checkForEmailAvailability(String usr_field_email){
         Connection connection = Database.getInstance().connectDB();
         String sql="SELECT email FROM users WHERE email=?";
         try{
             preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,usr_field_email.getText());
+            preparedStatement.setString(1,usr_field_email);
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
                 Alert alert=new Alert(Alert.AlertType.INFORMATION);
@@ -1351,8 +1432,95 @@ public class DashboardController implements Initializable {
         return false;
     }
 
-    public void createUser(){
+    public void updateUserData(){
+        if(customer_table.getSelectionModel().isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor selecciona un usuario.");
+            alert.showAndWait();
+            return;
+        }
+        String user = customer_table.getSelectionModel().getSelectedItem().getUsername();
+        String email= customer_table.getSelectionModel().getSelectedItem().getEmail();
+        String phone = customer_table.getSelectionModel().getSelectedItem().getPhone();
+        String rol = customer_table.getSelectionModel().getSelectedItem().getRol();
 
+        Stage popup_window = new Stage();
+        popup_window.initModality(Modality.APPLICATION_MODAL);
+        popup_window.setTitle("ACTUALIZAR USUARIO");
+
+        Label lblName = new Label("USUARIO:");
+        TextField usr_field_username = new TextField();
+        usr_field_username.setEditable(false);
+        usr_field_username.setText(user);
+        Label lblEmail = new Label("EMAIL:");
+        TextField usr_field_email = new TextField();
+        usr_field_email.setText(email);
+        Label lblPhone = new Label("TELEFONO:");
+        TextField usr_field_phone = new TextField();
+        usr_field_phone.setText(phone);
+        Label lblRol = new Label("ROL:");
+        ComboBox<String> rolList = comboRol();
+        rolList.setValue(rol);
+        Label lblP1 = new Label("PASSWORD1:");
+        PasswordField usr_field_pass1 = new PasswordField();
+        Label lblP2 = new Label("REESCRIBIR PASSW:");
+        PasswordField usr_field_pass2 = new PasswordField();
+
+        Button btnSave = new Button("ACTUALIZAR");
+        btnSave.getStyleClass().add("print");
+        btnSave.setOnAction(e ->{
+            String roln = rolList.getValue();
+            Connection connection = Database.getInstance().connectDB();
+            String sql="UPDATE users SET email=? ,phone=?, rol=? ,password=? WHERE username='"+user+"'";
+            try{
+                preparedStatement=connection.prepareStatement(sql);
+                preparedStatement.setString(1,usr_field_email.getText());
+                preparedStatement.setString(2,usr_field_phone.getText());
+                preparedStatement.setString(3,roln);
+                preparedStatement.setString(4,usr_field_pass1.getText());
+                int result=preparedStatement.executeUpdate();
+                if(result>0){
+                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("USUARIO ACTUALIZADO CORRECTAMENTE.");
+                    alert.showAndWait();
+                    btnSave.getScene().getWindow().hide();
+                    showCustomerData();
+                }
+            }catch (Exception err) {
+                err.printStackTrace();
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Message");
+                alert.setHeaderText(null);
+                alert.setContentText(err.getMessage());
+                alert.showAndWait();
+            }
+        });
+        GridPane layout = new GridPane();
+        layout.setPadding(new Insets(20));
+        layout.setVgap(10);
+        layout.setHgap(10);
+        layout.add(lblName, 0, 2);
+        layout.add(usr_field_username, 1, 2);
+        layout.add(lblEmail, 0, 3);
+        layout.add(usr_field_email, 1, 3);
+        layout.add(lblPhone, 0, 4);
+        layout.add(usr_field_phone, 1, 4);
+        layout.add(lblRol, 0, 5);
+        layout.add(rolList, 1, 5);
+        layout.add(lblP1, 0, 6);
+        layout.add(usr_field_pass1, 1, 6);
+        layout.add(lblP2, 0, 7);
+        layout.add(usr_field_pass2, 1, 7);
+        layout.add(btnSave, 1, 9);
+
+        Scene scene = new Scene(layout, 300, 400);
+        scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
+        popup_window.setScene(scene);
+        popup_window.showAndWait();
     }
 
     public void deleteCustomerData(){
@@ -1360,7 +1528,7 @@ public class DashboardController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
-            alert.setContentText("Por favor seleciona aun usuario.");
+            alert.setContentText("Por favor selecciona un usuario.");
             alert.showAndWait();
             return;
         }
@@ -1397,7 +1565,6 @@ public class DashboardController implements Initializable {
                 alert.setContentText(err.getMessage());
                 alert.showAndWait();
             }
-
         }
     }
 

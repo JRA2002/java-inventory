@@ -296,7 +296,7 @@
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="cust_btn_edit" layoutX="480.0" layoutY="570.0" mnemonicParsing="false"  prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="EDITAR">
+                        <Button fx:id="cust_btn_edit" layoutX="480.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#updateUserData" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="EDITAR">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="24.0" />
                            </graphic>
