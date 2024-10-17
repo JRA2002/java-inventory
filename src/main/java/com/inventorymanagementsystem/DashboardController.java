@@ -247,7 +247,7 @@ public class DashboardController implements Initializable {
     private TableView<Purchase> invoice_table;
 
     @FXML
-    private Label sales_total_amount;
+    private Label invoice_total_amount;
 
     @FXML
     private Button purchase_btn_add;
@@ -264,6 +264,8 @@ public class DashboardController implements Initializable {
     @FXML
     private Button purchase_btn_print;
 
+    @FXML
+    private Button invoice_btn_print;
     @FXML
     private Label purchase_total_amount;
 

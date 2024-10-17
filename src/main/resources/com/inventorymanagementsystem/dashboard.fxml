@@ -217,24 +217,24 @@
                               <Font name="Dubai Bold" size="15.0" />
                            </font>
                         </Label>
-                        <Button fx:id="bill_save" alignment="CENTER" layoutX="572.0" layoutY="583.0" mnemonicParsing="false" onMouseClicked="#billSave" prefHeight="38.0" prefWidth="120.0" styleClass="save" stylesheets="@dashboard.css" text="Guardar">
+                        <Button fx:id="bill_save" alignment="CENTER" layoutX="316.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#billSave" prefHeight="50.0" prefWidth="150.0" styleClass="save" stylesheets="@dashboard.css" text="GUARDAR">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="SAVE" size="18.0" text="" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="SAVE" size="24.0" text="" />
                            </graphic>
                            <font>
                               <Font name="Dubai Bold" size="16.0" />
                            </font></Button>
-                        <Button fx:id="bill_clear" layoutX="446.0" layoutY="583.0" mnemonicParsing="false" onAction="#billCancelSale" onMouseClicked="#billCancelSale" prefHeight="38.0" prefWidth="115.0" styleClass="clear" stylesheets="@dashboard.css" text="CANCELAR">
+                        <Button fx:id="bill_clear" layoutX="480.0" layoutY="570.0" mnemonicParsing="false" onAction="#billCancelSale" onMouseClicked="#billCancelSale" prefHeight="50.0" prefWidth="150.0" styleClass="clear" stylesheets="@dashboard.css" text="CANCELAR">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="REMOVE" size="18.0" text="" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="REMOVE" size="24.0" text="" />
                            </graphic>
                            <font>
                               <Font name="Dubai Bold" size="16.0" />
                            </font></Button>
 
-                        <Button fx:id="bill_add" alignment="CENTER" layoutX="703.0" layoutY="583.0" mnemonicParsing="false" onAction="#addProductBilling" prefHeight="38.0" prefWidth="91.0" styleClass="add" stylesheets="@dashboard.css" text="Add">
+                        <Button fx:id="bill_add" alignment="CENTER" layoutX="644.0" layoutY="570.0" mnemonicParsing="false" onAction="#addProductBilling" prefHeight="50.0" prefWidth="150.0" styleClass="add" stylesheets="@dashboard.css" text="AGREGAR">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="18.0" text="" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="24.0" text="" />
                            </graphic>
                            <font>
                               <Font name="Dubai Bold" size="16.0" />
@@ -313,7 +313,7 @@
                            </font>
                         </Button>
 
-                        <Button fx:id="cust_btn_print" layoutX="680.0" layoutY="32.0" mnemonicParsing="false" onAction="#printCustomersDetails" prefHeight="50.0" prefWidth="100.0" styleClass="add" stylesheets="@dashboard.css">
+                        <Button fx:id="cust_btn_print" layoutX="680.0" layoutY="32.0" mnemonicParsing="false" onAction="#printCustomersDetails" prefHeight="40.0" prefWidth="100.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
                               <FontAwesomeIconView fx:id="customer_print" fill="WHITE" glyphName="PRINT" size="24.0" />
                            </graphic>
@@ -382,22 +382,17 @@
                               <TableColumn fx:id="invoice_col_total" prefWidth="198.5" text="MONTO TOTAL" />
                            </columns>
                         </TableView>
-                        <Button fx:id="sales_btn_edit" layoutX="687.0" layoutY="16.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="50.0" styleClass="refresh" stylesheets="@dashboard.css">
+                        <Button fx:id="invoice_btn_print" layoutX="694.0" layoutY="16.0" mnemonicParsing="false"  prefHeight="40.0" prefWidth="100.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="18.0" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="PRINT" size="24.0" />
                            </graphic>
                         </Button>
-                        <Button fx:id="sales_btn_print" layoutX="745.0" layoutY="16.0" mnemonicParsing="false"  prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
-                           <graphic>
-                              <FontAwesomeIconView fx:id="customer_print1" fill="WHITE" glyphName="PRINT" size="18.0" />
-                           </graphic>
-                        </Button>
-                        <Label layoutX="14.0" layoutY="16.0" prefHeight="47.0" prefWidth="206.0" text="Total Sales Amount :">
+                        <Label layoutX="14.0" layoutY="16.0" prefHeight="47.0" prefWidth="206.0" text="COMPRAS TOTALES :">
                            <font>
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="sales_total_amount" layoutX="180.0" layoutY="16.0" prefHeight="47.0" prefWidth="267.0">
+                        <Label fx:id="invoice_total_amount" layoutX="180.0" layoutY="16.0" prefHeight="47.0" prefWidth="267.0">
                            <font>
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
