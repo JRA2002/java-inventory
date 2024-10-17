@@ -47,7 +47,7 @@
                         <Font name="Arial Black" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="sales_btn" layoutX="39.0" layoutY="353.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="FACTURAS" textFill="WHITE">
+                  <Button fx:id="invoice_btn" layoutX="39.0" layoutY="353.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="FACTURAS" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -372,18 +372,14 @@
                            </graphic>
                         </Button>
                      </children></AnchorPane>
-                  <AnchorPane fx:id="sales_pane" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
+                  <AnchorPane fx:id="invoice_pane" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
-                        <TableView fx:id="sales_table" layoutX="13.0" layoutY="74.0"  prefHeight="558.0" prefWidth="794.0" stylesheets="@dashboard.css">
+                        <TableView fx:id="invoice_table" layoutX="13.0" layoutY="74.0"  prefHeight="558.0" prefWidth="794.0" stylesheets="@dashboard.css">
                            <columns>
-                              <TableColumn fx:id="sales_col_id" prefWidth="63.200042724609375" text="Id" />
-                              <TableColumn fx:id="sales_col_inv_num" prefWidth="122.4000244140625" text="Invoice Number" />
-                              <TableColumn fx:id="sales_col_item_num" prefWidth="93.60009765625" text="Item Number" />
-                              <TableColumn fx:id="sales_col_cust_name" prefWidth="133.5999755859375" text="Customer Name" />
-                              <TableColumn fx:id="sales_col_price" prefWidth="90.4000244140625" text="Price" />
-                              <TableColumn fx:id="sales_col_quantity" prefWidth="64.0" text="Quantity" />
-                              <TableColumn fx:id="sales_col_total_amount" prefWidth="117.60003662109375" text="Total Amount" />
-                              <TableColumn fx:id="sales_col_date_of_sales" prefWidth="99.2000732421875" text="Date Of Sales" />
+                              <TableColumn fx:id="invoice_col_id" prefWidth="198.5" text="FACTURA" />
+                              <TableColumn fx:id="invoice_col_date" prefWidth="198.5" text="FECHA DE COMPRA" />
+                              <TableColumn fx:id="invoice_col_username" prefWidth="198.5" text="VENDEDOR" />
+                              <TableColumn fx:id="invoice_col_total" prefWidth="198.5" text="MONTO TOTAL" />
                            </columns>
                         </TableView>
                         <Button fx:id="sales_btn_edit" layoutX="687.0" layoutY="16.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="50.0" styleClass="refresh" stylesheets="@dashboard.css">
@@ -391,7 +387,7 @@
                               <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="18.0" />
                            </graphic>
                         </Button>
-                        <Button fx:id="sales_btn_print" layoutX="745.0" layoutY="16.0" mnemonicParsing="false" onAction="#printSalesDetails" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                        <Button fx:id="sales_btn_print" layoutX="745.0" layoutY="16.0" mnemonicParsing="false"  prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
                               <FontAwesomeIconView fx:id="customer_print1" fill="WHITE" glyphName="PRINT" size="18.0" />
                            </graphic>
@@ -406,7 +402,8 @@
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
                         </Label>
-                     </children></AnchorPane>
+                     </children>
+                  </AnchorPane>
                   <AnchorPane fx:id="purchase_pane" layoutX="-1.0" layoutY="55.0" prefHeight="639.0" prefWidth="820.0" visible="false">
                      <children>
                         <TableView fx:id="purchase_table" layoutX="13.0" layoutY="68.0" prefHeight="400.0" prefWidth="794.0" stylesheets="@dashboard.css">
@@ -442,11 +439,6 @@
                            <font>
                               <Font name="Dubai Bold" size="18.0" />
                            </font>
-                        </Button>
-                        <Button fx:id="purchase_btn_print" layoutX="687.0" layoutY="22.0" mnemonicParsing="false" onAction="#printPurchaseDetails" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
-                           <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="PRINT" size="18.0" />
-                           </graphic>
                         </Button>
                         <Label layoutX="13.0" layoutY="14.0" prefHeight="47.0" prefWidth="206.0" text="Total Purchase Amount :">
                            <font>
