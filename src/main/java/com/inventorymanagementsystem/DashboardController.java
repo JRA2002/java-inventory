@@ -459,12 +459,12 @@ public class DashboardController implements Initializable {
             Product product;
             while (resultSet.next()){
                 product = new Product(
-                        Integer.parseInt(resultSet.getString("id")),       // id
-                        resultSet.getString("name"),                       // name
-                        resultSet.getString("unit"),                       // unit
-                        Integer.parseInt(resultSet.getString("quantity")), // quantity
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("name"),
+                        resultSet.getString("unit"),
+                        Integer.parseInt(resultSet.getString("quantity")),
                         Double.parseDouble(resultSet.getString("price")),
-                        resultSet.getString("cat_name"),// price
+                        resultSet.getString("cat_name"),
                         resultSet.getDate("exp_date").toLocalDate(),
                         resultSet.getString("loc_name")
                 );
@@ -552,22 +552,19 @@ public class DashboardController implements Initializable {
             return;
         }
         String name = product_table.getSelectionModel().getSelectedItem().getName();
+        int prodID = product_table.getSelectionModel().getSelectedItem().getId();
         String unit= product_table.getSelectionModel().getSelectedItem().getUnit();
         double price = product_table.getSelectionModel().getSelectedItem().getPrice();
-        String catName = product_table.getSelectionModel().getSelectedItem().getCat_name();
         int quantity = product_table.getSelectionModel().getSelectedItem().getQuantity();
         LocalDate exp_date = product_table.getSelectionModel().getSelectedItem().getExp_date();
-        String supplier = product_table.getSelectionModel().getSelectedItem().getSuppName();
-        String location = product_table.getSelectionModel().getSelectedItem().getLoc_name();
 
         Stage popup_window = new Stage();
         popup_window.initModality(Modality.APPLICATION_MODAL);
         popup_window.setTitle("EDITAR PRODUCTO");
 
         Label lblName = new Label("PRODUCTO:");
-        TextField prod_field_name = new TextField();
-        prod_field_name.setEditable(false);
-        prod_field_name.setText(name);
+        Label prod_field_name = new Label();
+        prod_field_name.setText(name.toUpperCase());
         Label lblUnit = new Label("UNIDAD:");
         ComboBox<String> comboBoxUnit = comboBoxUnit();
         comboBoxUnit.setValue(unit);
@@ -577,7 +574,7 @@ public class DashboardController implements Initializable {
         prod_field_price.setText(String.valueOf(price));
         Label lblCat = new Label("CATEGORIA:");
         ComboBox<Category> categoryList=comboCategoryData();
-        categoryList.setEditable(false);
+        categoryList.setDisable(true);
         Label lblQty = new Label("CANTIDAD:");
         TextField prod_field_qty = new TextField();
         prod_field_qty.setText(String.valueOf(quantity));
@@ -586,7 +583,6 @@ public class DashboardController implements Initializable {
         expDate.setValue(exp_date);
         Label lblSupp = new Label("PROVEEDOR:");
         ComboBox<Supplier> supplierCombo=comboSupplierData();
-        supplierCombo.setEditable(false);
         Label lblLoc = new Label("LUGAR:");
         ComboBox<Location> locationCombo=comboLocationData();
 
@@ -594,9 +590,6 @@ public class DashboardController implements Initializable {
         btnSave.getStyleClass().add("print");
         btnSave.autosize();
         btnSave.setOnAction(e -> {
-
-            Category categorySelected = categoryList.getValue();
-            int cat_id = categorySelected.getId();
 
             Supplier supplierSelected = supplierCombo.getValue();
             int supp_id = supplierSelected.getSupp_id();
@@ -607,31 +600,26 @@ public class DashboardController implements Initializable {
             LocalDate dateSelected = expDate.getValue();
             String date_exp = dateSelected.toString();
 
-            String unitSelected = comboBoxUnit.getValue();
-
             connection=Database.getInstance().connectDB();
-            String sql="INSERT INTO products(name, cat_id,quantity,price,exp_date,unit,supp_id,loc_id)VALUES(?,?,?,?,?,?,?,?)";
+            String sql="UPDATE products SET price=?, quantity=?, exp_date=?, supp_id=?, loc_id=? WHERE id=?";
             try{
 
                 preparedStatement=connection.prepareStatement(sql);
-                preparedStatement.setString(1,prod_field_name.getText());
-                preparedStatement.setInt(2,cat_id);
-                preparedStatement.setInt(3,Integer.parseInt(prod_field_qty.getText()));
-                preparedStatement.setDouble(4,Double.parseDouble(prod_field_price.getText()));
-                preparedStatement.setString(5,date_exp);
-                preparedStatement.setString(6,unitSelected);
-                preparedStatement.setInt(7,supp_id);
-                preparedStatement.setInt(8,loc_id);
+                preparedStatement.setString(1,prod_field_price.getText());
+                preparedStatement.setInt(2, Integer.parseInt(prod_field_qty.getText()));
+                preparedStatement.setString(3,date_exp);
+                preparedStatement.setDouble(4,supp_id);
+                preparedStatement.setInt(5,loc_id);
+                preparedStatement.setInt(6, prodID);
 
                 int result=preparedStatement.executeUpdate();
                 if(result>0){
                     showCustomerData();
-
                 }else{
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Please fill the mandatory data such as name and price.");
+                    alert.setContentText("");
                     alert.showAndWait();
                 }
             }catch (Exception err){
@@ -860,7 +848,6 @@ public class DashboardController implements Initializable {
                 int result=preparedStatement.executeUpdate();
                 if(result>0){
                     showCustomerData();
-
                 }else{
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
@@ -871,7 +858,6 @@ public class DashboardController implements Initializable {
             }catch (Exception err){
                 err.printStackTrace();
             }
-
             popup_window.close();
         });
         GridPane layout = new GridPane();
@@ -900,7 +886,6 @@ public class DashboardController implements Initializable {
         Scene scene = new Scene(layout, 300, 400);
         scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
         popup_window.setScene(scene);
-
         popup_window.showAndWait();
     }
 
