@@ -9,21 +9,27 @@ public class Purchase {
     private LocalDate dateOfPurchase;
     private Double totalAmount;
     private int userId;
-
+    private String userName;
 
     public Purchase(int purchId, String supplier, int quantity,LocalDate dateOfPurchase, Double totalAmount) {
         this.purchId = purchId;
         this.supplier = supplier;
         this.quantity = quantity;
         this.dateOfPurchase = dateOfPurchase;
-        this.totalAmount = totalAmount;
-
-    }
+        this.totalAmount = totalAmount;}
 
     public Purchase(int purchId,LocalDate dateOfPurchase,int userId){
         this.purchId = purchId;
         this.dateOfPurchase = dateOfPurchase;
         this.userId = userId;
+    }
+
+    public Purchase(int purchId,LocalDate dateOfPurchase,String userName,Double totalAmount){
+        this.purchId = purchId;
+        this.dateOfPurchase = dateOfPurchase;
+        this.userName = userName;
+        this.totalAmount = totalAmount;
+
     }
 
     public int getPurchId() {
@@ -44,6 +50,10 @@ public class Purchase {
 
     public int getQuantity() {
         return quantity;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public void setQuantity(int quantity) {

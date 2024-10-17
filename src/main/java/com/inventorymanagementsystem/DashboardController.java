@@ -244,7 +244,7 @@ public class DashboardController implements Initializable {
     private TableColumn<?, ?> invoice_col_total;
 
     @FXML
-    private TableView<Sales> invoice_table;
+    private TableView<Purchase> invoice_table;
 
     @FXML
     private Label sales_total_amount;
@@ -1182,21 +1182,6 @@ public class DashboardController implements Initializable {
 
     }
 
-    public void printBill(){
-     connection=Database.getInstance().connectDB();
-     String sql="SELECT * FROM `sales` s INNER JOIN customers c ON s.cust_id=c.id and s.inv_num=(SELECT MAX(inv_num) as inv_num FROM `sales`)";
-     try{
-         JasperDesign jasperDesign= JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/Invoice.jrxml"));
-         JRDesignQuery updateQuery=new JRDesignQuery();
-         updateQuery.setText(sql);
-         jasperDesign.setQuery(updateQuery);
-         JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
-         JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport,null,connection);
-         JasperViewer.viewReport(jasperPrint ,false);
-     }catch (Exception err){
-      err.printStackTrace();
-     }
-    }
     public void searchForBills(){
         try{
             Parent root = FXMLLoader.load(getClass().getResource("hola.fxml"));
@@ -1556,48 +1541,44 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void getTotalSalesAmount(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(total_amount) as total_sale_amount FROM sales";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
-            while (resultSet.next()){
-                String result=resultSet.getString("total_sale_amount");
-                if (result == null) {
-                    sales_total_amount.setText("0.00");
-                }else{
-                    sales_total_amount.setText(result);
-                }
-            }
-        }catch (Exception err){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeight(500);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText(err.getMessage());
-            alert.showAndWait();
-        }
+    //------------------------INVOICE METHODS-------------------------
 
-    }
-    public ObservableList<Sales> listSalesData(){
-        ObservableList<Sales> salesList=FXCollections.observableArrayList();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM SALES s INNER JOIN CUSTOMERS c ON s.cust_id=c.id";
+    private ObservableList<Purchase> getListInvoice(){
+        ObservableList<Purchase> invoiceList = FXCollections.observableArrayList();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT pu.purchase_id,pu.date,u.username ,SUM(p.purch_price*dp.quantity) AS total FROM purchases pu\n" +
+                "INNER JOIN details_purchases AS dp ON pu.purchase_id=dp.purchase_id\n" +
+                "INNER JOIN products AS p ON dp.product_id=p.id\n" +
+                "INNER JOIN users AS u ON pu.user_id=u.id\n" +
+                "GROUP BY pu.purchase_id";
         try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
-            Sales sale;
-            while (resultSet.next()){
-                sale=new Sales(Integer.parseInt(resultSet.getString("id")),resultSet.getString("inv_num"),Integer.parseInt(resultSet.getString("cust_id")),resultSet.getString("name"),Double.parseDouble(resultSet.getString("price")),Integer.parseInt(resultSet.getString("quantity")),Double.parseDouble(resultSet.getString("total_amount")),resultSet.getString("date"),resultSet.getString("item_number"));
-                salesList.addAll(sale);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            Purchase invoice;
+            while(resultSet.next()){
+                invoice = new Purchase(
+                        resultSet.getInt("purchase_id"),
+                        resultSet.getDate("date").toLocalDate(),
+                        resultSet.getString("username"),
+                        resultSet.getDouble("total"));
+                invoiceList.add(invoice);
             }
         }catch (Exception err){
             err.printStackTrace();
         }
-        return salesList;
+        return invoiceList;
     }
-    //------------------------INVOICE METHODS-------------------------
+
+    private void showInvoiceData(){
+        ObservableList<Purchase> invoiceList = getListInvoice();
+
+        invoice_col_id.setCellValueFactory(new PropertyValueFactory<>("purchId"));
+        invoice_col_username.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        invoice_col_date.setCellValueFactory(new PropertyValueFactory<>("dateOfPurchase"));
+        invoice_col_total.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        invoice_table.setItems(invoiceList);
+    }
 
     public ObservableList<Product> listProductsToPurchase(){
 
@@ -2063,8 +2044,8 @@ public class DashboardController implements Initializable {
  //     PRODUCTS PANE
         showProductsData();
 
-//      SALES PANE
-
+//      INVOICE PANE
+        showInvoiceData();
 
     }
 }
