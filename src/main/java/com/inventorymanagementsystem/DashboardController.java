@@ -738,8 +738,7 @@ public class DashboardController implements Initializable {
         showProductsData();
     }
 
-    private void updateProductStock(int productId, int qtyUpdate){
-        getItemsList();
+    private int calculateNewStock(int productId, int qtyUpdate){
         int actualQty = 0;
         int newQty;
         for (Product product : productsList) {
@@ -747,13 +746,19 @@ public class DashboardController implements Initializable {
                 actualQty = product.getQuantity();
             }
         }
-
-        if(saleDeleted){
+        if(saleDeleted || purchaseCreated){
             newQty = actualQty + qtyUpdate;
             saleDeleted = false;
         }else{
             newQty = actualQty - qtyUpdate;
         }
+
+        return newQty;
+    }
+
+    private void updateProductStock(int productId, int quantity){
+        getItemsList();
+        int newQty = calculateNewStock(productId, quantity);
 
         connection = Database.getInstance().connectDB();
         String sql = "UPDATE products SET quantity=? WHERE id=?";
@@ -1071,8 +1076,13 @@ public class DashboardController implements Initializable {
     }
 
     public void addProductBilling() {
+
+        int productId = Integer.parseInt(bill_item.getText());
+        int quantity = Integer.parseInt(sales_quantity.getText());
+        int actualStock = calculateNewStock(productId,quantity);
+        
         try {
-            if (!saleCreated && existsProductId()) {
+            if (!saleCreated && existsProductId() && actualStock > 0) {
                 createNewSale();
             } else if (!existsProductId()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -1082,12 +1092,17 @@ public class DashboardController implements Initializable {
                 alert.showAndWait();
                 billClearData();
                 return;
+            } else if (actualStock <= 0) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("NO QUEDA STOCK SUFICIENTE ");
+                    alert.showAndWait();
+                    return;
             }
             int salId = getSalesId();
-            int productId = Integer.parseInt(bill_item.getText());
-            int quantity = Integer.parseInt(sales_quantity.getText());
-
             insertNewProductDetailsSales(salId, productId, quantity);
+
 
         } catch (Exception err) {
             err.printStackTrace();
@@ -1145,7 +1160,7 @@ public class DashboardController implements Initializable {
 
     }
 
-    public void showBillingData() {
+    public void showBillingData(){
         int salId = getSalesId();
         ObservableList<SalesDetails> billingList = listBillingData(salId);
         col_bill_item_num.setCellValueFactory(new PropertyValueFactory<>("productId"));
@@ -1243,7 +1258,6 @@ public class DashboardController implements Initializable {
             alert.setContentText(err.getMessage());
             alert.showAndWait();
         }
-
         saleDeleted = true;
         updateProductStock(prodId, qtyUpdate);
         showBillingData();
@@ -1696,7 +1710,7 @@ public class DashboardController implements Initializable {
         }
         return purchaseList;
     }
-
+    //========================PURCHASE METHODS============================
     public void showProductsToPurchase(boolean status) {
         ObservableList<Product> purchaseList = listProductsToPurchase();
 
@@ -1715,11 +1729,11 @@ public class DashboardController implements Initializable {
                 product.setQty(event.getNewValue());
                 int qty = product.getQty();
                 int pId = product.getId();
-                System.out.println(productIdList);
+
                 if (qty > 0 && !productIdList.contains(pId)) {
                     productIdList.add(pId);
                     insertPurchaseItem(pId, qty);
-
+                    updateProductStock(pId,qty);
                 } else if (qty == 0 && productIdList.contains(pId)) {
                     deletePurchaseItem(pId);
                     if (productIdList.isEmpty()) {
