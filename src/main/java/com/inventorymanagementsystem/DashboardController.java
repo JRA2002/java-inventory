@@ -2100,6 +2100,33 @@ public class DashboardController implements Initializable {
         getItemSoldThisMonth();
     }
 
+    public void signOut() {
+        signout_btn.getScene().getWindow().hide();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            root.setOnMousePressed((event) -> {
+                x = event.getSceneX();
+                y = event.getSceneY();
+            });
+            root.setOnMouseDragged((event) -> {
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
+            });
+
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception err) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeight(500);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText(err.getMessage());
+            alert.showAndWait();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
