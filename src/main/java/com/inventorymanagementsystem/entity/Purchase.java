@@ -23,7 +23,6 @@ public class Purchase {
         this.dateOfPurchase = dateOfPurchase;
         this.userId = userId;
     }
-
     public Purchase(int purchId,LocalDate dateOfPurchase,String userName,Double totalAmount){
         this.purchId = purchId;
         this.dateOfPurchase = dateOfPurchase;

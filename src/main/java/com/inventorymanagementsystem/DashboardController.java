@@ -54,6 +54,9 @@ public class DashboardController implements Initializable {
     private Button product_btn;
 
     @FXML
+    private Button new_inventory_btn;
+
+    @FXML
     private AnchorPane billing_pane;
 
     @FXML
@@ -70,6 +73,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private AnchorPane product_pane;
+
+    @FXML
+    private AnchorPane new_inventory_pane;
 
     @FXML
     private AnchorPane invoice_pane;
@@ -139,8 +145,8 @@ public class DashboardController implements Initializable {
     @FXML
     private Label final_amount;
 
-    private final String[] unitList ={"Kg","Ltr","Gr","Und"};
-    private final String[] rolList ={"admin","user"};
+    private final String[] unitList = {"Kg", "Ltr", "Gr", "Und"};
+    private final String[] rolList = {"admin", "user"};
 
     private final List<Integer> productIdList = new ArrayList<>();
 
@@ -270,21 +276,21 @@ public class DashboardController implements Initializable {
     private Label purchase_total_amount;
 
     @FXML
-    private TableColumn<?,?> purchase_col_prod;
+    private TableColumn<?, ?> purchase_col_prod;
     @FXML
-    private TableColumn<?,?> purchase_col_unit;
+    private TableColumn<?, ?> purchase_col_unit;
 
     @FXML
     private TableColumn<?, ?> purchase_col_supplier;
 
     @FXML
-    private TableColumn<?,?> purchase_col_price;
+    private TableColumn<?, ?> purchase_col_price;
 
     @FXML
     private TableColumn<?, ?> purchase_col_total;
 
     @FXML
-    private TableColumn<Product,Integer> purchase_col_qty;
+    private TableColumn<Product, Integer> purchase_col_qty;
 
     @FXML
     private TableView<Product> purchase_table;
@@ -315,14 +321,15 @@ public class DashboardController implements Initializable {
 
     ObservableList<Product> productsList;
 
-    public void onExit(){
+    public void onExit() {
         System.exit(0);
     }
 
-    public void activateAnchorPane(){
+    public void activateAnchorPane() {
         dashboard_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(true);
             product_pane.setVisible(false);
+            new_inventory_pane.setVisible(false);
             billing_pane.setVisible(false);
             customer_pane.setVisible(false);
             invoice_pane.setVisible(false);
@@ -330,6 +337,7 @@ public class DashboardController implements Initializable {
             dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
@@ -338,6 +346,7 @@ public class DashboardController implements Initializable {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(true);
             product_pane.setVisible(false);
+            new_inventory_pane.setVisible(false);
             customer_pane.setVisible(false);
             invoice_pane.setVisible(false);
             purchase_pane.setVisible(false);
@@ -345,6 +354,7 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
@@ -352,9 +362,11 @@ public class DashboardController implements Initializable {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
             product_pane.setVisible(true);
+            new_inventory_pane.setVisible(false);
             customer_pane.setVisible(false);
             invoice_pane.setVisible(false);
             purchase_pane.setVisible(false);
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
@@ -362,10 +374,27 @@ public class DashboardController implements Initializable {
             invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
+        new_inventory_btn.setOnMouseClicked(mouseEvent -> {
+            dasboard_pane.setVisible(false);
+            billing_pane.setVisible(false);
+            product_pane.setVisible(false);
+            new_inventory_pane.setVisible(true);
+            customer_pane.setVisible(false);
+            invoice_pane.setVisible(false);
+            purchase_pane.setVisible(false);
+            dashboard_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
+            product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+        });
         customer_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
             product_pane.setVisible(false);
+            new_inventory_pane.setVisible(false);
             customer_pane.setVisible(true);
             invoice_pane.setVisible(false);
             purchase_pane.setVisible(false);
@@ -373,6 +402,7 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
             invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
@@ -380,6 +410,7 @@ public class DashboardController implements Initializable {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
             product_pane.setVisible(false);
+            new_inventory_pane.setVisible(false);
             customer_pane.setVisible(false);
             invoice_pane.setVisible(true);
             purchase_pane.setVisible(false);
@@ -387,6 +418,7 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
         });
@@ -394,6 +426,7 @@ public class DashboardController implements Initializable {
             dasboard_pane.setVisible(false);
             billing_pane.setVisible(false);
             product_pane.setVisible(false);
+            new_inventory_pane.setVisible(false);
             customer_pane.setVisible(false);
             invoice_pane.setVisible(false);
             purchase_pane.setVisible(true);
@@ -401,10 +434,10 @@ public class DashboardController implements Initializable {
             billing_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             customer_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             invoice_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
+            new_inventory_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             product_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.2),  rgba(255,106,239,0.2))");
             purchase_btn.setStyle("-fx-background-color:linear-gradient(to bottom right , rgba(121,172,255,0.7),  rgba(255,106,239,0.7))");
-            });
-
+        });
     }
 
     public void setUsername() {
@@ -425,28 +458,30 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void activateDashboard(){
+    public void activateDashboard() {
         dasboard_pane.setVisible(true);
         billing_pane.setVisible(false);
         product_pane.setVisible(false);
+        new_inventory_pane.setVisible(false);
         customer_pane.setVisible(false);
         invoice_pane.setVisible(false);
         purchase_pane.setVisible(false);
+
     }
 
-    public ObservableList<Product> getItemsList(){
+    public ObservableList<Product> getItemsList() {
 
-        productsList=FXCollections.observableArrayList();
-        connection= Database.getInstance().connectDB();
-        String sql="SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date,ln.loc_name FROM products AS pd \n" +
+        productsList = FXCollections.observableArrayList();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date,ln.loc_name FROM products AS pd \n" +
                 "JOIN category AS ct \n" +
                 "JOIN location AS ln \n" +
                 "WHERE pd.cat_id=ct.id and pd.loc_id=ln.loc_id;";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
             Product product;
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 product = new Product(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("name"),
@@ -459,8 +494,8 @@ public class DashboardController implements Initializable {
                 );
                 productsList.add(product);
             }
-        }catch (Exception err){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+        } catch (Exception err) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
@@ -470,6 +505,7 @@ public class DashboardController implements Initializable {
         prod_field_search.textProperty().addListener((observable, oldValue, newValue) -> filterProducts(newValue));
         return productsList;
     }
+
     public void filterProducts(String searchText) {
         ObservableList<Product> filteredList = FXCollections.observableArrayList();
 
@@ -485,8 +521,9 @@ public class DashboardController implements Initializable {
             product_table.setItems(filteredList);
         }
     }
-    public void showProductsData(){
-        ObservableList<Product> productsList=getItemsList();
+
+    public void showProductsData() {
+        ObservableList<Product> productsList = getItemsList();
         prod_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         prod_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         prod_col_pre.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -497,24 +534,24 @@ public class DashboardController implements Initializable {
         product_table.setItems(productsList);
     }
 
-    public void printProductsDetails(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM products";
-        try{
-            JasperDesign jasperDesign= JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/products.jrxml"));
-            JRDesignQuery updateQuery=new JRDesignQuery();
+    public void printProductsDetails() {
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT * FROM products";
+        try {
+            JasperDesign jasperDesign = JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/products.jrxml"));
+            JRDesignQuery updateQuery = new JRDesignQuery();
             updateQuery.setText(sql);
             jasperDesign.setQuery(updateQuery);
-            JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport,null,connection);
-            JasperViewer.viewReport(jasperPrint ,false);
-        }catch (Exception err){
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, connection);
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
 
-    public void searchProductsLocation(){
-        if(product_table.getSelectionModel().isEmpty()){
+    public void searchProductsLocation() {
+        if (product_table.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -531,8 +568,8 @@ public class DashboardController implements Initializable {
         alert.showAndWait();
     }
 
-    public void editProduct(){
-        if(product_table.getSelectionModel().isEmpty()){
+    public void editProduct() {
+        if (product_table.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -542,7 +579,7 @@ public class DashboardController implements Initializable {
         }
         String name = product_table.getSelectionModel().getSelectedItem().getName();
         int prodID = product_table.getSelectionModel().getSelectedItem().getId();
-        String unit= product_table.getSelectionModel().getSelectedItem().getUnit();
+        String unit = product_table.getSelectionModel().getSelectedItem().getUnit();
         double price = product_table.getSelectionModel().getSelectedItem().getPrice();
         int quantity = product_table.getSelectionModel().getSelectedItem().getQuantity();
         LocalDate exp_date = product_table.getSelectionModel().getSelectedItem().getExp_date();
@@ -562,7 +599,7 @@ public class DashboardController implements Initializable {
         TextField prod_field_price = new TextField();
         prod_field_price.setText(String.valueOf(price));
         Label lblCat = new Label("CATEGORIA:");
-        ComboBox<Category> categoryList=comboCategoryData();
+        ComboBox<Category> categoryList = comboCategoryData();
         categoryList.setDisable(true);
         Label lblQty = new Label("CANTIDAD:");
         TextField prod_field_qty = new TextField();
@@ -571,9 +608,9 @@ public class DashboardController implements Initializable {
         DatePicker expDate = new DatePicker();
         expDate.setValue(exp_date);
         Label lblSupp = new Label("PROVEEDOR:");
-        ComboBox<Supplier> supplierCombo=comboSupplierData();
+        ComboBox<Supplier> supplierCombo = comboSupplierData();
         Label lblLoc = new Label("LUGAR:");
-        ComboBox<Location> locationCombo=comboLocationData();
+        ComboBox<Location> locationCombo = comboLocationData();
 
         Button btnSave = new Button("ACTUALIZAR");
         btnSave.getStyleClass().add("print");
@@ -589,29 +626,29 @@ public class DashboardController implements Initializable {
             LocalDate dateSelected = expDate.getValue();
             String date_exp = dateSelected.toString();
 
-            connection=Database.getInstance().connectDB();
-            String sql="UPDATE products SET price=?, quantity=?, exp_date=?, supp_id=?, loc_id=? WHERE id=?";
-            try{
+            connection = Database.getInstance().connectDB();
+            String sql = "UPDATE products SET price=?, quantity=?, exp_date=?, supp_id=?, loc_id=? WHERE id=?";
+            try {
 
-                preparedStatement=connection.prepareStatement(sql);
-                preparedStatement.setString(1,prod_field_price.getText());
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, prod_field_price.getText());
                 preparedStatement.setInt(2, Integer.parseInt(prod_field_qty.getText()));
-                preparedStatement.setString(3,date_exp);
-                preparedStatement.setDouble(4,supp_id);
-                preparedStatement.setInt(5,loc_id);
+                preparedStatement.setString(3, date_exp);
+                preparedStatement.setDouble(4, supp_id);
+                preparedStatement.setInt(5, loc_id);
                 preparedStatement.setInt(6, prodID);
 
-                int result=preparedStatement.executeUpdate();
-                if(result>0){
+                int result = preparedStatement.executeUpdate();
+                if (result > 0) {
                     showCustomerData();
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
                     alert.setContentText("");
                     alert.showAndWait();
                 }
-            }catch (Exception err){
+            } catch (Exception err) {
                 err.printStackTrace();
             }
 
@@ -646,8 +683,9 @@ public class DashboardController implements Initializable {
 
         popup_window.showAndWait();
     }
-    public void deleteProduct(){
-        if(product_table.getSelectionModel().isEmpty()){
+
+    public void deleteProduct() {
+        if (product_table.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -667,10 +705,10 @@ public class DashboardController implements Initializable {
         if (result1.isPresent() && result1.get() == ButtonType.OK) {
             connection = Database.getInstance().connectDB();
 
-            String sql="DELETE FROM products WHERE id=?";
+            String sql = "DELETE FROM products WHERE id=?";
             try {
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1,product_table.getSelectionModel().getSelectedItem().getId());
+                preparedStatement.setInt(1, product_table.getSelectionModel().getSelectedItem().getId());
                 int result = preparedStatement.executeUpdate();
 
                 if (result > 0) {
@@ -695,49 +733,50 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void updateProduct(){
+    public void updateProduct() {
         showProductsData();
     }
-    public ComboBox<String> comboBoxUnit(){
+
+    public ComboBox<String> comboBoxUnit() {
         ComboBox<String> comboUnit = new ComboBox<>();
-        for(String unit:unitList){
+        for (String unit : unitList) {
             comboUnit.getItems().add(unit);
         }
         return comboUnit;
     }
 
-    public ComboBox<Category> comboCategoryData(){
-        ComboBox<Category> categoryCombo=new ComboBox<>();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM category";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+    public ComboBox<Category> comboCategoryData() {
+        ComboBox<Category> categoryCombo = new ComboBox<>();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT * FROM category";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
 
             Category categoryData;
-            while (resultSet.next()){
-                categoryData=new Category(
+            while (resultSet.next()) {
+                categoryData = new Category(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("cat_name"));
                 categoryCombo.getItems().add(categoryData);
             }
 
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return categoryCombo;
     }
 
-    public ComboBox<Supplier> comboSupplierData(){
-        ComboBox<Supplier> supplierCombo=new ComboBox<>();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM supplier";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+    public ComboBox<Supplier> comboSupplierData() {
+        ComboBox<Supplier> supplierCombo = new ComboBox<>();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT * FROM supplier";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
             Supplier supplierData;
-            while (resultSet.next()){
-                supplierData=new Supplier(
+            while (resultSet.next()) {
+                supplierData = new Supplier(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("supp_name"),
                         resultSet.getString("phone"));
@@ -745,24 +784,24 @@ public class DashboardController implements Initializable {
                 supplierCombo.getItems().add(supplierData);
             }
 
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
 
         return supplierCombo;
     }
 
-    public ComboBox<Location> comboLocationData(){
-        ComboBox<Location> locationCombo=new ComboBox<>();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM location";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+    public ComboBox<Location> comboLocationData() {
+        ComboBox<Location> locationCombo = new ComboBox<>();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT * FROM location";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
 
             Location locationData;
-            while (resultSet.next()){
-                locationData=new Location(
+            while (resultSet.next()) {
+                locationData = new Location(
                         Integer.parseInt(resultSet.getString("loc_id")),
                         resultSet.getString("loc_name"));
 
@@ -770,14 +809,14 @@ public class DashboardController implements Initializable {
                 locationCombo.getItems().add(locationData);
             }
 
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
 
         return locationCombo;
     }
 
-    public void addProduct(){
+    public void addProduct() {
 
         Stage popup_window = new Stage();
         popup_window.initModality(Modality.APPLICATION_MODAL);
@@ -791,15 +830,15 @@ public class DashboardController implements Initializable {
         TextField prod_field_price = new TextField();
         prod_field_price.getStyleClass().add("textfield");
         Label lblCat = new Label("Categoria:");
-        ComboBox<Category> categoryList=comboCategoryData();
+        ComboBox<Category> categoryList = comboCategoryData();
         Label lblQty = new Label("Cantidad:");
         TextField prod_field_qty = new TextField();
         Label lblDate = new Label("Vencimiento:");
         DatePicker expDate = new DatePicker();
         Label lblSupp = new Label("Proveedor:");
-        ComboBox<Supplier> supplierCombo=comboSupplierData();
+        ComboBox<Supplier> supplierCombo = comboSupplierData();
         Label lblLoc = new Label("Location:");
-        ComboBox<Location> locationCombo=comboLocationData();
+        ComboBox<Location> locationCombo = comboLocationData();
 
         Button btnSave = new Button("GUARDAR");
         btnSave.getStyleClass().add("print");
@@ -820,31 +859,31 @@ public class DashboardController implements Initializable {
 
             String unitSelected = comboBoxUnit.getValue();
 
-            connection=Database.getInstance().connectDB();
-            String sql="INSERT INTO products(name, cat_id,quantity,price,exp_date,unit,supp_id,loc_id)VALUES(?,?,?,?,?,?,?,?)";
-            try{
+            connection = Database.getInstance().connectDB();
+            String sql = "INSERT INTO products(name, cat_id,quantity,price,exp_date,unit,supp_id,loc_id)VALUES(?,?,?,?,?,?,?,?)";
+            try {
 
-                preparedStatement=connection.prepareStatement(sql);
-                preparedStatement.setString(1,prod_field_name.getText());
-                preparedStatement.setInt(2,cat_id);
-                preparedStatement.setInt(3,Integer.parseInt(prod_field_qty.getText()));
-                preparedStatement.setDouble(4,Double.parseDouble(prod_field_price.getText()));
-                preparedStatement.setString(5,date_exp);
-                preparedStatement.setString(6,unitSelected);
-                preparedStatement.setInt(7,supp_id);
-                preparedStatement.setInt(8,loc_id);
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, prod_field_name.getText());
+                preparedStatement.setInt(2, cat_id);
+                preparedStatement.setInt(3, Integer.parseInt(prod_field_qty.getText()));
+                preparedStatement.setDouble(4, Double.parseDouble(prod_field_price.getText()));
+                preparedStatement.setString(5, date_exp);
+                preparedStatement.setString(6, unitSelected);
+                preparedStatement.setInt(7, supp_id);
+                preparedStatement.setInt(8, loc_id);
 
-                int result=preparedStatement.executeUpdate();
-                if(result>0){
+                int result = preparedStatement.executeUpdate();
+                if (result > 0) {
                     showCustomerData();
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Please fill the mandatory data such as name and price.");
                     alert.showAndWait();
                 }
-            }catch (Exception err){
+            } catch (Exception err) {
                 err.printStackTrace();
             }
             popup_window.close();
@@ -888,105 +927,107 @@ public class DashboardController implements Initializable {
     }
 
     public void createNewSale() {
-        if(bill_item.getText().isBlank()||sales_quantity.getText().isEmpty()){
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        if (bill_item.getText().isBlank() || sales_quantity.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
             alert.setContentText("Por Favor ingrese codigo de producto o cantidad");
             alert.showAndWait();
             return;
-        }else if(!isInteger(bill_item.getText()) || !isInteger(sales_quantity.getText()) ){
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        } else if (!isInteger(bill_item.getText()) || !isInteger(sales_quantity.getText())) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
             alert.setContentText("Por Favor ingrese un ID o cantidad valida");
             alert.showAndWait();
             return;
         } else if (!existsProductId()) {
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message");
             alert.setHeaderText(null);
             alert.setContentText("PRODUCT ID NO EXISTE !!");
             alert.showAndWait();
             return;
         }
-        connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO sales(date,user_id)VALUES(?,?)";
+        connection = Database.getInstance().connectDB();
+        String sql = "INSERT INTO sales(date,user_id)VALUES(?,?)";
 
-        try{
+        try {
             User loggedInUser = Session.getCurrentUser();
             int userId = loggedInUser.getId();
             LocalDate date = LocalDate.now();
             Date dateSale = Date.valueOf(date);
 
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setDate(1,dateSale);
-            preparedStatement.setInt(2,userId);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, dateSale);
+            preparedStatement.setInt(2, userId);
 
-            int result=preparedStatement.executeUpdate();
-            if(result>0){
+            int result = preparedStatement.executeUpdate();
+            if (result > 0) {
                 saleCreated = true;
                 System.out.println("heeeree");
-            }else{
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill the mandatory data such as name and price.");
                 alert.showAndWait();
             }
-        }catch (Exception err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
-    public void insertNewProductDetailsSales(int salesId, int productId, int quantity){
-        connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO details_sales(sales_id,quantity,product_id)VALUES(?,?,?)";
 
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setInt(1,salesId);
-            preparedStatement.setInt(2,quantity);
-            preparedStatement.setInt(3,productId);
+    public void insertNewProductDetailsSales(int salesId, int productId, int quantity) {
+        connection = Database.getInstance().connectDB();
+        String sql = "INSERT INTO details_sales(sales_id,quantity,product_id)VALUES(?,?,?)";
 
-            int result=preparedStatement.executeUpdate();
-            if(result>0){
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, salesId);
+            preparedStatement.setInt(2, quantity);
+            preparedStatement.setInt(3, productId);
+
+            int result = preparedStatement.executeUpdate();
+            if (result > 0) {
                 System.out.println("heeeree in details");
-            }else{
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill the mandatory data such as name and price.");
                 alert.showAndWait();
             }
-        }catch (Exception err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
 
-    public int getSalesId(){
-        int salesId=0;
-        if(saleCreated){
-            connection=Database.getInstance().connectDB();
-            String sql="SELECT MAX(sales_id) AS sales_id FROM sales";
-            try{
-                statement=connection.createStatement();
-                resultSet=statement.executeQuery(sql);
+    public int getSalesId() {
+        int salesId = 0;
+        if (saleCreated) {
+            connection = Database.getInstance().connectDB();
+            String sql = "SELECT MAX(sales_id) AS sales_id FROM sales";
+            try {
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     salesId = resultSet.getInt("sales_id");
                 }
 
-            }catch (Exception err){
+            } catch (Exception err) {
                 err.printStackTrace();
             }
         }
 
         return salesId;
     }
-    private boolean existsProductId(){
-            String input = bill_item.getText();
-            int productId = Integer.parseInt(input);
-            return productsList.stream().anyMatch(product -> product.getId() == productId);
+
+    private boolean existsProductId() {
+        String input = bill_item.getText();
+        int productId = Integer.parseInt(input);
+        return productsList.stream().anyMatch(product -> product.getId() == productId);
     }
 
     public void addProductBilling() {
@@ -1015,60 +1056,59 @@ public class DashboardController implements Initializable {
         showBillingData();
     }
 
-    public ObservableList<SalesDetails> listBillingData(int salesId){
-        ObservableList<SalesDetails> billingList=FXCollections.observableArrayList();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT p.id,ds.quantity,p.name, p.price,(p.price*ds.quantity) AS subtotal " +
+    public ObservableList<SalesDetails> listBillingData(int salesId) {
+        ObservableList<SalesDetails> billingList = FXCollections.observableArrayList();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT p.id,ds.quantity,p.name, p.price,(p.price*ds.quantity) AS subtotal " +
                 "FROM details_sales AS ds " +
                 "JOIN products AS p ON ds.product_id=p.id\n" +
                 "WHERE ds.sales_id=?;";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setInt(1,salesId);
-            resultSet=preparedStatement.executeQuery();
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, salesId);
+            resultSet = preparedStatement.executeQuery();
 
 
-              SalesDetails billingData;
-              while (resultSet.next()){
-              billingData=new SalesDetails(
-                      Integer.parseInt(resultSet.getString("id")),
-                      resultSet.getString("name"),
-                      Integer.parseInt(resultSet.getString("quantity")),
-                      Double.parseDouble(resultSet.getString("price")),
-                  Double.parseDouble(resultSet.getString("subtotal")));
-
-              billingList.addAll(billingData);
-             }
-        }catch (Exception err){
+            SalesDetails billingData;
+            while (resultSet.next()) {
+                billingData = new SalesDetails(
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("name"),
+                        Integer.parseInt(resultSet.getString("quantity")),
+                        Double.parseDouble(resultSet.getString("price")),
+                        Double.parseDouble(resultSet.getString("subtotal")));
+                billingList.addAll(billingData);
+            }
+        } catch (Exception err) {
             err.printStackTrace();
         }
 
         return billingList;
     }
 
-    public void calculateFinalAmount(){
+    public void calculateFinalAmount() {
         int salId = getSalesId();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT ds.sales_id,SUM(ds.quantity*p.price) AS final_amount " +
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT ds.sales_id,SUM(ds.quantity*p.price) AS final_amount " +
                 "FROM details_sales AS ds JOIN products AS p\n" +
                 "WHERE ds.product_id=p.id and ds.sales_id=?;";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setInt(1,salId);
-            resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, salId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
                 final_amount.setText(resultSet.getString("final_amount"));
             }
 
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
 
     }
 
-    public void showBillingData(){
+    public void showBillingData() {
         int salId = getSalesId();
-        ObservableList<SalesDetails> billingList=listBillingData(salId);
+        ObservableList<SalesDetails> billingList = listBillingData(salId);
         col_bill_item_num.setCellValueFactory(new PropertyValueFactory<>("productId"));
         col_bill_item_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
         col_bill_quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -1076,26 +1116,26 @@ public class DashboardController implements Initializable {
         col_bill_total_amt.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
         billing_table.setItems(billingList);
 
-        if(!billingList.isEmpty()){
+        if (!billingList.isEmpty()) {
             calculateFinalAmount();
-        }else{
+        } else {
             final_amount.setText("0.00");
         }
     }
 
-    public void billClearData(){
+    public void billClearData() {
         bill_item.clear();
         sales_quantity.clear();
     }
 
-    public void billCancelSale(){
+    public void billCancelSale() {
         int salId = getSalesId();
-        if (salId != 0){
+        if (salId != 0) {
             connection = Database.getInstance().connectDB();
-            String sql="DELETE FROM sales WHERE sales_id=?";
+            String sql = "DELETE FROM sales WHERE sales_id=?";
             try {
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1,salId);
+                preparedStatement.setInt(1, salId);
                 int result = preparedStatement.executeUpdate();
 
                 if (result > 0) {
@@ -1116,7 +1156,7 @@ public class DashboardController implements Initializable {
                 alert.setContentText(err.getMessage());
                 alert.showAndWait();
             }
-        }else{
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -1125,8 +1165,8 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void deleteBillingData(){
-        if(billing_table.getSelectionModel().isEmpty()){
+    public void deleteBillingData() {
+        if (billing_table.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -1136,37 +1176,37 @@ public class DashboardController implements Initializable {
         }
         int salId = getSalesId();
         connection = Database.getInstance().connectDB();
-        String sql="DELETE FROM details_sales WHERE product_id=? and sales_id=?";
-            try {
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1,billing_table.getSelectionModel().getSelectedItem().getProductId());
-                preparedStatement.setInt(2,salId);
-                int result = preparedStatement.executeUpdate();
+        String sql = "DELETE FROM details_sales WHERE product_id=? and sales_id=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, billing_table.getSelectionModel().getSelectedItem().getProductId());
+            preparedStatement.setInt(2, salId);
+            int result = preparedStatement.executeUpdate();
 
-                if (result > 0) {
-                    showCustomerData();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("No hay datos en la Tabla.");
-                    alert.showAndWait();
-                }
-            } catch (Exception err) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeight(500);
-                alert.setTitle("Error Message");
+            if (result > 0) {
+                showCustomerData();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Message");
                 alert.setHeaderText(null);
-                alert.setContentText(err.getMessage());
+                alert.setContentText("No hay datos en la Tabla.");
                 alert.showAndWait();
             }
+        } catch (Exception err) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeight(500);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText(err.getMessage());
+            alert.showAndWait();
+        }
         showBillingData();
     }
 
-    public void billSave(){
+    public void billSave() {
 
-        if(!billing_table.getItems().isEmpty()) {
-            saleCreated=false;
+        if (!billing_table.getItems().isEmpty()) {
+            saleCreated = false;
             billing_table.getItems().clear();
             final_amount.setText("0.00");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -1174,7 +1214,7 @@ public class DashboardController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Venta realizada con exito");
             alert.showAndWait();
-        }else{
+        } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
@@ -1184,23 +1224,23 @@ public class DashboardController implements Initializable {
 
     }
 
-    public void searchForBills(){
-        try{
+    public void searchForBills() {
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("hola.fxml"));
             Scene scene = new Scene(root);
-            Stage stage=new Stage();
-            root.setOnMousePressed((event)->{
-                x=event.getSceneX();
-                y=event.getSceneY();
+            Stage stage = new Stage();
+            root.setOnMousePressed((event) -> {
+                x = event.getSceneX();
+                y = event.getSceneY();
             });
-            root.setOnMouseDragged((event)->{
-                stage.setX(event.getScreenX()-x);
-                stage.setY(event.getScreenY()-y);
+            root.setOnMouseDragged((event) -> {
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
             });
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.show();
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -1210,17 +1250,17 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public ObservableList<User> listCustomerData(){
-        ObservableList<User> customersList=FXCollections.observableArrayList();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM users";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+    public ObservableList<User> listCustomerData() {
+        ObservableList<User> customersList = FXCollections.observableArrayList();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT * FROM users";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
 
             User customer;
-            while (resultSet.next()){
-                customer=new User(
+            while (resultSet.next()) {
+                customer = new User(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("username"),
                         resultSet.getString("password"),
@@ -1229,14 +1269,14 @@ public class DashboardController implements Initializable {
                         resultSet.getString("rol"));
                 customersList.add(customer);
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return customersList;
     }
 
-    public void showCustomerData(){
-        ObservableList<User> customerList=listCustomerData();
+    public void showCustomerData() {
+        ObservableList<User> customerList = listCustomerData();
 
         cust_col_username.setCellValueFactory(new PropertyValueFactory<>("username"));
         cust_col_phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
@@ -1245,15 +1285,15 @@ public class DashboardController implements Initializable {
         customer_table.setItems(customerList);
     }
 
-    private ComboBox<String> comboRol(){
+    private ComboBox<String> comboRol() {
         ComboBox<String> comboRol = new ComboBox<>();
-        for(String unit:rolList){
+        for (String unit : rolList) {
             comboRol.getItems().add(unit);
         }
         return comboRol;
     }
 
-    public void setNewUser(){
+    public void setNewUser() {
         Stage popup_window = new Stage();
         popup_window.initModality(Modality.APPLICATION_MODAL);
         popup_window.setTitle("CREAR NUEVO USUARIO");
@@ -1265,7 +1305,7 @@ public class DashboardController implements Initializable {
         Label lblPhone = new Label("TELEFONO:");
         TextField usr_field_phone = new TextField();
         Label lblRol = new Label("ROL:");
-        ComboBox<String> rolList=comboRol();
+        ComboBox<String> rolList = comboRol();
         Label lblP1 = new Label("PASSWORD1:");
         PasswordField usr_field_pass1 = new PasswordField();
         Label lblP2 = new Label("REESCRIBIR PASSW:");
@@ -1273,24 +1313,24 @@ public class DashboardController implements Initializable {
 
         Button btnSave = new Button("GUARDAR");
         btnSave.getStyleClass().add("print");
-        btnSave.setOnAction(e ->{
+        btnSave.setOnAction(e -> {
 
             String rol = rolList.getValue();
-            if(checkForUserAvailability(usr_field_username.getText())&&checkForEmailAvailability(usr_field_email.getText())){
-                if(checkPassword(usr_field_pass1.getText(),usr_field_pass2.getText())){
+            if (checkForUserAvailability(usr_field_username.getText()) && checkForEmailAvailability(usr_field_email.getText())) {
+                if (checkPassword(usr_field_pass1.getText(), usr_field_pass2.getText())) {
                     System.out.print("AGREGANDO NUEVO USUARIO");
                     Connection connection = Database.getInstance().connectDB();
-                    String sql="INSERT INTO users(username,password,email,phone,rol) VALUES(?,?,?,?,?)";
-                    try{
-                        preparedStatement=connection.prepareStatement(sql);
-                        preparedStatement.setString(1,usr_field_username.getText());
-                        preparedStatement.setString(2,usr_field_pass1.getText());
-                        preparedStatement.setString(3,usr_field_email.getText());
-                        preparedStatement.setString(4,usr_field_phone.getText());
-                        preparedStatement.setString(5,rol);
-                        int result=preparedStatement.executeUpdate();
-                        if(result>0){
-                            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                    String sql = "INSERT INTO users(username,password,email,phone,rol) VALUES(?,?,?,?,?)";
+                    try {
+                        preparedStatement = connection.prepareStatement(sql);
+                        preparedStatement.setString(1, usr_field_username.getText());
+                        preparedStatement.setString(2, usr_field_pass1.getText());
+                        preparedStatement.setString(3, usr_field_email.getText());
+                        preparedStatement.setString(4, usr_field_phone.getText());
+                        preparedStatement.setString(5, rol);
+                        int result = preparedStatement.executeUpdate();
+                        if (result > 0) {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Message");
                             alert.setHeaderText(null);
                             alert.setContentText("USUARIO CREADO CORRECTAMENTE.");
@@ -1298,16 +1338,16 @@ public class DashboardController implements Initializable {
                             btnSave.getScene().getWindow().hide();
                             showCustomerData();
                         }
-                    }catch (Exception err) {
+                    } catch (Exception err) {
                         err.printStackTrace();
-                        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Message");
                         alert.setHeaderText(null);
                         alert.setContentText(err.getMessage());
                         alert.showAndWait();
                     }
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Las password deben ser iguales.");
@@ -1335,64 +1375,64 @@ public class DashboardController implements Initializable {
         layout.add(usr_field_pass2, 1, 7);
         layout.add(btnSave, 1, 9);
 
-    Scene scene = new Scene(layout, 300, 400);
+        Scene scene = new Scene(layout, 300, 400);
         scene.getStylesheets().add(getClass().getResource("user.css").toExternalForm());
         popup_window.setScene(scene);
         popup_window.showAndWait();
     }
 
-    public boolean checkPassword(String usr_field_pass1, String usr_field_pass2){
+    public boolean checkPassword(String usr_field_pass1, String usr_field_pass2) {
         return usr_field_pass1.equals(usr_field_pass2);
     }
 
-    public boolean checkForUserAvailability(String usr_field_username){
+    public boolean checkForUserAvailability(String usr_field_username) {
         Connection connection = Database.getInstance().connectDB();
-        String sql="SELECT username FROM users WHERE username=?";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,usr_field_username);
-            resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
-                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        String sql = "SELECT username FROM users WHERE username=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, usr_field_username);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Nombre de usuario ya registrado.");
                 alert.showAndWait();
                 return false;
-            }else {
+            } else {
                 return true;
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return false;
     }
 
-    public boolean checkForEmailAvailability(String usr_field_email){
+    public boolean checkForEmailAvailability(String usr_field_email) {
         Connection connection = Database.getInstance().connectDB();
-        String sql="SELECT email FROM users WHERE email=?";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,usr_field_email);
-            resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()){
-                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        String sql = "SELECT email FROM users WHERE email=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, usr_field_email);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Email ya esta registrado.");
                 alert.showAndWait();
                 return false;
-            }else {
+            } else {
                 return true;
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return false;
     }
 
-    public void updateUserData(){
-        if(customer_table.getSelectionModel().isEmpty()){
+    public void updateUserData() {
+        if (customer_table.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -1401,7 +1441,7 @@ public class DashboardController implements Initializable {
             return;
         }
         String user = customer_table.getSelectionModel().getSelectedItem().getUsername();
-        String email= customer_table.getSelectionModel().getSelectedItem().getEmail();
+        String email = customer_table.getSelectionModel().getSelectedItem().getEmail();
         String phone = customer_table.getSelectionModel().getSelectedItem().getPhone();
         String rol = customer_table.getSelectionModel().getSelectedItem().getRol();
 
@@ -1429,19 +1469,19 @@ public class DashboardController implements Initializable {
 
         Button btnSave = new Button("ACTUALIZAR");
         btnSave.getStyleClass().add("print");
-        btnSave.setOnAction(e ->{
+        btnSave.setOnAction(e -> {
             String roln = rolList.getValue();
             Connection connection = Database.getInstance().connectDB();
-            String sql="UPDATE users SET email=? ,phone=?, rol=? ,password=? WHERE username='"+user+"'";
-            try{
-                preparedStatement=connection.prepareStatement(sql);
-                preparedStatement.setString(1,usr_field_email.getText());
-                preparedStatement.setString(2,usr_field_phone.getText());
-                preparedStatement.setString(3,roln);
-                preparedStatement.setString(4,usr_field_pass1.getText());
-                int result=preparedStatement.executeUpdate();
-                if(result>0){
-                    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            String sql = "UPDATE users SET email=? ,phone=?, rol=? ,password=? WHERE username='" + user + "'";
+            try {
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, usr_field_email.getText());
+                preparedStatement.setString(2, usr_field_phone.getText());
+                preparedStatement.setString(3, roln);
+                preparedStatement.setString(4, usr_field_pass1.getText());
+                int result = preparedStatement.executeUpdate();
+                if (result > 0) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");
                     alert.setHeaderText(null);
                     alert.setContentText("USUARIO ACTUALIZADO CORRECTAMENTE.");
@@ -1449,9 +1489,9 @@ public class DashboardController implements Initializable {
                     btnSave.getScene().getWindow().hide();
                     showCustomerData();
                 }
-            }catch (Exception err) {
+            } catch (Exception err) {
                 err.printStackTrace();
-                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Message");
                 alert.setHeaderText(null);
                 alert.setContentText(err.getMessage());
@@ -1482,8 +1522,8 @@ public class DashboardController implements Initializable {
         popup_window.showAndWait();
     }
 
-    public void deleteCustomerData(){
-        if(customer_table.getSelectionModel().isEmpty()){
+    public void deleteCustomerData() {
+        if (customer_table.getSelectionModel().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Message");
             alert.setHeaderText(null);
@@ -1502,10 +1542,10 @@ public class DashboardController implements Initializable {
 
         if (result1.isPresent() && result1.get() == ButtonType.OK) {
             connection = Database.getInstance().connectDB();
-            String sql="DELETE FROM users WHERE username=?";
+            String sql = "DELETE FROM users WHERE username=?";
             try {
                 preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1,customer_table.getSelectionModel().getSelectedItem().getUsername());
+                preparedStatement.setString(1, customer_table.getSelectionModel().getSelectedItem().getUsername());
                 int result = preparedStatement.executeUpdate();
                 if (result > 0) {
                     showCustomerData();
@@ -1527,25 +1567,25 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void printCustomersDetails(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT * FROM users";
-        try{
-            JasperDesign jasperDesign= JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/customers.jrxml"));
-            JRDesignQuery updateQuery=new JRDesignQuery();
+    public void printCustomersDetails() {
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT * FROM users";
+        try {
+            JasperDesign jasperDesign = JRXmlLoader.load(this.getClass().getClassLoader().getResourceAsStream("jasper-reports/customers.jrxml"));
+            JRDesignQuery updateQuery = new JRDesignQuery();
             updateQuery.setText(sql);
             jasperDesign.setQuery(updateQuery);
-            JasperReport jasperReport= JasperCompileManager.compileReport(jasperDesign);
-            JasperPrint jasperPrint= JasperFillManager.fillReport(jasperReport,null,connection);
-            JasperViewer.viewReport(jasperPrint ,false);
-        }catch (Exception err){
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, connection);
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (Exception err) {
             err.printStackTrace();
         }
     }
 
     //------------------------INVOICE METHODS-------------------------
 
-    private ObservableList<Purchase> getListInvoice(){
+    private ObservableList<Purchase> getListInvoice() {
         ObservableList<Purchase> invoiceList = FXCollections.observableArrayList();
         connection = Database.getInstance().connectDB();
         String sql = "SELECT pu.purchase_id,pu.date,u.username ,SUM(p.purch_price*dp.quantity) AS total FROM purchases pu\n" +
@@ -1553,12 +1593,12 @@ public class DashboardController implements Initializable {
                 "INNER JOIN products AS p ON dp.product_id=p.id\n" +
                 "INNER JOIN users AS u ON pu.user_id=u.id\n" +
                 "GROUP BY pu.purchase_id";
-        try{
+        try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
 
             Purchase invoice;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 invoice = new Purchase(
                         resultSet.getInt("purchase_id"),
                         resultSet.getDate("date").toLocalDate(),
@@ -1566,13 +1606,13 @@ public class DashboardController implements Initializable {
                         resultSet.getDouble("total"));
                 invoiceList.add(invoice);
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return invoiceList;
     }
 
-    private void showInvoiceData(){
+    private void showInvoiceData() {
         ObservableList<Purchase> invoiceList = getListInvoice();
 
         invoice_col_id.setCellValueFactory(new PropertyValueFactory<>("purchId"));
@@ -1582,20 +1622,20 @@ public class DashboardController implements Initializable {
         invoice_table.setItems(invoiceList);
     }
 
-    public ObservableList<Product> listProductsToPurchase(){
+    public ObservableList<Product> listProductsToPurchase() {
 
-        ObservableList<Product> purchaseList=FXCollections.observableArrayList();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT p.id,p.name,sp.supp_name,p.purch_price,p.unit\n" +
+        ObservableList<Product> purchaseList = FXCollections.observableArrayList();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT p.id,p.name,sp.supp_name,p.purch_price,p.unit\n" +
                 "FROM products AS p\n" +
                 "INNER JOIN supplier AS sp ON p.supp_id=sp.id";
-        try{
+        try {
             int qty = 0;
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
             Product productPurchase;
-            while (resultSet.next()){
-                productPurchase=new Product(
+            while (resultSet.next()) {
+                productPurchase = new Product(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("name"),
                         resultSet.getString("supp_name"),
@@ -1605,16 +1645,16 @@ public class DashboardController implements Initializable {
                 System.out.println(productPurchase);
                 purchaseList.addAll(productPurchase);
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             err.printStackTrace();
         }
         return purchaseList;
     }
 
-    public void showProductsToPurchase(boolean status){
-        ObservableList<Product> purchaseList=listProductsToPurchase();
+    public void showProductsToPurchase(boolean status) {
+        ObservableList<Product> purchaseList = listProductsToPurchase();
 
-        if(status){
+        if (status) {
             purchase_table.setEditable(true);
             purchase_col_prod.setCellValueFactory(new PropertyValueFactory<>("name"));
             purchase_col_supplier.setCellValueFactory(new PropertyValueFactory<>("suppName"));
@@ -1622,7 +1662,7 @@ public class DashboardController implements Initializable {
             purchase_col_unit.setCellValueFactory(new PropertyValueFactory<>("unit"));
             purchase_col_qty.setCellValueFactory(new PropertyValueFactory<>("qty"));
 
-            purchase_col_qty.setCellFactory(TextFieldTableCell.<Product,Integer>forTableColumn(new IntegerStringConverter()));
+            purchase_col_qty.setCellFactory(TextFieldTableCell.<Product, Integer>forTableColumn(new IntegerStringConverter()));
             purchase_col_qty.setOnEditCommit(event -> {
 
                 Product product = event.getRowValue();
@@ -1630,27 +1670,27 @@ public class DashboardController implements Initializable {
                 int qty = product.getQty();
                 int pId = product.getId();
                 System.out.println(productIdList);
-                if(qty>0 && !productIdList.contains(pId)) {
+                if (qty > 0 && !productIdList.contains(pId)) {
                     productIdList.add(pId);
-                    insertPurchaseItem(pId,qty);
+                    insertPurchaseItem(pId, qty);
 
-                } else if (qty==0 && productIdList.contains(pId)) {
+                } else if (qty == 0 && productIdList.contains(pId)) {
                     deletePurchaseItem(pId);
-                    if (productIdList.isEmpty()){
+                    if (productIdList.isEmpty()) {
                         cancelPurchase();
                     }
-                }else{
-                    updatePurchaseItem(pId,qty);
+                } else {
+                    updatePurchaseItem(pId, qty);
                 }
             });
             purchase_table.setItems(purchaseList);
 
-        }else{
+        } else {
             purchase_table.getItems().clear();
         }
     }
 
-    private void deletePurchaseItem(int pId){
+    private void deletePurchaseItem(int pId) {
         int purchaseId = getPurchaseId();
         connection = Database.getInstance().connectDB();
         String sql = "DELETE FROM details_purchases WHERE product_id=? and purchase_id=?";
@@ -1664,7 +1704,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    private void updatePurchaseItem(int pId,int qty){
+    private void updatePurchaseItem(int pId, int qty) {
         int purchaseId = getPurchaseId();
         connection = Database.getInstance().connectDB();
         String sql = "UPDATE details_purchases SET quantity=? WHERE product_id=? and purchase_id=?";
@@ -1680,48 +1720,48 @@ public class DashboardController implements Initializable {
         getTotalPurchaseAmount();
     }
 
-    public void insertPurchaseItem(int pId, int qty){
+    public void insertPurchaseItem(int pId, int qty) {
 
-        System.out.println("nuevo purchase " +pId+" "+"cantidad "+qty);
+        System.out.println("nuevo purchase " + pId + " " + "cantidad " + qty);
         int purchaseId = getPurchaseId();
-        connection=Database.getInstance().connectDB();
-        String sql="INSERT INTO details_purchases(purchase_id,quantity,product_id) VALUES(?,?,?)";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setInt(1,purchaseId);
-            preparedStatement.setInt(2,qty);
-            preparedStatement.setInt(3,pId);
+        connection = Database.getInstance().connectDB();
+        String sql = "INSERT INTO details_purchases(purchase_id,quantity,product_id) VALUES(?,?,?)";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, purchaseId);
+            preparedStatement.setInt(2, qty);
+            preparedStatement.setInt(3, pId);
 
-            int result=preparedStatement.executeUpdate();
-            if(result>0){
+            int result = preparedStatement.executeUpdate();
+            if (result > 0) {
                 purchaseCreated = true;
-            }else{
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("No se pudo crear la compra");
                 alert.showAndWait();
             }
-        }catch (Exception err) {
+        } catch (Exception err) {
             err.printStackTrace();
         }
         getTotalPurchaseAmount();
     }
 
-    private int getPurchaseId(){
-        int purchaseId=0;
-        if(purchaseCreated){
-            connection=Database.getInstance().connectDB();
-            String sql="SELECT MAX(purchase_id) AS purchase_id FROM purchases";
-            try{
-                statement=connection.createStatement();
-                resultSet=statement.executeQuery(sql);
+    private int getPurchaseId() {
+        int purchaseId = 0;
+        if (purchaseCreated) {
+            connection = Database.getInstance().connectDB();
+            String sql = "SELECT MAX(purchase_id) AS purchase_id FROM purchases";
+            try {
+                statement = connection.createStatement();
+                resultSet = statement.executeQuery(sql);
 
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     purchaseId = resultSet.getInt("purchase_id");
                 }
 
-            }catch (Exception err){
+            } catch (Exception err) {
                 err.printStackTrace();
             }
         }
@@ -1760,13 +1800,13 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void newPurchase(){
+    public void newPurchase() {
 
-        if(!purchaseCreated){
+        if (!purchaseCreated) {
             showProductsToPurchase(true);
             createNewPurchase();
-        }else{
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
             alert.setContentText("Usted ya tiene una COMPRA creada !!");
@@ -1774,58 +1814,59 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void createNewPurchase(){
-        if (!purchaseCreated){
-            connection=Database.getInstance().connectDB();
-            String sql="INSERT INTO purchases(date,user_id)VALUES(?,?)";
+    public void createNewPurchase() {
+        if (!purchaseCreated) {
+            connection = Database.getInstance().connectDB();
+            String sql = "INSERT INTO purchases(date,user_id)VALUES(?,?)";
 
-            try{
+            try {
                 User loggedInUser = Session.getCurrentUser();
                 int userId = loggedInUser.getId();
                 LocalDate date = LocalDate.now();
                 Date datePurchase = Date.valueOf(date);
 
-                preparedStatement=connection.prepareStatement(sql);
-                preparedStatement.setDate(1,datePurchase);
-                preparedStatement.setInt(2,userId);
+                preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setDate(1, datePurchase);
+                preparedStatement.setInt(2, userId);
 
-                int result=preparedStatement.executeUpdate();
-                if(result>0){
+                int result = preparedStatement.executeUpdate();
+                if (result > 0) {
                     purchaseCreated = true;
                     System.out.println("heeeree");
-                }else{
-                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Nose pudo crear la compra");
                     alert.showAndWait();
                 }
-            }catch (Exception err) {
+            } catch (Exception err) {
                 err.printStackTrace();
             }
         }
     }
-    private void getTotalPurchaseAmount(){
+
+    private void getTotalPurchaseAmount() {
         int purchID = getPurchaseId();
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(dp.quantity * p.purch_price) AS total_amount\n" +
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT SUM(dp.quantity * p.purch_price) AS total_amount\n" +
                 "FROM details_purchases AS dp\n" +
                 "INNER JOIN products AS p ON p.id = dp.product_id\n" +
                 "WHERE dp.purchase_id = ?";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setInt(1,purchID);
-            resultSet=preparedStatement.executeQuery();
-            while (resultSet.next()){
-                String result=resultSet.getString("total_amount");
-                System.out.println("aquiii "+result);
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, purchID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String result = resultSet.getString("total_amount");
+                System.out.println("aquiii " + result);
                 if (result == null) {
                     purchase_total_amount.setText("0.00");
-                }else{
+                } else {
                     purchase_total_amount.setText(result);
                 }
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -1835,13 +1876,13 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void savePurchase(){
-        if (productIdList.isEmpty()){
+    public void savePurchase() {
+        if (productIdList.isEmpty()) {
             cancelPurchase();
         }
-        if(purchaseCreated){
+        if (purchaseCreated) {
             purchase_table.getItems().clear();
-            purchaseCreated=false;
+            purchaseCreated = false;
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeight(500);
             alert.setTitle("MENSAJE");
@@ -1851,21 +1892,21 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void getTotalPurchase(){
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT COUNT(purchase_id) as total_purchase FROM purchases";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
-            while (resultSet.next()){
-                String result=resultSet.getString("total_purchase");
+    public void getTotalPurchase() {
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT COUNT(purchase_id) as total_purchase FROM purchases";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String result = resultSet.getString("total_purchase");
                 if (result == null) {
                     dash_total_purchase.setText("0");
-                }else{
+                } else {
                     dash_total_purchase.setText(result);
                 }
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -1875,30 +1916,30 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void getTotalStocks(){
+    public void getTotalStocks() {
 
-        int totalPurchase=Integer.parseInt(dash_total_purchase.getText());
-        int total_sold= Integer.parseInt(dash_total_sold.getText());
-        int totalStockLeft=totalPurchase-total_sold;
+        int totalPurchase = Integer.parseInt(dash_total_purchase.getText());
+        int total_sold = Integer.parseInt(dash_total_sold.getText());
+        int totalStockLeft = totalPurchase - total_sold;
         dash_total_stocks.setText(String.valueOf(totalStockLeft));
     }
 
-    private void getTotalSales(){
+    private void getTotalSales() {
 
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT COUNT(sales_id) AS total_sale FROM sales";
-        try{
-            statement=connection.createStatement();
-            resultSet=statement.executeQuery(sql);
-            while (resultSet.next()){
-                String result=resultSet.getString("total_sale");
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT COUNT(sales_id) AS total_sale FROM sales";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String result = resultSet.getString("total_sale");
                 if (result == null) {
                     dash_total_sold.setText("0");
-                }else{
+                } else {
                     dash_total_sold.setText(result);
                 }
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -1908,7 +1949,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    private String setMonth(String month){
+    private String setMonth(String month) {
         HashMap<String, String> months = new HashMap<>();
 
         months.put("JANUARY", "ENERO");
@@ -1927,31 +1968,31 @@ public class DashboardController implements Initializable {
         return months.get(month);
     }
 
-    public void getSalesDetailsOfThisMonth(){
-        LocalDate date=LocalDate.now();
+    public void getSalesDetailsOfThisMonth() {
+        LocalDate date = LocalDate.now();
         String monthEnglish = date.getMonth().toString();
         String monthName = setMonth(monthEnglish);
 
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT SUM(ds.quantity * p.price) AS total_sales_this_month\n" +
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT SUM(ds.quantity * p.price) AS total_sales_this_month\n" +
                 "FROM sales AS s\n" +
                 "INNER JOIN details_sales AS ds ON s.sales_id = ds.sales_id\n" +
                 "INNER JOIN products AS p ON ds.product_id = p.id\n" +
                 "WHERE DATE_FORMAT(s.date, '%M') = ?";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,monthEnglish);
-            resultSet=preparedStatement.executeQuery();
-            while (resultSet.next()){
-                String result=resultSet.getString("total_sales_this_month");
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, monthEnglish);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String result = resultSet.getString("total_sales_this_month");
                 if (result == null) {
                     dash_total_sales_this_month.setText("0.00");
-                }else{
+                } else {
                     dash_total_sales_this_month.setText(result);
                 }
                 dash_total_sales_this_month_name.setText(monthName);
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -1960,29 +2001,30 @@ public class DashboardController implements Initializable {
             alert.showAndWait();
         }
     }
-    public void getItemSoldThisMonth(){
-        LocalDate date=LocalDate.now();
+
+    public void getItemSoldThisMonth() {
+        LocalDate date = LocalDate.now();
         String monthEnglish = date.getMonth().toString();
         String monthName = setMonth(monthEnglish);
 
-        connection=Database.getInstance().connectDB();
-        String sql="SELECT COUNT(sales_id) AS total FROM sales WHERE DATE_FORMAT(date, '%M')=?";
-        try{
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,monthEnglish);
-            resultSet=preparedStatement.executeQuery();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT COUNT(sales_id) AS total FROM sales WHERE DATE_FORMAT(date, '%M')=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, monthEnglish);
+            resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
-                String result=resultSet.getString("total");
+            while (resultSet.next()) {
+                String result = resultSet.getString("total");
                 if (result == null) {
                     dash_total_items_sold_this_month.setText("0");
-                }else{
+                } else {
                     dash_total_items_sold_this_month.setText(result);
                 }
 
                 dash_total_sales_items_this_month_name.setText(monthName);
             }
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -1991,32 +2033,34 @@ public class DashboardController implements Initializable {
             alert.showAndWait();
         }
     }
-    public void showDashboardData(){
-     getTotalPurchase();
-     getTotalSales();
-     getTotalStocks();
-     getSalesDetailsOfThisMonth();
-     getItemSoldThisMonth();
+
+    public void showDashboardData() {
+        getTotalPurchase();
+        getTotalSales();
+        getTotalStocks();
+        getSalesDetailsOfThisMonth();
+        getItemSoldThisMonth();
     }
-    public void signOut(){
+
+    public void signOut() {
         signout_btn.getScene().getWindow().hide();
-        try{
-        Parent root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage=new Stage();
-            root.setOnMousePressed((event)->{
-                x=event.getSceneX();
-                y=event.getSceneY();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            root.setOnMousePressed((event) -> {
+                x = event.getSceneX();
+                y = event.getSceneY();
             });
-            root.setOnMouseDragged((event)->{
-                stage.setX(event.getScreenX()-x);
-                stage.setY(event.getScreenY()-y);
+            root.setOnMouseDragged((event) -> {
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
             });
 
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.show();
-        }catch (Exception err){
+        } catch (Exception err) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeight(500);
             alert.setTitle("Error Message");
@@ -2031,23 +2075,19 @@ public class DashboardController implements Initializable {
         // Exports all modules to other modules
         Modules.exportAllToAll();
 
+        //     DASHBOARD PANE
+        showDashboardData();
         setUsername();
         activateDashboard();
-
-//      DASHBOARD PANE
-        showDashboardData();
-
-//      BILLING PANE
 
 //      CUSTOMER PANE
         checkUserRole();
         showCustomerData();
 
- //     PRODUCTS PANE
+        //     PRODUCTS PANE
         showProductsData();
 
 //      INVOICE PANE
         showInvoiceData();
-
     }
 }
