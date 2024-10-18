@@ -458,17 +458,7 @@ public class DashboardController implements Initializable {
             cust_btn_edit.setVisible(false);
         }
     }
-
-    public void activateDashboard() {
-        dasboard_pane.setVisible(true);
-        billing_pane.setVisible(false);
-        product_pane.setVisible(false);
-        new_inventory_pane.setVisible(false);
-        customer_pane.setVisible(false);
-        invoice_pane.setVisible(false);
-        purchase_pane.setVisible(false);
-
-    }
+    
 
     public ObservableList<Product> getItemsList() {
 
@@ -1080,7 +1070,7 @@ public class DashboardController implements Initializable {
         int productId = Integer.parseInt(bill_item.getText());
         int quantity = Integer.parseInt(sales_quantity.getText());
         int actualStock = calculateNewStock(productId,quantity);
-        
+
         try {
             if (!saleCreated && existsProductId() && actualStock > 0) {
                 createNewSale();

@@ -11,7 +11,7 @@
          <children>
             <AnchorPane layoutY="-6.0" prefHeight="700.0" prefWidth="275.0" styleClass="navbar" stylesheets="@dashboard.css">
                <children>
-                  <Button fx:id="product_btn" layoutX="39.0" layoutY="266.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="INVENTARIO" textFill="WHITE">
+                  <Button fx:id="product_btn" layoutX="39.0" layoutY="266.0" mnemonicParsing="false" onAction="#activateDashboard" onMouseClicked="#activateAnchorPane" prefWidth="200.0" styleClass="navbutton" stylesheets="@dashboard.css" text="PRODUCTOS" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
