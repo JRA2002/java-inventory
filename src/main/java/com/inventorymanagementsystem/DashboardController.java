@@ -326,6 +326,16 @@ public class DashboardController implements Initializable {
         System.exit(0);
     }
 
+    public void activateDashboard(){
+        dasboard_pane.setVisible(true);
+        billing_pane.setVisible(false);
+        product_pane.setVisible(false);
+        new_inventory_pane.setVisible(false);
+        customer_pane.setVisible(false);
+        invoice_pane.setVisible(false);
+        purchase_pane.setVisible(false);
+    }
+
     public void activateAnchorPane() {
         dashboard_btn.setOnMouseClicked(mouseEvent -> {
             dasboard_pane.setVisible(true);
@@ -458,45 +468,8 @@ public class DashboardController implements Initializable {
             cust_btn_edit.setVisible(false);
         }
     }
+//==================PRODUCTS METHODS================================
     
-
-    public ObservableList<Product> getItemsList() {
-
-        productsList = FXCollections.observableArrayList();
-        connection = Database.getInstance().connectDB();
-        String sql = "SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date,ln.loc_name FROM products AS pd \n" +
-                "JOIN category AS ct \n" +
-                "JOIN location AS ln \n" +
-                "WHERE pd.cat_id=ct.id and pd.loc_id=ln.loc_id;";
-        try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-            Product product;
-            while (resultSet.next()) {
-                product = new Product(
-                        Integer.parseInt(resultSet.getString("id")),
-                        resultSet.getString("name"),
-                        resultSet.getString("unit"),
-                        Integer.parseInt(resultSet.getString("quantity")),
-                        Double.parseDouble(resultSet.getString("price")),
-                        resultSet.getString("cat_name"),
-                        resultSet.getDate("exp_date").toLocalDate(),
-                        resultSet.getString("loc_name")
-                );
-                productsList.add(product);
-            }
-        } catch (Exception err) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeight(500);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText(err.getMessage());
-            alert.showAndWait();
-        }
-        prod_field_search.textProperty().addListener((observable, oldValue, newValue) -> filterProducts(newValue));
-        return productsList;
-    }
-
     public void filterProducts(String searchText) {
         ObservableList<Product> filteredList = FXCollections.observableArrayList();
 
@@ -514,7 +487,7 @@ public class DashboardController implements Initializable {
     }
 
     public void showProductsData() {
-        ObservableList<Product> productsList = getItemsList();
+        ObservableList<Product> productsList = getProductsList();
         prod_col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         prod_col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         prod_col_pre.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -2128,7 +2101,7 @@ public class DashboardController implements Initializable {
         //     DASHBOARD PANE
         showDashboardData();
         setUsername();
-        activateDashboard();
+
 
 //      CUSTOMER PANE
         checkUserRole();
