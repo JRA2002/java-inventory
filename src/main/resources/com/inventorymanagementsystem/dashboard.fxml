@@ -359,7 +359,7 @@
                               <FontAwesomeIconView fx:id="product_delete" fill="WHITE" glyphName="MINUS_CIRCLE" size="18.0" />
                            </graphic>
                         </Button>
-                        <Button fx:id="prod_btn_update" layoutX="684.0" layoutY="94.0" mnemonicParsing="false" onAction="#updateProduct" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
+                        <Button fx:id="prod_btn_update" layoutX="684.0" layoutY="94.0" mnemonicParsing="false" onAction="#updateProductList" prefHeight="32.0" prefWidth="50.0" styleClass="add" stylesheets="@dashboard.css">
                            <graphic>
                               <FontAwesomeIconView fx:id="product_update" fill="WHITE" glyphName="REFRESH" size="18.0" />
                            </graphic>

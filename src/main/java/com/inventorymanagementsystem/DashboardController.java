@@ -170,6 +170,7 @@ public class DashboardController implements Initializable {
 
     private boolean saleCreated = false;
     private boolean purchaseCreated = false;
+    private boolean saleDeleted = false;
 
     @FXML
     private Button cust_btn_delete;
@@ -733,10 +734,48 @@ public class DashboardController implements Initializable {
         }
     }
 
-    public void updateProduct() {
+    public void updateProductList() {
         showProductsData();
     }
 
+    private void updateProductStock(int productId, int qtyUpdate){
+        getItemsList();
+        int actualQty = 0;
+        int newQty;
+        for (Product product : productsList) {
+            if (product.getId() == productId) {
+                actualQty = product.getQuantity();
+            }
+        }
+
+        if(saleDeleted){
+            newQty = actualQty + qtyUpdate;
+            saleDeleted = false;
+        }else{
+            newQty = actualQty - qtyUpdate;
+        }
+
+        connection = Database.getInstance().connectDB();
+        String sql = "UPDATE products SET quantity=? WHERE id=?";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, newQty);
+            preparedStatement.setInt(2, productId);
+
+            int result = preparedStatement.executeUpdate();
+            if (result > 0) {
+                System.out.println("update stock");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("");
+                alert.showAndWait();
+            }
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+    }
     public ComboBox<String> comboBoxUnit() {
         ComboBox<String> comboUnit = new ComboBox<>();
         for (String unit : unitList) {
@@ -991,6 +1030,7 @@ public class DashboardController implements Initializable {
             int result = preparedStatement.executeUpdate();
             if (result > 0) {
                 System.out.println("heeeree in details");
+                updateProductStock(productId, quantity);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
@@ -1068,9 +1108,8 @@ public class DashboardController implements Initializable {
             preparedStatement.setInt(1, salesId);
             resultSet = preparedStatement.executeQuery();
 
-
             SalesDetails billingData;
-            while (resultSet.next()) {
+            while(resultSet.next()) {
                 billingData = new SalesDetails(
                         Integer.parseInt(resultSet.getString("id")),
                         resultSet.getString("name"),
@@ -1174,7 +1213,11 @@ public class DashboardController implements Initializable {
             alert.showAndWait();
             return;
         }
+        int prodId = billing_table.getSelectionModel().getSelectedItem().getProductId();
+        int qtyUpdate = billing_table.getSelectionModel().getSelectedItem().getQuantity();
+
         int salId = getSalesId();
+        billing_table.getSelectionModel().getSelectedItem().setQuantity(400);
         connection = Database.getInstance().connectDB();
         String sql = "DELETE FROM details_sales WHERE product_id=? and sales_id=?";
         try {
@@ -1200,6 +1243,9 @@ public class DashboardController implements Initializable {
             alert.setContentText(err.getMessage());
             alert.showAndWait();
         }
+
+        saleDeleted = true;
+        updateProductStock(prodId, qtyUpdate);
         showBillingData();
     }
 
