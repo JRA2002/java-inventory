@@ -469,7 +469,42 @@ public class DashboardController implements Initializable {
         }
     }
 //==================PRODUCTS METHODS================================
-    
+    private ObservableList<Product> getProductsList(){
+        productsList = FXCollections.observableArrayList();
+        connection = Database.getInstance().connectDB();
+        String sql = "SELECT pd.id,pd.name,pd.unit, pd.quantity,pd.price,ct.cat_name,pd.exp_date,ln.loc_name FROM products AS pd \n" +
+                "JOIN category AS ct \n" +
+                "JOIN location AS ln \n" +
+                "WHERE pd.cat_id=ct.id and pd.loc_id=ln.loc_id;";
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            Product product;
+            while (resultSet.next()) {
+                product = new Product(
+                        Integer.parseInt(resultSet.getString("id")),
+                        resultSet.getString("name"),
+                        resultSet.getString("unit"),
+                        Integer.parseInt(resultSet.getString("quantity")),
+                        Double.parseDouble(resultSet.getString("price")),
+                        resultSet.getString("cat_name"),
+                        resultSet.getDate("exp_date").toLocalDate(),
+                        resultSet.getString("loc_name")
+                );
+                productsList.add(product);
+            }
+        }catch (Exception err) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeight(500);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText(err.getMessage());
+            alert.showAndWait();
+        }
+        prod_field_search.textProperty().addListener((observable, oldValue, newValue) -> filterProducts(newValue));
+        return productsList;
+    }
+
     public void filterProducts(String searchText) {
         ObservableList<Product> filteredList = FXCollections.observableArrayList();
 
@@ -720,7 +755,7 @@ public class DashboardController implements Initializable {
     }
 
     private void updateProductStock(int productId, int quantity){
-        getItemsList();
+        getProductsList();
         int newQty = calculateNewStock(productId, quantity);
 
         connection = Database.getInstance().connectDB();
@@ -2065,33 +2100,6 @@ public class DashboardController implements Initializable {
         getItemSoldThisMonth();
     }
 
-    public void signOut() {
-        signout_btn.getScene().getWindow().hide();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            root.setOnMousePressed((event) -> {
-                x = event.getSceneX();
-                y = event.getSceneY();
-            });
-            root.setOnMouseDragged((event) -> {
-                stage.setX(event.getScreenX() - x);
-                stage.setY(event.getScreenY() - y);
-            });
-
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception err) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeight(500);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText(err.getMessage());
-            alert.showAndWait();
-        }
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -2100,14 +2108,14 @@ public class DashboardController implements Initializable {
 
         //     DASHBOARD PANE
         showDashboardData();
+        activateDashboard();
         setUsername();
 
 
 //      CUSTOMER PANE
         checkUserRole();
         showCustomerData();
-
-        //     PRODUCTS PANE
+//       PRODUCTS PANE
         showProductsData();
 
 //      INVOICE PANE
