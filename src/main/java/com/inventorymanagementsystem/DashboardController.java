@@ -2,6 +2,7 @@ package com.inventorymanagementsystem;
 
 import com.inventorymanagementsystem.entity.*;
 import com.inventorymanagementsystem.config.Database;
+import com.password4j.Password;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -1376,13 +1377,13 @@ public class DashboardController implements Initializable {
             String rol = rolList.getValue();
             if (checkForUserAvailability(usr_field_username.getText()) && checkForEmailAvailability(usr_field_email.getText())) {
                 if (checkPassword(usr_field_pass1.getText(), usr_field_pass2.getText())) {
-                    System.out.print("AGREGANDO NUEVO USUARIO");
+                    String hashedPassword = Password.hash(usr_field_pass1.getText()).withBcrypt().getResult();
                     Connection connection = Database.getInstance().connectDB();
                     String sql = "INSERT INTO users(username,password,email,phone,rol) VALUES(?,?,?,?,?)";
                     try {
                         preparedStatement = connection.prepareStatement(sql);
                         preparedStatement.setString(1, usr_field_username.getText());
-                        preparedStatement.setString(2, usr_field_pass1.getText());
+                        preparedStatement.setString(2, hashedPassword);
                         preparedStatement.setString(3, usr_field_email.getText());
                         preparedStatement.setString(4, usr_field_phone.getText());
                         preparedStatement.setString(5, rol);

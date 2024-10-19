@@ -15,6 +15,7 @@ module com.inventorymanagementsystem{
     requires org.burningwave.core;
     requires de.jensd.fx.glyphs.fontawesome;
     requires net.bytebuddy;
+    requires password4j;
 
     opens com.inventorymanagementsystem to javafx.fxml;
     exports com.inventorymanagementsystem;

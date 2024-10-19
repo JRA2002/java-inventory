@@ -1,5 +1,6 @@
 package com.inventorymanagementsystem;
 
+import com.password4j.Password;
 import com.inventorymanagementsystem.entity.User;
 import com.inventorymanagementsystem.entity.Session;
 import com.inventorymanagementsystem.config.Database;
@@ -63,13 +64,13 @@ public class LoginController implements Initializable {
         }
     }
 
-
-
     public void onExit(){
         System.exit(0);
     }
 
+
     public void login(){
+
         connection= Database.getInstance().connectDB();
         String sql="SELECT * FROM users WHERE username=? and password=?";
         try{
@@ -78,6 +79,7 @@ public class LoginController implements Initializable {
             preparedStatement.setString(2, password.getText());
             resultSet=preparedStatement.executeQuery();
             if(resultSet.next()){
+
                 int userId = resultSet.getInt("id");
                 String userName = resultSet.getString("username");
                 String userRol = resultSet.getString("rol");
