@@ -13,7 +13,6 @@ public class Product {
     private String loc_name;
     private String  suppName;
     private double pricePur;
-    private double total;
     private int qty;
 
     public Product(int id, String name, String unit, int quantity, double price, String cat_name, LocalDate exp_date, String loc_name) {
@@ -88,9 +87,7 @@ public class Product {
     public double getPricePur() {
         return pricePur;
     }
-    public double getTotal() {
-        return total;
-    }
+
     public void setPrice(double price) {
         this.price = price;
     }

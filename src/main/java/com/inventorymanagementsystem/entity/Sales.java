@@ -5,31 +5,15 @@ import java.time.LocalDate;
 public class Sales {
     private int id;
     private String inv_num;
-
     private int cust_id;
-
     private String custName;
-
     private double price;
     private int quantity;
-
     private double total_amount;
-
     private LocalDate dateSale;
     private Double totalSale;
     private String item_num;
 
-    public Sales(int id, String inv_num, int cust_id, String custName, double price, int quantity, double total_amount, String date, String item_num) {
-        this.id = id;
-        this.inv_num = inv_num;
-        this.cust_id = cust_id;
-        this.custName = custName;
-        this.price = price;
-        this.quantity = quantity;
-        this.total_amount = total_amount;
-
-        this.item_num = item_num;
-    }
     public Sales(int id, LocalDate dateSale, Double totalSale){
         this.id = id;
         this.dateSale = dateSale;

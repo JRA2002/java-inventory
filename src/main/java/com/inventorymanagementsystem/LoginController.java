@@ -57,7 +57,9 @@ public class LoginController implements Initializable {
         }else if(password.isFocused()){
             username.setStyle("-fx-background-color:transparent;"+"-fx-border-width:1px");
             password.setStyle("-fx-background-color:#fff;"+"-fx-border-width:2px");
-
+            password.setOnAction(event -> {
+                login();
+            });
         }
     }
 
@@ -107,7 +109,7 @@ public class LoginController implements Initializable {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Mensaje de Error");
                 alert.setHeaderText(null);
-                alert.setContentText("Username o Password Incorrecto");
+                alert.setContentText("Username o Password Incorrectos");
                 alert.showAndWait();
             }
         }catch (Exception err){

@@ -43,7 +43,7 @@ public class DashboardController implements Initializable {
 
 
     public FontAwesomeIconView product_print;
-    public Button btn_exit;
+
     private double x;
     private double y;
 
